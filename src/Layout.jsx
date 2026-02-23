@@ -1,7 +1,5 @@
 import React, { useState, useEffect, lazy, Suspense } from 'react';
 import { Routes, Route, Link, useLocation, useNavigate } from 'react-router-dom';
-import { useProposal } from './context/ProposalContext';
-import { useValueReport } from './context/ValueReportContext';
 import { usePoints } from './context/PointsContext';
 import { useAuth } from './context/AuthContext';
 import BottomNav from './components/BottomNav';
@@ -43,7 +41,8 @@ function Layout() {
         if (currentUser) {
             setGlobalProfile(currentUser);
         }
-    }, [currentUser]);
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [currentUser?.id]);
 
     useEffect(() => {
         if (globalProfile?.accentColor) {
