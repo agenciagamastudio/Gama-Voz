@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 192 192">
+  <!-- Background -->
+  <rect width="192" height="192" fill="#1F2937"/>
+
+  <!-- GAMA Circle -->
+  <circle cx="96" cy="96" r="85" fill="#3B82F6" stroke="#60A5FA" stroke-width="3"/>
+
+  <!-- G Letter (left) -->
+  <text x="45" y="125" font-family="Space Grotesk, sans-serif" font-size="72" font-weight="700" fill="white" text-anchor="middle">G</text>
+
+  <!-- A Letter (center-left) -->
+  <text x="96" y="125" font-family="Space Grotesk, sans-serif" font-size="72" font-weight="700" fill="#FCD34D" text-anchor="middle">A</text>
+
+  <!-- M Letter (center-right) -->
+  <text x="147" y="125" font-family="Space Grotesk, sans-serif" font-size="72" font-weight="700" fill="white" text-anchor="middle">M</text>
+
+  <!-- Accent line (calculator reference) -->
+  <line x1="30" y1="160" x2="162" y2="160" stroke="#60A5FA" stroke-width="3" stroke-linecap="round"/>
+</svg>

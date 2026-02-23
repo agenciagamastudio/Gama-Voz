@@ -34,3 +34,5 @@ supabase/.branches/
 
 # OS
 Thumbs.db
+
+.vercel
