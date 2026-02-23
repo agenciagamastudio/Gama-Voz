@@ -8,7 +8,9 @@ function UserProfile() {
   const { redeemCode, addBonusPoints } = usePoints();
   const { addToast } = useToast();
   const { profile, profileLoading, updateUserProfile, currentUser } = useAuth(); // Usar o hook useAuth
-  
+
+  console.log('UserProfile rendered. currentUser:', currentUser, 'profile:', profile, 'profileLoading:', profileLoading);
+
   const [promoCode, setPromoCode] = useState('');
   
   // Estados locais para os campos editáveis, inicializados com os valores do perfil Supabase
@@ -88,6 +90,12 @@ function UserProfile() {
       addToast('Perfil salvo com sucesso no Supabase!', 'success');
     }
   };
+
+  if (!currentUser) {
+    return <div className="min-h-screen bg-[#050505] flex items-center justify-center text-yellow-400 font-black text-center">
+      ⚠️ NÃO AUTENTICADO - Por favor faça login primeiro
+    </div>;
+  }
 
   if (profileLoading) {
     return <div className="min-h-screen bg-[#050505] flex items-center justify-center text-primary font-black animate-pulse">CARREGANDO PERFIL...</div>;
@@ -220,8 +228,8 @@ function UserProfile() {
             <span className="material-symbols-outlined text-primary text-sm font-bold">confirmation_number</span>
             <h3 className="text-xs font-black uppercase tracking-[0.2em] text-slate-400">Resgatar Código</h3>
           </div>
-          {/* Usar currentUser para verificar o papel */}
-          {currentUser?.role === 'master' && (
+          {/* Verificar se é admin pelo ID */}
+          {currentUser?.id === '00662266-db06-41d4-b237-95062bfb6b06' && (
             <Link to="/admin/codes" className="p-1.5 rounded-lg bg-white/5 text-slate-500 hover:text-primary transition-all">
               <span className="material-symbols-outlined text-sm block">settings</span>
             </Link>

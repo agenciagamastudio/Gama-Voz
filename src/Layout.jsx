@@ -29,6 +29,10 @@ function Layout() {
     const [isMenuOpen, setIsMenuOpen] = useState(false);
     const [isOptionsOpen, setIsOptionsOpen] = useState(false);
 
+    // IDs de admins
+    const ADMIN_IDS = ['00662266-db06-41d4-b237-95062bfb6b06'];
+    const isAdmin = currentUser?.id && (ADMIN_IDS.includes(currentUser.id) || currentUser?.role === 'master');
+
     // Estado global do perfil para sincronização de UI (Fallback para dados locais se não houver currentUser full)
     const [globalProfile, setGlobalProfile] = useState(() => {
         const saved = localStorage.getItem('gama-user-profile');
@@ -51,14 +55,14 @@ function Layout() {
     useEffect(() => {
         const handleKeyDown = (e) => {
             if (e.altKey && e.shiftKey && e.key.toUpperCase() === 'A') {
-                if (currentUser?.role === 'master') {
+                if (isAdmin) {
                     navigate('/admin');
                 }
             }
         };
         window.addEventListener('keydown', handleKeyDown);
         return () => window.removeEventListener('keydown', handleKeyDown);
-    }, [currentUser, navigate]);
+    }, [isAdmin, navigate]);
 
     // Redirecionamento para Onboarding (se necessário e logado)
     useEffect(() => {
@@ -110,7 +114,7 @@ function Layout() {
                                     <Link onClick={() => setIsMenuOpen(false)} to="/" className="flex items-center gap-3 text-slate-300 font-bold hover:text-primary transition-colors"><span className="material-symbols-outlined opacity-50 text-primary">calculate</span> Calculadora</Link>
                                     <Link onClick={() => setIsMenuOpen(false)} to="/diagnostico-de-valor" className="flex items-center gap-3 text-slate-300 font-bold hover:text-primary transition-colors"><span className="material-symbols-outlined opacity-50 text-primary">analytics</span> Diagnóstico</Link>
                                     <Link onClick={() => setIsMenuOpen(false)} to="/history" className="flex items-center gap-3 text-slate-300 font-bold hover:text-primary transition-colors"><span className="material-symbols-outlined opacity-50 text-primary">history</span> Histórico</Link>
-                                    {currentUser?.role === 'master' && (
+                                    {isAdmin && (
                                         <Link onClick={() => setIsMenuOpen(false)} to="/admin" className="flex items-center gap-3 text-primary font-black hover:text-white transition-all bg-primary/10 p-3 rounded-xl border border-primary/20">
                                             <span className="material-symbols-outlined">admin_panel_settings</span> PAINEL MESTRE
                                         </Link>
@@ -143,9 +147,9 @@ function Layout() {
                                 <div className="px-4 py-3 border-b border-white/5 mb-2 flex justify-between items-center">
                                     <div>
                                         <p className="text-xs font-bold text-white truncate">{globalProfile?.name}</p>
-                                        <p className="text-[10px] text-slate-500 uppercase tracking-widest truncate">{currentUser?.role === 'master' ? 'Master Admin' : 'Moderador'}</p>
+                                        <p className="text-[10px] text-slate-500 uppercase tracking-widest truncate">{isAdmin ? 'Master Admin' : 'Usuário'}</p>
                                     </div>
-                                    {currentUser?.role === 'master' && (
+                                    {isAdmin && (
                                         <span className="bg-primary/20 text-primary text-[8px] font-black px-1.5 py-0.5 rounded border border-primary/20">ADMIN</span>
                                     )}
                                 </div>
@@ -155,7 +159,7 @@ function Layout() {
                                 <Link to="/settings" onClick={() => setIsOptionsOpen(false)} className="flex items-center gap-3 px-4 py-3 text-sm font-bold text-slate-300 hover:bg-white/5 hover:text-white rounded-xl transition-all text-left">
                                     <span className="material-symbols-outlined text-lg opacity-50 text-primary">settings</span> Configurações
                                 </Link>
-                                {currentUser?.role === 'master' && (
+                                {isAdmin && (
                                     <Link to="/admin" onClick={() => setIsOptionsOpen(false)} className="flex items-center gap-3 px-4 py-3 text-sm font-black text-primary hover:bg-primary/10 rounded-xl transition-all text-left">
                                         <span className="material-symbols-outlined text-lg">admin_panel_settings</span> ADMIN
                                     </Link>

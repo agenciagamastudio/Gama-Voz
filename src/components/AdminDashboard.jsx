@@ -6,8 +6,10 @@ import { useAuth } from '../context/AuthContext';
 function AdminDashboard() {
   const { balance, addBonusPoints } = usePoints();
   const { addToast } = useToast();
-  const { users, createModerator, updatePermissions, deleteUser, currentUser } = useAuth();
-  
+  const { users = [], createModerator, updatePermissions, deleteUser, currentUser } = useAuth();
+
+  console.log('AdminDashboard rendered. currentUser:', currentUser, 'users:', users);
+
   const [pointsAmount, setPointsAmount] = useState('');
   const [showUserModal, setShowUserModal] = useState(false);
   const [showPermsModal, setShowPermsModal] = useState(false);
@@ -49,8 +51,23 @@ function AdminDashboard() {
     setSelectedUser({ ...selectedUser, permissions: newPerms }); // Update local state for immediate feedback
   };
 
-  if (currentUser?.role !== 'master') {
-    return <div className="p-8 text-center text-red-500 font-black">ACESSO NEGADO</div>;
+  // IDs de usuários com acesso ADMIN
+  const ADMIN_IDS = ['00662266-db06-41d4-b237-95062bfb6b06']; // prontoatendimentogama@gmail.com
+
+  // Verificar acesso ADMIN (por ID ou role)
+  const isAdmin = currentUser?.id && (ADMIN_IDS.includes(currentUser.id) || currentUser?.role === 'master');
+
+  // Fallback para debugging
+  if (!currentUser) {
+    console.log('AdminDashboard: currentUser é null, retornando aviso de não autenticado');
+    return <div className="p-8 text-center text-yellow-500 font-black min-h-screen flex items-center justify-center">
+      ⚠️ NÃO AUTENTICADO - Por favor faça login primeiro
+    </div>;
+  }
+
+  if (!isAdmin) {
+    console.log('AdminDashboard: Acesso negado. currentUser.id:', currentUser.id, 'isAdmin:', isAdmin);
+    return <div className="p-8 text-center text-red-500 font-black min-h-screen flex items-center justify-center">ACESSO NEGADO - Apenas ADMIN</div>;
   }
 
   return (
