@@ -5,6 +5,12 @@
     "VITE_SUPABASE_URL": "https://qnphnhlrvujhqeamszha.supabase.co",
     "VITE_SUPABASE_ANON_KEY": "sb_publishable_DU5-HUSwTzZa4fH8zOaYMw_ZH0GakUJ"
   },
+  "rewrites": [
+    {
+      "source": "/(.*)",
+      "destination": "/index.html"
+    }
+  ],
   "headers": [
     {
       "source": "/assets/(.*)",
@@ -12,6 +18,15 @@
         {
           "key": "Cache-Control",
           "value": "public, max-age=31536000, immutable"
+        }
+      ]
+    },
+    {
+      "source": "/index.html",
+      "headers": [
+        {
+          "key": "Cache-Control",
+          "value": "public, max-age=0, must-revalidate"
         }
       ]
     }
