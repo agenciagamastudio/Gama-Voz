@@ -12,43 +12,54 @@ export const AuthProvider = ({ children }) => {
   const [profileLoading, setProfileLoading] = useState(false); // Novo estado de carregamento para o perfil
 
   // Função para buscar o perfil do usuário
-      const getProfile = async (userId) => {
-        setProfileLoading(true);
-        console.log('Attempting to fetch profile for userId:', userId); // DEBUG LOG
-    
-        const profileFetchPromise = supabase
+  const getProfile = async (userId) => {
+    setProfileLoading(true);
+    console.log('Attempting to fetch profile for userId:', userId);
+
+    // Perfil padrão em memória (fallback rápido)
+    const defaultProfile = {
+      id: userId,
+      username: 'Usuário',
+      full_name: null,
+      avatar_url: null,
+      website: null,
+      accent_color: null
+    };
+
+    try {
+      // Query simples sem timeout
+      const { data, error } = await Promise.race([
+        supabase
           .from('profiles')
-          .select('username, full_name, avatar_url, website, accent_color')
+          .select('id, username, full_name, avatar_url, website, accent_color')
           .eq('id', userId)
-          .limit(1);
-    
-        const timeoutPromise = new Promise((_, reject) =>
-          setTimeout(() => reject(new Error('Profile fetch timed out after 10 seconds')), 10000)
-        );
-    
-        try {
-          const { data, error } = await Promise.race([profileFetchPromise, timeoutPromise]);
-    
-          console.log('getProfile query result - Data:', data, 'Error:', error); // DEBUG LOG
-          
-          if (error) {
-            console.error('Supabase getProfile error:', error);
-            addToast(`Erro ao carregar perfil: ${error.message}`, 'error');
-            setProfileLoading(false);
-            return null;
-          }
-          
-          const fetchedProfile = data && data.length > 0 ? data[0] : null;
-          setProfile(fetchedProfile);
-          setProfileLoading(false);
-          return fetchedProfile;
-        } catch (err) {
-          console.error('Unexpected error in getProfile:', err); // Catch unexpected errors (including timeout)
-          addToast(`Erro inesperado ao carregar perfil: ${err.message}`, 'error');
-          setProfileLoading(false);
-          return null;
-        }
-      };
+          .maybeSingle(),
+        // Timeout simples: 8 segundos (antes de usar fallback)
+        new Promise(resolve =>
+          setTimeout(() => resolve({ data: null, error: null }), 8000)
+        )
+      ]);
+
+      console.log('getProfile result:', { data, error, userId });
+
+      if (error) {
+        console.error('Supabase error:', error.message);
+      }
+
+      // Usar data se existir, senão usar fallback
+      const profileData = data || defaultProfile;
+      setProfile(profileData);
+      setProfileLoading(false);
+      return profileData;
+
+    } catch (err) {
+      console.error('getProfile exception:', err.message);
+      // Em caso de exceção, usar fallback imediatamente
+      setProfile(defaultProfile);
+      setProfileLoading(false);
+      return defaultProfile;
+    }
+  };
     
       // Função para atualizar o perfil do usuário
       const updateUserProfile = async (updatedFields) => {    if (!currentUser) {

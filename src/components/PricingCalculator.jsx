@@ -1,19 +1,20 @@
-import React, { useState, useMemo, useEffect } from 'react';
-import { useNavigate, Link } from 'react-router-dom';
+import React, { useState, useMemo, useEffect, useCallback } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { useProposal } from '../context/ProposalContext';
 import { useToast } from '../context/ToastContext';
 import { usePoints } from '../context/PointsContext';
+import { useAuth } from '../context/AuthContext';
+import { supabase } from '../utils/supabase';
 
 function PricingCalculator() {
   const navigate = useNavigate();
   const { updateProposalData } = useProposal();
   const { addToast } = useToast();
   const { spendPoints } = usePoints();
+  const { currentUser } = useAuth();
 
-  // Load user settings for defaults
   const userSettings = JSON.parse(localStorage.getItem('gama-user-settings') || '{}');
 
-  // Initial form state (default values)
   const initialFormState = {
     clientName: '',
     projectName: '',
@@ -30,72 +31,144 @@ function PricingCalculator() {
   };
 
   const [formState, setFormState] = useState(() => {
-    // Load from localStorage on initial render
     const savedState = localStorage.getItem('pricingCalculatorForm');
     return savedState ? JSON.parse(savedState) : initialFormState;
   });
 
-  const [savedCompanies, setSavedCompanies] = useState(() => {
-    const saved = localStorage.getItem('gama-saved-companies');
-    return saved ? JSON.parse(saved) : [];
-  });
-
+  const [savedCompanies, setSavedCompanies] = useState([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [editingCompany, setEditingCompany] = useState(null); // { index, name, rate }
+  const [editingCompany, setEditingCompany] = useState(null);
   const [newCompanyData, setNewCompanyData] = useState({ name: '', rate: '' });
 
-  // Save to localStorage whenever formState changes
+  // ─── Carregar empresas salvas ─────────────────────────────────────────────
+  useEffect(() => {
+    if (!currentUser) {
+      const saved = localStorage.getItem('gama-saved-companies');
+      setSavedCompanies(saved ? JSON.parse(saved) : []);
+      return;
+    }
+
+    const load = async () => {
+      const { data, error } = await supabase
+        .from('saved_companies')
+        .select('id, name, hourly_rate')
+        .eq('user_id', currentUser.id)
+        .order('created_at', { ascending: true });
+
+      if (!error && data) {
+        setSavedCompanies(data.map(c => ({ id: c.id, name: c.name, rate: String(c.hourly_rate) })));
+      }
+    };
+
+    load();
+  }, [currentUser]);
+
+  // ─── Persiste form no localStorage (cache de sessão) ──────────────────────
   useEffect(() => {
     localStorage.setItem('pricingCalculatorForm', JSON.stringify(formState));
   }, [formState]);
 
-  // Save companies to localStorage
+  // ─── Sync localStorage para usuários não logados ──────────────────────────
   useEffect(() => {
-    localStorage.setItem('gama-saved-companies', JSON.stringify(savedCompanies));
-  }, [savedCompanies]);
+    if (!currentUser) {
+      localStorage.setItem('gama-saved-companies', JSON.stringify(savedCompanies));
+    }
+  }, [savedCompanies, currentUser]);
 
-  const handleSaveNewCompany = () => {
+  // ─── CRUD Empresas ────────────────────────────────────────────────────────
+  const handleSaveNewCompany = useCallback(async () => {
     if (!newCompanyData.name || !newCompanyData.rate) {
-      alert('Preencha o nome e a taxa da empresa.');
+      addToast('Preencha o nome e a taxa da empresa.', 'error');
       return;
     }
 
-    setSavedCompanies(prev => {
-      const filtered = prev.filter(c => c.name !== newCompanyData.name);
-      return [...filtered, { name: newCompanyData.name, rate: newCompanyData.rate }];
-    });
+    const tempId = `temp-${Date.now()}`;
+    const optimistic = { id: tempId, name: newCompanyData.name, rate: newCompanyData.rate };
+    setSavedCompanies(prev => [...prev.filter(c => c.name !== optimistic.name), optimistic]);
     setNewCompanyData({ name: '', rate: '' });
-    // Mantém o modal aberto para continuar gerenciando
-  };
 
-  const handleUpdateCompany = () => {
+    if (!currentUser) return; // localStorage sync via efeito
+
+    const { data, error } = await supabase
+      .from('saved_companies')
+      .insert({ user_id: currentUser.id, name: optimistic.name, hourly_rate: parseFloat(optimistic.rate) })
+      .select('id')
+      .single();
+
+    if (error) {
+      setSavedCompanies(prev => prev.filter(c => c.id !== tempId));
+      setNewCompanyData({ name: optimistic.name, rate: optimistic.rate });
+      addToast('Erro ao salvar empresa.', 'error');
+    } else {
+      setSavedCompanies(prev => prev.map(c => c.id === tempId ? { ...c, id: data.id } : c));
+    }
+  }, [newCompanyData, currentUser, addToast]);
+
+  const handleUpdateCompany = useCallback(async () => {
     if (!editingCompany.name || !editingCompany.rate) return;
-    
+
+    const prevCompany = savedCompanies[editingCompany.index];
+    const updated = { id: prevCompany.id, name: editingCompany.name, rate: editingCompany.rate };
+
     setSavedCompanies(prev => {
-      const updated = [...prev];
-      updated[editingCompany.index] = { name: editingCompany.name, rate: editingCompany.rate };
-      return updated;
+      const next = [...prev];
+      next[editingCompany.index] = updated;
+      return next;
     });
     setEditingCompany(null);
-    addToast('Empresa atualizada com sucesso!', 'success');
-  };
+    addToast('Empresa atualizada!', 'success');
 
-  const handleDeleteCompany = (index) => {
-    if (window.confirm('Excluir esta empresa?')) {
-      setSavedCompanies(prev => prev.filter((_, i) => i !== index));
+    if (!currentUser || !prevCompany.id || String(prevCompany.id).startsWith('temp-')) return;
+
+    const { error } = await supabase
+      .from('saved_companies')
+      .update({ name: updated.name, hourly_rate: parseFloat(updated.rate) })
+      .eq('id', prevCompany.id);
+
+    if (error) {
+      setSavedCompanies(prev => {
+        const next = [...prev];
+        next[editingCompany.index] = prevCompany;
+        return next;
+      });
+      addToast('Erro ao atualizar empresa.', 'error');
+    }
+  }, [editingCompany, savedCompanies, currentUser, addToast]);
+
+  const handleDeleteCompany = useCallback(async (index) => {
+    if (!window.confirm('Excluir esta empresa?')) return;
+
+    const company = savedCompanies[index];
+    setSavedCompanies(prev => prev.filter((_, i) => i !== index));
+
+    if (!currentUser || !company.id || String(company.id).startsWith('temp-')) {
+      addToast('Empresa removida.', 'success');
+      return;
+    }
+
+    const { error } = await supabase
+      .from('saved_companies')
+      .delete()
+      .eq('id', company.id);
+
+    if (error) {
+      setSavedCompanies(prev => {
+        const restored = [...prev];
+        restored.splice(index, 0, company);
+        return restored;
+      });
+      addToast('Erro ao remover empresa.', 'error');
+    } else {
       addToast('Empresa removida.', 'success');
     }
-  };
+  }, [savedCompanies, currentUser, addToast]);
 
-  const handleSelectCompany = (company) => {
-    setFormState(prev => ({
-      ...prev,
-      clientCompany: company.name,
-      customHourlyRate: company.rate
-    }));
+  const handleSelectCompany = useCallback((company) => {
+    setFormState(prev => ({ ...prev, clientCompany: company.name, customHourlyRate: company.rate }));
     addToast(`Taxa de ${company.name} aplicada!`, 'success');
-  };
+  }, [addToast]);
 
+  // ─── Cálculos ─────────────────────────────────────────────────────────────
   const hourlyRates = {
     'Baixa': 120,
     'Média': 180,
@@ -110,66 +183,38 @@ function PricingCalculator() {
 
   const currentHourlyRate = useMemo(() => {
     const parsedCustomRate = parseFloat(formState.customHourlyRate);
-    if (!isNaN(parsedCustomRate) && parsedCustomRate > 0) {
-        return parsedCustomRate;
-    }
+    if (!isNaN(parsedCustomRate) && parsedCustomRate > 0) return parsedCustomRate;
     return hourlyRates[formState.selectedComplexity];
   }, [formState.selectedComplexity, formState.customHourlyRate]);
 
   const handleFeatureChange = (id, field, value) => {
-    setFormState(prevFormState => ({
-        ...prevFormState,
-        features: prevFormState.features.map(feature =>
-            feature.id === id ? { ...feature, [field]: value } : feature
-        )
+    setFormState(prev => ({
+      ...prev,
+      features: prev.features.map(f => f.id === id ? { ...f, [field]: value } : f),
     }));
   };
 
   const addFeature = () => {
     const newId = formState.features.length ? Math.max(...formState.features.map(f => f.id)) + 1 : 1;
-    setFormState(prevFormState => ({
-        ...prevFormState,
-        features: [...prevFormState.features, { id: newId, title: '', hours: 0 }]
-    }));
+    setFormState(prev => ({ ...prev, features: [...prev.features, { id: newId, title: '', hours: 0 }] }));
   };
 
   const removeFeature = (id) => {
-    setFormState(prevFormState => ({
-        ...prevFormState,
-        features: prevFormState.features.filter(feature => feature.id !== id)
-    }));
+    setFormState(prev => ({ ...prev, features: prev.features.filter(f => f.id !== id) }));
   };
 
-  const totalHours = useMemo(() => {
-    return formState.features.reduce((sum, feature) => sum + Number(feature.hours), 0);
-  }, [formState.features]);
+  const totalHours     = useMemo(() => formState.features.reduce((sum, f) => sum + Number(f.hours), 0), [formState.features]);
+  const subtotal       = useMemo(() => formState.features.reduce((sum, f) => sum + (Number(f.hours) * currentHourlyRate), 0), [formState.features, currentHourlyRate]);
+  const taxesAmount    = useMemo(() => subtotal * (formState.taxesPercentage / 100), [subtotal, formState.taxesPercentage]);
+  const totalWithTaxes = useMemo(() => subtotal + taxesAmount, [subtotal, taxesAmount]);
+  const discountAmount = useMemo(() => totalWithTaxes * (formState.discountPercentage / 100), [totalWithTaxes, formState.discountPercentage]);
+  const totalInvestment = useMemo(() => totalWithTaxes - discountAmount, [totalWithTaxes, discountAmount]);
 
-  const subtotal = useMemo(() => {
-    return formState.features.reduce((sum, feature) => sum + (Number(feature.hours) * currentHourlyRate), 0);
-  }, [formState.features, currentHourlyRate]);
+  const formatCurrency = (value) =>
+    new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(value);
 
-  const taxesAmount = useMemo(() => {
-    return subtotal * (formState.taxesPercentage / 100);
-  }, [subtotal, formState.taxesPercentage]);
-
-  const totalWithTaxes = useMemo(() => {
-    return subtotal + taxesAmount;
-  }, [subtotal, taxesAmount]);
-
-  const discountAmount = useMemo(() => {
-    return totalWithTaxes * (formState.discountPercentage / 100);
-  }, [totalWithTaxes, formState.discountPercentage]);
-
-  const totalInvestment = useMemo(() => {
-    return totalWithTaxes - discountAmount;
-  }, [totalWithTaxes, discountAmount]);
-
-  const formatCurrency = (value) => {
-    return new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(value);
-  };
-
-  const handleGenerateProposal = () => {
-    // 1. Validação dos dados
+  // ─── Gerar Proposta ───────────────────────────────────────────────────────
+  const handleGenerateProposal = async () => {
     if (!formState.clientName || !formState.clientCompany || !formState.projectName) {
       addToast('Por favor, preencha as informações do projeto (Cliente, Empresa e Nome do Projeto).', 'error');
       return;
@@ -180,35 +225,27 @@ function PricingCalculator() {
       return;
     }
 
-    // 2. Confirmação com o usuário
-    if (!window.confirm('Tem certeza que deseja gerar esta proposta? Isso consumirá 10 pontos.')) {
-      return; // Usuário cancelou
-    }
+    if (!window.confirm('Tem certeza que deseja gerar esta proposta? Isso consumirá 10 pontos.')) return;
 
-    // 3. Tenta descontar pontos (agora depois da validação e confirmação)
-    if (!spendPoints(10, 'Geração de Proposta')) {
-      addToast('Pontos insuficientes para gerar a proposta.', 'error'); // Mensagem mais específica
-      return;
-    }
+    if (!spendPoints(10, 'Geração de Proposta')) return;
 
-
-    // Busca o nome da empresa correspondente à taxa horária atual
     const matchedCompany = savedCompanies.find(c => c.rate === formState.customHourlyRate);
-    const myCompany = matchedCompany ? matchedCompany.name : "Gama Calc";
+    const myCompany = matchedCompany ? matchedCompany.name : 'Gama Calc';
+    const proposalNumber = `PROP-${Math.floor(Math.random() * 10000)}`;
 
     const proposalData = {
       clientName: formState.clientName,
       clientCompany: formState.clientCompany,
       clientContact: formState.clientContact,
-      myCompany: myCompany, // Sua empresa (quem está enviando a proposta)
+      myCompany,
       projectName: formState.projectName,
-      proposalId: `PROP-${Math.floor(Math.random() * 10000)}`, // Simple random ID
+      proposalId: proposalNumber,
       issueDate: new Date().toLocaleDateString('pt-BR'),
-      validUntilDate: new Date(Date.now() + 15 * 24 * 60 * 60 * 1000).toLocaleDateString('pt-BR'), // 15 days from now
-      summary: 'Esta proposta apresenta o detalhamento técnico e comercial para o desenvolvimento do projeto supramencionado. Nossa abordagem foca em escalabilidade, segurança e experiência do usuário (UX), utilizando as tecnologias mais modernas do mercado para garantir um produto final de alta performance e fácil manutenção.', // Static summary for now
+      validUntilDate: new Date(Date.now() + 15 * 24 * 60 * 60 * 1000).toLocaleDateString('pt-BR'),
+      summary: 'Esta proposta apresenta o detalhamento técnico e comercial para o desenvolvimento do projeto supramencionado. Nossa abordagem foca em escalabilidade, segurança e experiência do usuário (UX), utilizando as tecnologias mais modernas do mercado para garantir um produto final de alta performance e fácil manutenção.',
       complexity: formState.selectedComplexity,
       hourlyRate: currentHourlyRate,
-      features: formState.features.map(f => ({ ...f, cost: f.hours * currentHourlyRate })), // Add calculated cost to features
+      features: formState.features.map(f => ({ ...f, cost: f.hours * currentHourlyRate })),
       subtotal,
       taxesPercentage: formState.taxesPercentage,
       taxesAmount,
@@ -216,15 +253,59 @@ function PricingCalculator() {
       discountAmount,
       totalInvestment,
     };
+
+    if (currentUser) {
+      const complexityMap = { 'Baixa': 'baixa', 'Média': 'media', 'Alta': 'alta' };
+      const todayISO      = new Date().toISOString().split('T')[0];
+      const validUntilISO = new Date(Date.now() + 15 * 24 * 60 * 60 * 1000).toISOString().split('T')[0];
+
+      const { data: proposalRow, error: proposalError } = await supabase
+        .from('proposals')
+        .insert({
+          user_id:             currentUser.id,
+          proposal_number:     proposalNumber,
+          my_company:          myCompany,
+          client_name:         formState.clientName,
+          client_company:      formState.clientCompany,
+          client_contact:      formState.clientContact,
+          project_name:        formState.projectName,
+          summary:             proposalData.summary,
+          issue_date:          todayISO,
+          valid_until_date:    validUntilISO,
+          complexity:          complexityMap[formState.selectedComplexity] || 'baixa',
+          hourly_rate:         currentHourlyRate,
+          subtotal,
+          taxes_percentage:    formState.taxesPercentage,
+          taxes_amount:        taxesAmount,
+          discount_percentage: formState.discountPercentage,
+          discount_amount:     discountAmount,
+          total_investment:    totalInvestment,
+          status:              'draft',
+        })
+        .select('id')
+        .single();
+
+      if (!proposalError && proposalRow) {
+        const featureRows = formState.features.map((f, i) => ({
+          proposal_id: proposalRow.id,
+          title:       f.title,
+          hours:       Number(f.hours),
+          cost:        Number(f.hours) * currentHourlyRate,
+          position:    i,
+        }));
+        await supabase.from('proposal_features').insert(featureRows);
+      }
+      // Se falhar no Supabase, a proposta ainda vai pro preview — sem perda de dado para o usuário
+    } else {
+      // Fallback para usuários não logados
+      const existing = JSON.parse(localStorage.getItem('gama-proposals') || '[]');
+      localStorage.setItem('gama-proposals', JSON.stringify([
+        { ...proposalData, id: proposalNumber, type: 'proposta' },
+        ...existing,
+      ]));
+    }
+
     updateProposalData(proposalData);
-
-    // Save proposal to localStorage for history
-    const existingProposals = JSON.parse(localStorage.getItem('gama-proposals') || '[]');
-    // Add a unique ID if not already present (for dummy data, it's there)
-    const proposalToSave = { ...proposalData, id: proposalData.proposalId || `PROP-${Date.now()}`, type: 'proposta' };
-    const updatedProposals = [proposalToSave, ...existingProposals];
-    localStorage.setItem('gama-proposals', JSON.stringify(updatedProposals));
-
     addToast('Proposta gerada com sucesso!', 'success');
     navigate('/proposal/preview');
   };
@@ -326,7 +407,7 @@ function PricingCalculator() {
                   </div>
                 </div>
               </div>
-            </div> {/* Closing the bg-card-bg p-6 rounded-xl border border-white/5 shadow-sm grid grid-cols-1 md:grid-cols-2 gap-4 div */}
+            </div>
             {/* Custom Hourly Rate Selection & Management */}
             <div className="mt-4 p-4 bg-white/5 rounded-xl border border-white/10 space-y-4">
                 <div className="flex flex-col md:flex-row gap-4 items-end">
@@ -342,7 +423,7 @@ function PricingCalculator() {
                             min="0"
                         />
                     </div>
-                    <button 
+                    <button
                         onClick={() => { setEditingCompany(null); setIsModalOpen(true); }}
                         className="flex items-center gap-2 px-4 py-2.5 bg-primary/10 text-primary text-sm font-bold rounded-lg hover:bg-primary/20 transition-all border border-primary/20 h-[46px]"
                     >
@@ -388,11 +469,11 @@ function PricingCalculator() {
                     <div className="space-y-4 bg-white/5 p-4 rounded-xl border border-white/5">
                       <div className="space-y-1.5">
                         <label className="text-xs font-bold text-slate-400 uppercase">Nome da Empresa</label>
-                        <input 
+                        <input
                           type="text"
                           className="w-full bg-[#0a0a0a] border border-white/10 rounded-lg px-3 py-2 text-white outline-none focus:border-primary"
                           value={editingCompany ? editingCompany.name : newCompanyData.name}
-                          onChange={(e) => editingCompany 
+                          onChange={(e) => editingCompany
                             ? setEditingCompany({...editingCompany, name: e.target.value})
                             : setNewCompanyData({...newCompanyData, name: e.target.value})
                           }
@@ -401,18 +482,18 @@ function PricingCalculator() {
                       </div>
                       <div className="space-y-1.5">
                         <label className="text-xs font-bold text-slate-400 uppercase">Taxa Horária (R$)</label>
-                        <input 
+                        <input
                           type="number"
                           className="w-full bg-[#0a0a0a] border border-white/10 rounded-lg px-3 py-2 text-white outline-none focus:border-primary"
                           value={editingCompany ? editingCompany.rate : newCompanyData.rate}
-                          onChange={(e) => editingCompany 
+                          onChange={(e) => editingCompany
                             ? setEditingCompany({...editingCompany, rate: e.target.value})
                             : setNewCompanyData({...newCompanyData, rate: e.target.value})
                           }
                           placeholder="0.00"
                         />
                       </div>
-                      <button 
+                      <button
                         onClick={editingCompany ? handleUpdateCompany : handleSaveNewCompany}
                         className="w-full py-2 bg-primary text-black font-bold rounded-lg hover:bg-primary/90 transition-all"
                       >
@@ -431,13 +512,13 @@ function PricingCalculator() {
                               <p className="text-xs text-primary">{formatCurrency(company.rate)}/h</p>
                             </div>
                             <div className="flex gap-2">
-                              <button 
+                              <button
                                 onClick={() => setEditingCompany({ ...company, index })}
                                 className="p-1.5 text-slate-400 hover:text-white hover:bg-white/10 rounded-md transition-all"
                               >
                                 <span className="material-symbols-outlined text-[18px]">edit</span>
                               </button>
-                              <button 
+                              <button
                                 onClick={() => handleDeleteCompany(index)}
                                 className="p-1.5 text-slate-400 hover:text-red-500 hover:bg-red-500/10 rounded-md transition-all"
                               >
@@ -479,7 +560,7 @@ function PricingCalculator() {
                         type="text"
                         value={feature.title}
                         onChange={(e) => handleFeatureChange(feature.id, 'title', e.target.value)}
-                        placeholder="Título da Feature" // Added placeholder for consistency
+                        placeholder="Título da Feature"
                       />
                     </div>
                     <div className="flex items-center gap-4 w-full md:w-auto justify-between md:justify-end">
@@ -514,7 +595,6 @@ function PricingCalculator() {
       {/* Financial Summary (Sticky Footer) */}
       <footer className="fixed bottom-[64px] md:bottom-0 left-0 right-0 bg-[#0a0a0a]/95 backdrop-blur-xl border-t border-white/5 z-[110] shadow-[0_-10px_40px_rgba(0,0,0,0.5)]">
         <div className="max-w-4xl mx-auto p-4 md:px-8">
-          {/* Métricas Secundárias - Escondidas no mobile para limpar a tela */}
           <div className="hidden md:grid grid-cols-4 gap-4 mb-4">
             <div className="space-y-0.5">
               <p className="text-[10px] font-bold text-slate-500 uppercase tracking-widest">Total Hours</p>
@@ -556,8 +636,8 @@ function PricingCalculator() {
               <p className="text-xl md:text-2xl font-black text-primary tracking-tight drop-shadow-[0_0_10px_rgba(196,255,13,0.3)]">{formatCurrency(totalInvestment)}</p>
             </div>
             <div className="flex gap-2">
-              <button 
-                onClick={handleClearForm} 
+              <button
+                onClick={handleClearForm}
                 className="p-2.5 border border-white/10 rounded-xl text-slate-400 hover:bg-white/5 transition-all"
                 title="Limpar"
               >

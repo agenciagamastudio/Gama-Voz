@@ -9,26 +9,71 @@ import { supabase } from '../utils/supabase';
 function reportToDoc(report) {
   const snap = report.snapshot || {};
   return {
-    _source: 'supabase',
-    _supabaseId: report.id,
-    id: report.report_number || report.id,
-    type: 'diagnostico',
-    clientName: report.client_name || snap.clientName || '',
-    projectName: snap.projectName || 'Diagnóstico Financeiro',
-    issueDate: report.issue_date
-      ? new Date(report.issue_date).toLocaleDateString('pt-BR')
+    _source:      'supabase',
+    _sourceTable: 'reports',
+    _supabaseId:  report.id,
+    _createdAt:   report.created_at,
+    id:           report.report_number || report.id,
+    type:         'diagnostico',
+    clientName:   report.client_name || snap.clientName || '',
+    projectName:  snap.projectName || 'Diagnóstico Financeiro',
+    issueDate:    report.issue_date
+      ? new Date(report.issue_date + 'T12:00:00').toLocaleDateString('pt-BR')
       : snap.issueDate || '',
     totalInvestment: report.total_loss || snap.totalInvestment || 0,
-    status: snap.status || 'Pendente',
-    deletedAt: report.deleted_at || null,
+    status:       snap.status || 'Pendente',
+    deletedAt:    report.deleted_at || null,
     // Campos completos do snapshot para o preview
     ...snap,
   };
 }
 
+// Normaliza um registro da tabela `proposals` para o formato esperado pelo componente
+function proposalToDoc(proposal) {
+  const complexityMap = { baixa: 'Baixa', media: 'Média', alta: 'Alta' };
+  const features = (proposal.proposal_features || [])
+    .sort((a, b) => (a.position || 0) - (b.position || 0))
+    .map(f => ({ id: f.id, title: f.title, hours: parseFloat(f.hours), cost: parseFloat(f.cost) }));
+
+  return {
+    _source:      'supabase',
+    _sourceTable: 'proposals',
+    _supabaseId:  proposal.id,
+    _createdAt:   proposal.created_at,
+    id:           proposal.proposal_number || proposal.id,
+    type:         'proposta',
+    clientName:   proposal.client_name || proposal.client_company || '',
+    clientCompany: proposal.client_company || '',
+    clientContact: proposal.client_contact || '',
+    myCompany:    proposal.my_company || 'Gama Calc',
+    projectName:  proposal.project_name || 'Proposta Comercial',
+    proposalId:   proposal.proposal_number || proposal.id,
+    issueDate:    proposal.issue_date
+      ? new Date(proposal.issue_date + 'T12:00:00').toLocaleDateString('pt-BR')
+      : '',
+    validUntilDate: proposal.valid_until_date
+      ? new Date(proposal.valid_until_date + 'T12:00:00').toLocaleDateString('pt-BR')
+      : '',
+    summary:      proposal.summary || '',
+    complexity:   complexityMap[proposal.complexity] || 'Baixa',
+    hourlyRate:   parseFloat(proposal.hourly_rate) || 0,
+    features,
+    subtotal:            parseFloat(proposal.subtotal) || 0,
+    taxesPercentage:     parseFloat(proposal.taxes_percentage) || 0,
+    taxesAmount:         parseFloat(proposal.taxes_amount) || 0,
+    discountPercentage:  parseFloat(proposal.discount_percentage) || 0,
+    discountAmount:      parseFloat(proposal.discount_amount) || 0,
+    totalInvestment:     parseFloat(proposal.total_investment) || 0,
+    status:       proposal.status === 'sent'     ? 'Enviado'
+                : proposal.status === 'accepted' ? 'Assinado'
+                : 'Pendente',
+    deletedAt: proposal.deleted_at || null,
+  };
+}
+
 // Normaliza um registro de localStorage para o formato interno
 function localToDoc(doc) {
-  return { _source: 'local', _supabaseId: null, ...doc };
+  return { _source: 'local', _sourceTable: 'local', _supabaseId: null, ...doc };
 }
 
 function HistoryWithSavedFilters() {
@@ -40,11 +85,12 @@ function HistoryWithSavedFilters() {
   const [activeTab, setActiveTab] = useState('active');
   const [loading, setLoading] = useState(true);
 
-  // Documentos ativos e lixeira — separados por origem para facilitar operações
-  const [dbDocs, setDbDocs] = useState([]);       // reports do Supabase (ativos)
-  const [dbTrash, setDbTrash] = useState([]);      // reports do Supabase (deletados)
-  const [localDocs, setLocalDocs] = useState([]);  // propostas comerciais (ainda em localStorage)
-  const [localTrash, setLocalTrash] = useState([]); // lixeira local (legacy)
+  // Documentos ativos e lixeira — docs do Supabase (reports + proposals) mesclados por _sourceTable
+  const [dbDocs, setDbDocs] = useState([]);
+  const [dbTrash, setDbTrash] = useState([]);
+  // Propostas legadas de localStorage (para backward compat de usuários antigos)
+  const [localDocs, setLocalDocs] = useState([]);
+  const [localTrash, setLocalTrash] = useState([]);
 
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedStatus, setSelectedStatus] = useState('Todos');
@@ -53,11 +99,10 @@ function HistoryWithSavedFilters() {
   // ─── Carregar dados ───────────────────────────────────────────────────────
   useEffect(() => {
     const loadLocal = () => {
+      // Mantém apenas propostas legadas que não vieram de diagnósticos
       const saved = localStorage.getItem('gama-proposals');
-      // Filtra apenas propostas comerciais (type !== 'diagnostico') — os diagnósticos agora vêm do Supabase
       const all = saved ? JSON.parse(saved) : [];
-      const onlyProposals = all.filter(d => d.type !== 'diagnostico');
-      setLocalDocs(onlyProposals.map(localToDoc));
+      setLocalDocs(all.filter(d => d.type !== 'diagnostico').map(localToDoc));
 
       const savedTrash = localStorage.getItem('gama-trash');
       setLocalTrash(savedTrash ? JSON.parse(savedTrash).map(localToDoc) : []);
@@ -65,16 +110,47 @@ function HistoryWithSavedFilters() {
 
     const loadFromSupabase = async () => {
       if (!currentUser) return;
-      const { data, error } = await supabase
-        .from('reports')
-        .select('*')
-        .eq('user_id', currentUser.id)
-        .order('created_at', { ascending: false });
 
-      if (error || !data) return;
+      const [reportsResult, proposalsResult] = await Promise.all([
+        supabase
+          .from('reports')
+          .select('*')
+          .eq('user_id', currentUser.id)
+          .order('created_at', { ascending: false }),
+        supabase
+          .from('proposals')
+          .select('*, proposal_features(*)')
+          .eq('user_id', currentUser.id)
+          .order('created_at', { ascending: false }),
+      ]);
 
-      setDbDocs(data.filter(r => !r.deleted_at).map(reportToDoc));
-      setDbTrash(data.filter(r => !!r.deleted_at).map(reportToDoc));
+      const allActive = [];
+      const allTrash  = [];
+
+      if (!reportsResult.error && reportsResult.data) {
+        reportsResult.data
+          .filter(r => !r.deleted_at)
+          .forEach(r => allActive.push(reportToDoc(r)));
+        reportsResult.data
+          .filter(r => !!r.deleted_at)
+          .forEach(r => allTrash.push(reportToDoc(r)));
+      }
+
+      if (!proposalsResult.error && proposalsResult.data) {
+        proposalsResult.data
+          .filter(p => !p.deleted_at)
+          .forEach(p => allActive.push(proposalToDoc(p)));
+        proposalsResult.data
+          .filter(p => !!p.deleted_at)
+          .forEach(p => allTrash.push(proposalToDoc(p)));
+      }
+
+      // Ordena por data de criação decrescente
+      allActive.sort((a, b) => new Date(b._createdAt) - new Date(a._createdAt));
+      allTrash.sort((a, b)  => new Date(b.deletedAt || b._createdAt) - new Date(a.deletedAt || a._createdAt));
+
+      setDbDocs(allActive);
+      setDbTrash(allTrash);
     };
 
     setLoading(true);
@@ -84,11 +160,13 @@ function HistoryWithSavedFilters() {
 
   // Persiste lixeira local no localStorage
   useEffect(() => {
-    localStorage.setItem('gama-trash', JSON.stringify(localTrash.map(({ _source, _supabaseId, ...rest }) => rest)));
+    localStorage.setItem('gama-trash', JSON.stringify(
+      localTrash.map(({ _source, _sourceTable, _supabaseId, _createdAt, ...rest }) => rest)
+    ));
   }, [localTrash]);
 
   // ─── Listas combinadas para exibição ─────────────────────────────────────
-  const proposals = useMemo(() => [...dbDocs, ...localDocs], [dbDocs, localDocs]);
+  const proposals = useMemo(() => [...dbDocs, ...localDocs],   [dbDocs, localDocs]);
   const trash     = useMemo(() => [...dbTrash, ...localTrash], [dbTrash, localTrash]);
 
   // ─── Ações ────────────────────────────────────────────────────────────────
@@ -110,13 +188,12 @@ function HistoryWithSavedFilters() {
       // Otimista
       setDbDocs(prev => prev.filter(d => d.id !== id));
       setDbTrash(prev => [{ ...dbDoc, deletedAt: new Date().toISOString() }, ...prev]);
-      // Persiste
+      // Persiste na tabela correta (reports ou proposals)
       const { error } = await supabase
-        .from('reports')
+        .from(dbDoc._sourceTable)
         .update({ deleted_at: new Date().toISOString() })
         .eq('id', dbDoc._supabaseId);
       if (error) {
-        // Rollback
         setDbDocs(prev => [dbDoc, ...prev]);
         setDbTrash(prev => prev.filter(d => d.id !== id));
       }
@@ -127,7 +204,6 @@ function HistoryWithSavedFilters() {
     if (localDoc) {
       setLocalDocs(prev => prev.filter(d => d.id !== id));
       setLocalTrash(prev => [{ ...localDoc, deletedAt: new Date().toISOString() }, ...prev]);
-      // Sincroniza localStorage de propostas
       const stored = JSON.parse(localStorage.getItem('gama-proposals') || '[]');
       localStorage.setItem('gama-proposals', JSON.stringify(stored.filter(d => d.id !== id)));
     }
@@ -141,7 +217,7 @@ function HistoryWithSavedFilters() {
       setDbTrash(prev => prev.filter(d => d.id !== id));
       setDbDocs(prev => [{ ...dbDoc, deletedAt: null }, ...prev]);
       const { error } = await supabase
-        .from('reports')
+        .from(dbDoc._sourceTable)
         .update({ deleted_at: null })
         .eq('id', dbDoc._supabaseId);
       if (error) {
@@ -167,7 +243,7 @@ function HistoryWithSavedFilters() {
     const dbDoc = dbTrash.find(d => d.id === id);
     if (dbDoc) {
       setDbTrash(prev => prev.filter(d => d.id !== id));
-      await supabase.from('reports').delete().eq('id', dbDoc._supabaseId);
+      await supabase.from(dbDoc._sourceTable).delete().eq('id', dbDoc._supabaseId);
       return;
     }
     setLocalTrash(prev => prev.filter(d => d.id !== id));
@@ -176,17 +252,15 @@ function HistoryWithSavedFilters() {
   const handleEmptyTrash = useCallback(async () => {
     if (!window.confirm('Esvaziar lixeira permanentemente?')) return;
 
-    // Deleta todos os DB docs da lixeira
-    if (currentUser && dbTrash.length > 0) {
-      await supabase
-        .from('reports')
-        .delete()
-        .eq('user_id', currentUser.id)
-        .not('deleted_at', 'is', null);
+    if (currentUser) {
+      await Promise.all([
+        supabase.from('reports').delete().eq('user_id', currentUser.id).not('deleted_at', 'is', null),
+        supabase.from('proposals').delete().eq('user_id', currentUser.id).not('deleted_at', 'is', null),
+      ]);
       setDbTrash([]);
     }
     setLocalTrash([]);
-  }, [currentUser, dbTrash]);
+  }, [currentUser]);
 
   // ─── Filtros ──────────────────────────────────────────────────────────────
   const totalTrashValue = useMemo(
