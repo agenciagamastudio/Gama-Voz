@@ -93,9 +93,18 @@ export const AuthProvider = ({ children }) => {
 
       // Adicionar role 'master' automaticamente para prontoatendimentogama@gmail.com
       let user = session?.user || null;
-      if (user && user.email?.toLowerCase() === 'prontoatendimentogama@gmail.com') {
-        user = { ...user, role: 'master' };
-        console.log('✅ Admin access granted to:', user.email, 'Role:', user.role);
+
+      if (user) {
+        console.log('🔍 Checking admin:', {
+          userEmail: user.email,
+          userEmailLower: user.email?.toLowerCase(),
+          isMatch: user.email?.toLowerCase() === 'prontoatendimentogama@gmail.com'
+        });
+
+        if (user.email?.toLowerCase() === 'prontoatendimentogama@gmail.com') {
+          user = { ...user, role: 'master' };
+          console.log('✅ Admin access granted to:', user.email, 'Role:', user.role);
+        }
       }
 
       setCurrentUser(user);
