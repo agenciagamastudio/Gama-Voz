@@ -23,13 +23,17 @@ function Layout() {
     const location = useLocation();
     const navigate = useNavigate();
     const { balance } = usePoints();
-    const { currentUser, logout } = useAuth();
+    const { currentUser, logout, profile } = useAuth();
     const [isMenuOpen, setIsMenuOpen] = useState(false);
     const [isOptionsOpen, setIsOptionsOpen] = useState(false);
 
     // Email do admin master
     const MASTER_EMAIL = 'prontoatendimentogama@gmail.com';
-    const isAdmin = currentUser && currentUser.email?.toLowerCase() === MASTER_EMAIL.toLowerCase();
+    const isAdmin = currentUser && (
+      profile?.role === 'master' ||
+      profile?.role === 'admin' ||
+      currentUser.email?.toLowerCase() === MASTER_EMAIL.toLowerCase()
+    );
 
     // Estado global do perfil para sincronização de UI (Fallback para dados locais se não houver currentUser full)
     const [globalProfile, setGlobalProfile] = useState(() => {

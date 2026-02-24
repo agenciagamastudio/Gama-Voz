@@ -4,7 +4,7 @@ import { useAuth } from '../context/AuthContext';
 
 function AdminDashboard() {
   const { addToast } = useToast();
-  const { users = [], createModerator, updatePermissions, deleteUser, currentUser } = useAuth();
+  const { users = [], createModerator, updatePermissions, deleteUser, currentUser, profile } = useAuth();
 
   console.log('AdminDashboard rendered. currentUser:', currentUser, 'users:', users);
 
@@ -38,9 +38,10 @@ function AdminDashboard() {
   // Email administrativo
   const ADMIN_EMAIL = 'prontoatendimentogama@gmail.com';
 
-  // Verificar acesso ADMIN (por email ou role)
+  // Verificar acesso ADMIN (por role ou email - role é preferível)
   const isAdmin = currentUser && (
-    currentUser?.role === 'master' ||
+    profile?.role === 'master' ||
+    profile?.role === 'admin' ||
     currentUser?.email?.toLowerCase() === ADMIN_EMAIL.toLowerCase()
   );
 

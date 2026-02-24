@@ -23,7 +23,8 @@ export const AuthProvider = ({ children }) => {
       full_name: null,
       avatar_url: null,
       website: null,
-      accent_color: null
+      accent_color: null,
+      role: 'user' // Adicionar role padrão
     };
 
     try {
@@ -31,7 +32,7 @@ export const AuthProvider = ({ children }) => {
       const { data, error } = await Promise.race([
         supabase
           .from('profiles')
-          .select('id, username, full_name, avatar_url, website, accent_color')
+          .select('id, username, full_name, avatar_url, website, accent_color, role')
           .eq('id', userId)
           .maybeSingle(),
         // Timeout simples: 8 segundos (antes de usar fallback)
@@ -157,6 +158,24 @@ export const AuthProvider = ({ children }) => {
       setCurrentUser(data.user);
       // Após o cadastro, o trigger do Supabase já cria o perfil, então apenas o buscamos
       await getProfile(data.user.id);
+
+      // Auto-setar role='master' para prontoatendimentogama@gmail.com
+      const MASTER_EMAIL = 'prontoatendimentogama@gmail.com';
+      if (email.toLowerCase() === MASTER_EMAIL.toLowerCase()) {
+        const { error: updateError } = await supabase
+          .from('profiles')
+          .update({ role: 'master' })
+          .eq('id', data.user.id);
+
+        if (!updateError) {
+          console.log('✅ Master role atribuído automaticamente para', email);
+          // Recarregar perfil com role atualizado
+          await getProfile(data.user.id);
+        } else {
+          console.error('⚠️  Erro ao setar master role:', updateError.message);
+        }
+      }
+
       addToast('Cadastro realizado! Verifique seu e-mail para confirmar.', 'success');
       return true;
     }

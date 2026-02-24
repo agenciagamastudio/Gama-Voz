@@ -5,15 +5,19 @@ import { useAuth } from '../context/AuthContext';
 
 function PromoCodesManager() {
   const { promoCodes, addPromoCode, removePromoCode } = usePoints();
-  const { currentUser, loading } = useAuth();
+  const { currentUser, loading, profile } = useAuth();
   const [newCode, setNewCode] = useState('');
   const [newValue, setNewValue] = useState('');
 
   // Email da conta master
   const MASTER_EMAIL = 'prontoatendimentogama@gmail.com';
 
-  // Verificar acesso de mestre (por email - case insensitive)
-  const isMaster = currentUser && currentUser.email?.toLowerCase() === MASTER_EMAIL.toLowerCase();
+  // Verificar acesso de mestre (por role ou email - role é preferível)
+  const isMaster = currentUser && (
+    profile?.role === 'master' ||
+    profile?.role === 'admin' ||
+    currentUser.email?.toLowerCase() === MASTER_EMAIL.toLowerCase()
+  );
 
   // Aguardar carregamento
   if (loading) {
