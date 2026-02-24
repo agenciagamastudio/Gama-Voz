@@ -1,17 +1,22 @@
 import React from 'react';
 import { Link, useNavigate } from 'react-router-dom'; // Import useNavigate
 import { useProposal } from '../context/ProposalContext'; // Import useProposal
-import { exportElementToPDF } from '../utils/pdfExport';
 
 function ProposalPreview() {
   const { proposalData } = useProposal();
   const navigate = useNavigate();
 
-  // Função de exportação protegida
-  const handleExportPDF = () => {
+  // Função de exportação protegida (lazy-loaded)
+  const handleExportPDF = async () => {
     if (!proposalData?.clientCompany) return;
-    const fileName = `Proposta_${proposalData.clientCompany.replace(/\s+/g, '_')}.pdf`;
-    exportElementToPDF('proposal-sheet', fileName);
+    try {
+      const { exportElementToPDF } = await import('../utils/pdfExport');
+      const fileName = `Proposta_${proposalData.clientCompany.replace(/\s+/g, '_')}.pdf`;
+      await exportElementToPDF('proposal-sheet', fileName);
+    } catch (error) {
+      console.error('Erro ao exportar PDF:', error);
+      alert('Erro ao gerar PDF. Tente novamente.');
+    }
   };
 
   // Se não houver dados, exibe tela de "Nada Encontrado"

@@ -2,16 +2,21 @@ import React from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useValueReport } from '../context/ValueReportContext';
 import { formatCurrency } from '../logic/calculosDeValor';
-import { exportElementToPDF } from '../utils/pdfExport';
 import ImpactChart from './ImpactChart';
 
 function ValueReportPreview() {
   const { reportData } = useValueReport();
   const navigate = useNavigate();
   
-  const handleExportPDF = () => {
-    const fileName = `Diagnostico_${reportData.empresa.nomeCliente.replace(/\s+/g, '_')}.pdf`;
-    exportElementToPDF('value-report-sheet', fileName);
+  const handleExportPDF = async () => {
+    try {
+      const { exportElementToPDF } = await import('../utils/pdfExport');
+      const fileName = `Diagnostico_${reportData.empresa.nomeCliente.replace(/\s+/g, '_')}.pdf`;
+      await exportElementToPDF('value-report-sheet', fileName);
+    } catch (error) {
+      console.error('Erro ao exportar PDF:', error);
+      alert('Erro ao gerar PDF. Tente novamente.');
+    }
   };
 
   if (!reportData || (!reportData.empresa.nomeCliente && !reportData.empresa.nichoMercado)) {

@@ -1,10 +1,6 @@
 {
   "buildCommand": "npm run build",
   "outputDirectory": "dist",
-  "env": {
-    "VITE_SUPABASE_URL": "https://qnphnhlrvujhqeamszha.supabase.co",
-    "VITE_SUPABASE_ANON_KEY": "sb_publishable_DU5-HUSwTzZa4fH8zOaYMw_ZH0GakUJ"
-  },
   "rewrites": [
     {
       "source": "/(.*)",
