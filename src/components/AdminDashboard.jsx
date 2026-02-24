@@ -35,15 +35,13 @@ function AdminDashboard() {
     setSelectedUser({ ...selectedUser, permissions: newPerms }); // Update local state for immediate feedback
   };
 
-  // IDs de usuários com acesso ADMIN e email permitido
-  const ADMIN_IDS = ['00662266-db06-41d4-b237-95062bfb6b06']; // prontoatendimentogama@gmail.com
-  const ADMIN_EMAILS = ['prontoatendimentogama@gmail.com'];
+  // Email administrativo
+  const ADMIN_EMAIL = 'prontoatendimentogama@gmail.com';
 
-  // Verificar acesso ADMIN (por ID, role ou email)
+  // Verificar acesso ADMIN (por email ou role)
   const isAdmin = currentUser && (
-    ADMIN_IDS.includes(currentUser.id) ||
     currentUser?.role === 'master' ||
-    ADMIN_EMAILS.includes(currentUser.email)
+    currentUser?.email?.toLowerCase() === ADMIN_EMAIL.toLowerCase()
   );
 
   // Fallback para debugging
@@ -55,8 +53,12 @@ function AdminDashboard() {
   }
 
   if (!isAdmin) {
-    console.log('AdminDashboard: Acesso negado. currentUser.id:', currentUser.id, 'isAdmin:', isAdmin);
-    return <div className="p-8 text-center text-red-500 font-black min-h-screen flex items-center justify-center">ACESSO NEGADO - Apenas ADMIN</div>;
+    console.log('AdminDashboard: Acesso negado.', {
+      currentUserEmail: currentUser.email,
+      currentUserRole: currentUser?.role,
+      isAdmin: isAdmin
+    });
+    return <div className="p-8 text-center text-red-500 font-black min-h-screen flex items-center justify-center">Acesso Negado: Área Restrita ao Mestre</div>;
   }
 
   return (
