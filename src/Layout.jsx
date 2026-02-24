@@ -27,9 +27,9 @@ function Layout() {
     const [isMenuOpen, setIsMenuOpen] = useState(false);
     const [isOptionsOpen, setIsOptionsOpen] = useState(false);
 
-    // IDs de admins
-    const ADMIN_IDS = ['00662266-db06-41d4-b237-95062bfb6b06'];
-    const isAdmin = currentUser?.id && (ADMIN_IDS.includes(currentUser.id) || currentUser?.role === 'master');
+    // Email do admin master
+    const MASTER_EMAIL = 'prontoatendimentogama@gmail.com';
+    const isAdmin = currentUser && currentUser.email?.toLowerCase() === MASTER_EMAIL.toLowerCase();
 
     // Estado global do perfil para sincronização de UI (Fallback para dados locais se não houver currentUser full)
     const [globalProfile, setGlobalProfile] = useState(() => {
