@@ -91,25 +91,13 @@ export const AuthProvider = ({ children }) => {
     const handleAuthStateChange = async (event, session) => {
       console.log('handleAuthStateChange called. Event:', event, 'Session:', session); // DEBUG LOG
 
-      // Adicionar role 'master' automaticamente para prontoatendimentogama@gmail.com
       let user = session?.user || null;
-
-      if (user) {
-        console.log('🔍 Checking admin:', {
-          userEmail: user.email,
-          userEmailLower: user.email?.toLowerCase(),
-          isMatch: user.email?.toLowerCase() === 'prontoatendimentogama@gmail.com'
-        });
-
-        if (user.email?.toLowerCase() === 'prontoatendimentogama@gmail.com') {
-          user = { ...user, role: 'master' };
-          console.log('✅ Admin access granted to:', user.email, 'Role:', user.role);
-        }
-      }
-
       setCurrentUser(user);
       setLoading(false);
-      console.log('Auth State Changed:', event, 'User:', { email: user?.email, role: user?.role, id: user?.id }); // DEBUG LOG
+
+      if (user) {
+        console.log('Auth State Changed:', event, 'User:', { email: user?.email, id: user?.id }); // DEBUG LOG
+      }
 
       if (user) {
         console.log('User found in session, attempting to get profile...'); // DEBUG LOG
@@ -147,11 +135,6 @@ export const AuthProvider = ({ children }) => {
 
     // Após o login bem-sucedido, carrega o perfil
     if (data.user) {
-      // Adicionar role 'master' automaticamente para prontoatendimentogama@gmail.com
-      if (data.user.email?.toLowerCase() === 'prontoatendimentogama@gmail.com') {
-        data.user.role = 'master';
-        console.log('✅ Admin access granted to:', data.user.email);
-      }
       setCurrentUser(data.user);
       await getProfile(data.user.id);
     }
@@ -171,11 +154,6 @@ export const AuthProvider = ({ children }) => {
     }
 
     if (data.user) {
-      // Adicionar role 'master' automaticamente para prontoatendimentogama@gmail.com
-      if (data.user.email?.toLowerCase() === 'prontoatendimentogama@gmail.com') {
-        data.user.role = 'master';
-        console.log('✅ Admin access granted to:', data.user.email);
-      }
       setCurrentUser(data.user);
       // Após o cadastro, o trigger do Supabase já cria o perfil, então apenas o buscamos
       await getProfile(data.user.id);
