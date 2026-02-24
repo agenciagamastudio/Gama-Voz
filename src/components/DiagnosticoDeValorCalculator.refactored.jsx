@@ -18,7 +18,6 @@ import {
   isPositiveNumber,
 } from '../logic/calculosDeValor';
 import { useFormState } from '../hooks/useFormState';
-import { useSupabaseSync } from '../hooks/useSupabaseSync';
 import { OperationProfileForm } from './diagnostico/OperationProfileForm';
 import { ScenarioLossManager } from './diagnostico/ScenarioLossManager';
 import { SolutionROISection } from './diagnostico/SolutionROISection';

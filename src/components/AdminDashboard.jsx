@@ -3,7 +3,6 @@ import { useToast } from '../context/ToastContext';
 import { useAuth } from '../context/AuthContext';
 
 function AdminDashboard() {
-  const { addBonusPoints } = usePoints();
   const { addToast } = useToast();
   const { users = [], createModerator, updatePermissions, deleteUser, currentUser } = useAuth();
 
