@@ -39,7 +39,7 @@ const ROLE_SALARY_AVERAGES = {
 /**
  * Sugere faturamento mensal baseado no nicho ou pesquisa web (mockada por enquanto).
  */
-export const suggestMonthlyRevenue = async (nicho, clientName) => {
+export const suggestMonthlyRevenue = async (nicho) => {
     // Simula latência de pesquisa web
     await new Promise(resolve => setTimeout(resolve, 800));
 

@@ -49,6 +49,7 @@ export const AuthProvider = ({ children }) => {
 
       // Usar data se existir, senão usar fallback
       const profileData = data || defaultProfile;
+      console.log('✅ Profile carregado:', { id: profileData.id, role: profileData.role, email: profileData.email });
       setProfile(profileData);
       setProfileLoading(false);
       return profileData;

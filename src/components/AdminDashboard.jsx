@@ -6,7 +6,7 @@ function AdminDashboard() {
   const { addToast } = useToast();
   const { users = [], createModerator, updatePermissions, deleteUser, currentUser, profile } = useAuth();
 
-  console.log('AdminDashboard rendered. currentUser:', currentUser, 'users:', users);
+  console.log('AdminDashboard rendered. currentUser:', currentUser, 'profile:', profile, 'profile.role:', profile?.role, 'users:', users);
 
   const [pointsAmount, setPointsAmount] = useState('');
   const [showUserModal, setShowUserModal] = useState(false);

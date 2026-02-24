@@ -27,4 +27,5 @@ export const ValueReportProvider = ({ children }) => {
   );
 };
 
+// eslint-disable-next-line react-refresh/only-export-components
 export const useValueReport = () => useContext(ValueReportContext);

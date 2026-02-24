@@ -21,11 +21,6 @@ export const PointsProvider = ({ children }) => {
   useEffect(() => {
     if (!currentUser) {
       // Reset ao fazer logout
-      setBalance(DAILY_RECHARGE_AMOUNT);
-      setLastRecharged(new Date().toISOString());
-      setRedeemedCodes(new Set());
-      setPromoCodes({});
-      setInitialized(false);
       return;
     }
 
@@ -103,11 +98,12 @@ export const PointsProvider = ({ children }) => {
   }, [lastRecharged, currentUser, addToast]);
 
   useEffect(() => {
-    if (!initialized) return;
+    if (!initialized || !currentUser) return;
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     checkDailyRecharge();
     const interval = setInterval(checkDailyRecharge, 1000 * 60 * 60);
     return () => clearInterval(interval);
-  }, [initialized, checkDailyRecharge]);
+  }, [initialized, currentUser, checkDailyRecharge]);
 
   // API pública — mantida 100% compatível com o código existente
   const spendPoints = (amount, actionName = 'Ação') => {
@@ -235,4 +231,5 @@ export const PointsProvider = ({ children }) => {
   );
 };
 
+// eslint-disable-next-line react-refresh/only-export-components
 export const usePoints = () => useContext(PointsContext);

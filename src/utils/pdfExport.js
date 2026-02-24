@@ -42,8 +42,7 @@ export const exportElementToPDF = async (elementId, fileName = 'documento.pdf') 
     });
 
     const pdfWidth = pdf.internal.pageSize.getWidth();
-    const pdfHeight = pdf.internal.pageSize.getHeight();
-    
+
     // Calcula proporções para preencher a página mantendo o aspect ratio
     const imgProps = pdf.getImageProperties(imgData);
     const ratio = imgProps.width / imgProps.height;

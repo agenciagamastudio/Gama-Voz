@@ -8,6 +8,7 @@ import { useMemo } from 'react';
  * @returns {object} Objeto com resultados dos cálculos
  */
 export function useDerivedCalculations(calculateFn, dependencies = []) {
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   return useMemo(() => {
     try {
       return calculateFn();
@@ -15,7 +16,7 @@ export function useDerivedCalculations(calculateFn, dependencies = []) {
       console.error('Erro ao calcular valores derivados:', error);
       return {};
     }
-  }, dependencies);
+  }, [calculateFn, ...dependencies]);
 }
 
 /**
