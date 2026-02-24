@@ -5,17 +5,27 @@ import { useAuth } from '../context/AuthContext';
 
 function PromoCodesManager() {
   const { promoCodes, addPromoCode, removePromoCode } = usePoints();
-  const { currentUser } = useAuth();
+  const { currentUser, loading } = useAuth();
   const [newCode, setNewCode] = useState('');
   const [newValue, setNewValue] = useState('');
 
   // Email da conta master
   const MASTER_EMAIL = 'prontoatendimentogama@gmail.com';
 
-  // Verificar acesso de mestre (por role ou email - case insensitive)
-  const isMaster = currentUser?.role === 'master' || currentUser?.email?.toLowerCase() === MASTER_EMAIL.toLowerCase();
+  // Verificar acesso de mestre (por email - case insensitive)
+  const isMaster = currentUser && currentUser.email?.toLowerCase() === MASTER_EMAIL.toLowerCase();
+
+  // Aguardar carregamento
+  if (loading) {
+    return <div className="p-8 text-center text-slate-400 font-black uppercase tracking-widest">Carregando...</div>;
+  }
+
+  if (!currentUser) {
+    return <div className="p-8 text-center text-yellow-500 font-black uppercase tracking-widest">⚠️ Faça login para continuar</div>;
+  }
 
   if (!isMaster) {
+    console.log('❌ Acesso negado. Email:', currentUser.email, 'Master:', MASTER_EMAIL, 'Match:', currentUser.email?.toLowerCase() === MASTER_EMAIL.toLowerCase());
     return <div className="p-8 text-center text-red-500 font-black uppercase tracking-widest animate-pulse">Acesso Negado: Área Restrita ao Mestre</div>;
   }
 
