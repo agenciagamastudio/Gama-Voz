@@ -5,15 +5,56 @@ import { useAuth } from '../context/AuthContext';
 function SignUpPage() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [confirmPassword, setConfirmPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+  const [passwordStrength, setPasswordStrength] = useState(0); // 0-4
+  const [error, setError] = useState('');
   const { signup, loading } = useAuth();
   const navigate = useNavigate();
 
+  // Validar força da senha em tempo real
+  const validatePasswordStrength = (pwd) => {
+    let strength = 0;
+    if (pwd.length >= 8) strength++;
+    if (pwd.length >= 12) strength++;
+    if (/[A-Z]/.test(pwd)) strength++;
+    if (/[0-9]/.test(pwd)) strength++;
+    return strength;
+  };
+
+  const handlePasswordChange = (e) => {
+    const pwd = e.target.value;
+    setPassword(pwd);
+    setPasswordStrength(validatePasswordStrength(pwd));
+    setError('');
+  };
+
   const handleSignUp = async (e) => {
     e.preventDefault();
+    setError('');
+
+    // Validações
+    if (password.length < 8) {
+      setError('❌ Senha deve ter no mínimo 8 caracteres');
+      return;
+    }
+
+    if (password !== confirmPassword) {
+      setError('❌ As senhas não conferem');
+      return;
+    }
+
+    if (passwordStrength < 2) {
+      setError('❌ Senha muito fraca. Use maiúsculas, números ou símbolos');
+      return;
+    }
+
+    // Fazer signup
     const success = await signup(email, password);
     if (success) {
-      navigate('/'); // Or to a confirmation page
+      // Redirecionar após sucesso (Supabase pede confirmação de email)
+      setTimeout(() => navigate('/login'), 2000);
     }
   };
 
@@ -32,31 +73,40 @@ function SignUpPage() {
           <p className="text-[10px] text-slate-500 font-black uppercase tracking-[0.2em]">Cadastre-se para Acessar</p>
         </div>
 
-        <form onSubmit={handleSignUp} className="space-y-6 relative z-10">
+        <form onSubmit={handleSignUp} className="space-y-5 relative z-10">
+          {/* Error Message */}
+          {error && (
+            <div className="p-3 bg-red-500/10 border border-red-500/20 rounded-xl text-red-400 text-xs font-bold text-center animate-pulse">
+              {error}
+            </div>
+          )}
+
           <div className="space-y-1.5 text-left">
             <label className="text-[10px] font-bold text-slate-500 uppercase tracking-widest ml-1">E-mail</label>
-            <input 
-              type="email" 
+            <input
+              type="email"
               required
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               className="w-full bg-[#0a0a0a] border border-white/10 rounded-xl px-4 py-3 text-white outline-none focus:border-primary focus:ring-1 focus:ring-primary/50 transition-all font-bold placeholder:text-slate-800"
               placeholder="seu@email.com"
             />
+            <p className="text-[9px] text-slate-600 font-medium ml-1">Você receberá um email de confirmação</p>
           </div>
-          
+
           <div className="space-y-1.5 text-left">
-            <label className="text-[10px] font-bold text-slate-500 uppercase tracking-widest ml-1">Senha</label>
+            <label className="text-[10px] font-bold text-slate-500 uppercase tracking-widest ml-1">Criar Senha</label>
             <div className="relative">
-              <input 
-                type={showPassword ? 'text' : 'password'} 
+              <input
+                type={showPassword ? 'text' : 'password'}
                 required
+                minLength="8"
                 value={password}
-                onChange={(e) => setPassword(e.target.value)}
+                onChange={handlePasswordChange}
                 className="w-full bg-[#0a0a0a] border border-white/10 rounded-xl px-4 py-3 text-white outline-none focus:border-primary focus:ring-1 focus:ring-primary/50 transition-all font-bold placeholder:text-slate-800"
-                placeholder="••••••••"
+                placeholder="Min. 8 caracteres"
               />
-              <button 
+              <button
                 type="button"
                 onClick={() => setShowPassword(!showPassword)}
                 className="absolute right-4 top-1/2 -translate-y-1/2 text-slate-600 hover:text-primary transition-colors"
@@ -66,14 +116,64 @@ function SignUpPage() {
                 </span>
               </button>
             </div>
+
+            {/* Força da Senha */}
+            {password && (
+              <div className="flex items-center gap-2 mt-2">
+                <div className="flex-1 h-2 bg-slate-700 rounded-full overflow-hidden">
+                  <div
+                    className={`h-full transition-all ${
+                      passwordStrength === 0 ? 'w-1/4 bg-red-500' :
+                      passwordStrength === 1 ? 'w-2/4 bg-orange-500' :
+                      passwordStrength === 2 ? 'w-3/4 bg-yellow-500' :
+                      'w-full bg-primary'
+                    }`}
+                  ></div>
+                </div>
+                <span className="text-[9px] font-bold uppercase tracking-widest">
+                  {passwordStrength === 0 ? '❌ Fraca' :
+                   passwordStrength === 1 ? '⚠️ Média' :
+                   passwordStrength === 2 ? '✓ Boa' :
+                   '✅ Forte'}
+                </span>
+              </div>
+            )}
           </div>
 
-          <button 
+          <div className="space-y-1.5 text-left">
+            <label className="text-[10px] font-bold text-slate-500 uppercase tracking-widest ml-1">Confirmar Senha</label>
+            <div className="relative">
+              <input
+                type={showConfirmPassword ? 'text' : 'password'}
+                required
+                value={confirmPassword}
+                onChange={(e) => setConfirmPassword(e.target.value)}
+                className="w-full bg-[#0a0a0a] border border-white/10 rounded-xl px-4 py-3 text-white outline-none focus:border-primary focus:ring-1 focus:ring-primary/50 transition-all font-bold placeholder:text-slate-800"
+                placeholder="••••••••"
+              />
+              <button
+                type="button"
+                onClick={() => setShowConfirmPassword(!showConfirmPassword)}
+                className="absolute right-4 top-1/2 -translate-y-1/2 text-slate-600 hover:text-primary transition-colors"
+              >
+                <span className="material-symbols-outlined text-lg">
+                  {showConfirmPassword ? 'visibility_off' : 'visibility'}
+                </span>
+              </button>
+            </div>
+            {password && confirmPassword && (
+              <p className={`text-[9px] font-bold ml-1 ${password === confirmPassword ? 'text-primary' : 'text-red-400'}`}>
+                {password === confirmPassword ? '✅ Senhas conferem' : '❌ Senhas não conferem'}
+              </p>
+            )}
+          </div>
+
+          <button
             type="submit"
-            disabled={loading}
+            disabled={loading || !password || !email || password !== confirmPassword}
             className="w-full py-4 bg-primary text-black font-black uppercase text-xs tracking-widest rounded-xl hover:bg-primary/90 shadow-lg shadow-primary/20 transition-all transform active:scale-[0.98] neon-glow disabled:opacity-50 disabled:cursor-not-allowed"
           >
-            {loading ? 'Cadastrando...' : 'Cadastrar'}
+            {loading ? '⏳ Cadastrando...' : 'Criar Conta'}
           </button>
         </form>
 

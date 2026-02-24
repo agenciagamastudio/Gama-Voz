@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 
@@ -6,12 +6,32 @@ function LoginPage() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
+  const [rememberEmail, setRememberEmail] = useState(false);
   const { login } = useAuth();
   const navigate = useNavigate();
 
-  const handleLogin = (e) => {
+  // Carregar email salvo ao montar componente
+  useEffect(() => {
+    const savedEmail = localStorage.getItem('gama-remember-email');
+    if (savedEmail) {
+      setEmail(savedEmail);
+      setRememberEmail(true);
+    }
+  }, []);
+
+  const handleLogin = async (e) => {
     e.preventDefault();
-    if (login(email, password)) {
+
+    // Salvar ou remover email conforme checkbox
+    if (rememberEmail) {
+      localStorage.setItem('gama-remember-email', email);
+    } else {
+      localStorage.removeItem('gama-remember-email');
+    }
+
+    // Fazer login
+    const success = await login(email, password);
+    if (success) {
       navigate('/');
     }
   };
@@ -47,15 +67,15 @@ function LoginPage() {
           <div className="space-y-1.5 text-left">
             <label className="text-[10px] font-bold text-slate-500 uppercase tracking-widest ml-1">Senha de Acesso</label>
             <div className="relative">
-              <input 
-                type={showPassword ? 'text' : 'password'} 
+              <input
+                type={showPassword ? 'text' : 'password'}
                 required
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 className="w-full bg-[#0a0a0a] border border-white/10 rounded-xl px-4 py-3 text-white outline-none focus:border-primary focus:ring-1 focus:ring-primary/50 transition-all font-bold placeholder:text-slate-800"
                 placeholder="••••••••"
               />
-              <button 
+              <button
                 type="button"
                 onClick={() => setShowPassword(!showPassword)}
                 className="absolute right-4 top-1/2 -translate-y-1/2 text-slate-600 hover:text-primary transition-colors"
@@ -67,7 +87,21 @@ function LoginPage() {
             </div>
           </div>
 
-          <button 
+          {/* Remember Email Checkbox */}
+          <div className="flex items-center gap-2">
+            <input
+              type="checkbox"
+              id="remember-email"
+              checked={rememberEmail}
+              onChange={(e) => setRememberEmail(e.target.checked)}
+              className="w-4 h-4 rounded bg-[#0a0a0a] border border-white/10 checked:bg-primary checked:border-primary cursor-pointer accent-primary"
+            />
+            <label htmlFor="remember-email" className="text-[10px] font-medium text-slate-500 uppercase tracking-widest cursor-pointer hover:text-slate-400 transition-colors">
+              Lembrar minha conta
+            </label>
+          </div>
+
+          <button
             type="submit"
             className="w-full py-4 bg-primary text-black font-black uppercase text-xs tracking-widest rounded-xl hover:bg-primary/90 shadow-lg shadow-primary/20 transition-all transform active:scale-[0.98] neon-glow"
           >
