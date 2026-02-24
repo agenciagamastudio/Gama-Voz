@@ -9,7 +9,13 @@ function PromoCodesManager() {
   const [newCode, setNewCode] = useState('');
   const [newValue, setNewValue] = useState('');
 
-  if (currentUser?.role !== 'master') {
+  // Email da conta master
+  const MASTER_EMAILS = ['prontoatendimentogama@gmail.com'];
+
+  // Verificar acesso de mestre (por role ou email)
+  const isMaster = currentUser?.role === 'master' || MASTER_EMAILS.includes(currentUser?.email);
+
+  if (!isMaster) {
     return <div className="p-8 text-center text-red-500 font-black uppercase tracking-widest animate-pulse">Acesso Negado: Área Restrita ao Mestre</div>;
   }
 

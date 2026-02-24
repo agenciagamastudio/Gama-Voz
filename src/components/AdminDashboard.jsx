@@ -1,10 +1,9 @@
-import React, { useState, useMemo } from 'react';
-import { usePoints } from '../context/PointsContext';
+import React, { useState } from 'react';
 import { useToast } from '../context/ToastContext';
 import { useAuth } from '../context/AuthContext';
 
 function AdminDashboard() {
-  const { balance, addBonusPoints } = usePoints();
+  const { addBonusPoints } = usePoints();
   const { addToast } = useToast();
   const { users = [], createModerator, updatePermissions, deleteUser, currentUser } = useAuth();
 
@@ -19,20 +18,6 @@ function AdminDashboard() {
   const [newUserName, setNewUserName] = useState('');
   const [newUserEmail, setNewUserEmail] = useState('');
   const [newUserPass, setNewUserPass] = useState('');
-
-  const stats = useMemo(() => {
-    const proposals = JSON.parse(localStorage.getItem('gama-proposals') || '[]');
-    const trash = JSON.parse(localStorage.getItem('gama-trash') || '[]');
-    const companies = JSON.parse(localStorage.getItem('gama-saved-companies') || '[]');
-    
-    return {
-      activeDocs: proposals.length,
-      trashDocs: trash.length,
-      savedCompanies: companies.length,
-      systemHealth: '100%',
-      version: '2.5.0-PRO'
-    };
-  }, []);
 
   const handleCreateUser = (e) => {
     e.preventDefault();
@@ -51,11 +36,16 @@ function AdminDashboard() {
     setSelectedUser({ ...selectedUser, permissions: newPerms }); // Update local state for immediate feedback
   };
 
-  // IDs de usuários com acesso ADMIN
+  // IDs de usuários com acesso ADMIN e email permitido
   const ADMIN_IDS = ['00662266-db06-41d4-b237-95062bfb6b06']; // prontoatendimentogama@gmail.com
+  const ADMIN_EMAILS = ['prontoatendimentogama@gmail.com'];
 
-  // Verificar acesso ADMIN (por ID ou role)
-  const isAdmin = currentUser?.id && (ADMIN_IDS.includes(currentUser.id) || currentUser?.role === 'master');
+  // Verificar acesso ADMIN (por ID, role ou email)
+  const isAdmin = currentUser && (
+    ADMIN_IDS.includes(currentUser.id) ||
+    currentUser?.role === 'master' ||
+    ADMIN_EMAILS.includes(currentUser.email)
+  );
 
   // Fallback para debugging
   if (!currentUser) {

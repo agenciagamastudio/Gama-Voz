@@ -90,13 +90,21 @@ export const AuthProvider = ({ children }) => {
 
     const handleAuthStateChange = async (event, session) => {
       console.log('handleAuthStateChange called. Event:', event, 'Session:', session); // DEBUG LOG
-      setCurrentUser(session?.user || null);
-      setLoading(false);
-      console.log('Auth State Changed:', event, 'User:', session?.user); // DEBUG LOG
 
-      if (session?.user) {
+      // Adicionar role 'master' automaticamente para prontoatendimentogama@gmail.com
+      let user = session?.user || null;
+      if (user && user.email === 'prontoatendimentogama@gmail.com') {
+        user = { ...user, role: 'master' };
+        console.log('✅ Admin access granted to prontoatendimentogama@gmail.com');
+      }
+
+      setCurrentUser(user);
+      setLoading(false);
+      console.log('Auth State Changed:', event, 'User:', user); // DEBUG LOG
+
+      if (user) {
         console.log('User found in session, attempting to get profile...'); // DEBUG LOG
-        await getProfile(session.user.id);
+        await getProfile(user.id);
         console.log('getProfile call completed.'); // DEBUG LOG
       } else {
         console.log('No user in session, clearing profile.'); // DEBUG LOG
@@ -130,7 +138,13 @@ export const AuthProvider = ({ children }) => {
 
     // Após o login bem-sucedido, carrega o perfil
     if (data.user) {
-        await getProfile(data.user.id);
+      // Adicionar role 'master' automaticamente para prontoatendimentogama@gmail.com
+      if (data.user.email === 'prontoatendimentogama@gmail.com') {
+        data.user.role = 'master';
+        console.log('✅ Admin access granted to prontoatendimentogama@gmail.com');
+      }
+      setCurrentUser(data.user);
+      await getProfile(data.user.id);
     }
 
     addToast(`Bem-vindo de volta!`, 'success');
@@ -148,10 +162,15 @@ export const AuthProvider = ({ children }) => {
     }
 
     if (data.user) {
-        // Após o cadastro, o trigger do Supabase já cria o perfil, então apenas o buscamos
-        await getProfile(data.user.id);
-        addToast('Cadastro realizado! Verifique seu e-mail para confirmar.', 'success');
-        return true;
+      // Adicionar role 'master' automaticamente para prontoatendimentogama@gmail.com
+      if (data.user.email === 'prontoatendimentogama@gmail.com') {
+        data.user.role = 'master';
+        console.log('✅ Admin access granted to prontoatendimentogama@gmail.com');
+      }
+      // Após o cadastro, o trigger do Supabase já cria o perfil, então apenas o buscamos
+      await getProfile(data.user.id);
+      addToast('Cadastro realizado! Verifique seu e-mail para confirmar.', 'success');
+      return true;
     }
     return false;
   };
