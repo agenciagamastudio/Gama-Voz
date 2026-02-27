@@ -307,7 +307,7 @@ function DiagnosticoDeValorCalculator() {
     // ─── Gerar Relatório ──────────────────────────────────────────────────────
     const handleGerarRelatorio = async () => {
         // Validação
-        if (!nomeCliente || !descricaoNegocio || !nichoMercado || !faturamentoMensal || !diasTrabalhadosMes || !horasTrabalhadasDia) {
+        if (!nomeCliente || !nichoMercado || !faturamentoMensal || !diasTrabalhadosMes || !horasTrabalhadasDia) {
             addToast('Por favor, preencha todos os campos do "Perfil da Operação".', 'error');
             return;
         }
