@@ -38,7 +38,13 @@ function Layout() {
     // Estado global do perfil para sincronização de UI (Fallback para dados locais se não houver currentUser full)
     const [globalProfile, setGlobalProfile] = useState(() => {
         const saved = localStorage.getItem('gama-user-profile');
-        return currentUser || (saved ? JSON.parse(saved) : null);
+        const parsed = saved ? JSON.parse(saved) : null;
+        // Aplicar cor do localStorage imediatamente se disponível
+        if (parsed?.accentColor || parsed?.accent_color) {
+            const color = parsed.accentColor || parsed.accent_color;
+            document.documentElement.style.setProperty('--primary-color', color);
+        }
+        return currentUser || parsed;
     });
 
     useEffect(() => {
@@ -48,11 +54,62 @@ function Layout() {
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [currentUser?.id]);
 
+    // SYNC COM PROFILE DO CONTEXT - corrige sincronização de cores entre telas
+    useEffect(() => {
+        if (profile) {
+            // Sincroniza o globalProfile com as mudanças do profile context
+            // Especialmente importante para accent_color que pode mudar sem recarregar a página
+            setGlobalProfile(prev => ({
+                ...prev,
+                ...profile,
+                // Garantir que a cor está no formato esperado
+                accentColor: profile.accent_color || prev?.accentColor
+            }));
+            // Salvar em localStorage para persistência entre navegações
+            localStorage.setItem('gama-user-profile', JSON.stringify({
+                ...currentUser,
+                ...profile,
+                accentColor: profile.accent_color
+            }));
+        }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [profile?.accent_color]); // Monitorar especificamente a cor
+
     useEffect(() => {
         if (globalProfile?.accentColor) {
             document.documentElement.style.setProperty('--primary-color', globalProfile.accentColor);
         }
-    }, [globalProfile]);
+        // Também aplicar a cor de profile.accent_color diretamente se disponível
+        if (profile?.accent_color) {
+            document.documentElement.style.setProperty('--primary-color', profile.accent_color);
+        }
+    }, [globalProfile, profile?.accent_color]);
+
+    // SINCRONIZAÇÃO EM TEMPO REAL: Escuta mudanças do localStorage para atualizar cor dinamicamente
+    // Isso garante que quando UserProfile salva a cor, todas as páginas ficam sincronizadas
+    useEffect(() => {
+        const handleStorageChange = (e) => {
+            if (e.key === 'gama-user-profile') {
+                try {
+                    const updated = JSON.parse(e.newValue || '{}');
+                    const newColor = updated.accent_color || updated.accentColor;
+                    if (newColor) {
+                        document.documentElement.style.setProperty('--primary-color', newColor);
+                        setGlobalProfile(prev => ({
+                            ...prev,
+                            accentColor: newColor,
+                            accent_color: newColor
+                        }));
+                    }
+                } catch (err) {
+                    console.error('Erro ao sincronizar cor do localStorage:', err);
+                }
+            }
+        };
+
+        window.addEventListener('storage', handleStorageChange);
+        return () => window.removeEventListener('storage', handleStorageChange);
+    }, []);
 
     // Atalho Secreto: Alt + Shift + A para Admin
     useEffect(() => {
