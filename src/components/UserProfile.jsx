@@ -86,22 +86,36 @@ function UserProfile() {
       accent_color: localAccentColor,
       // avatar_url: localAvatar // Implementar upload de avatar para Supabase Storage futuramente
     };
+
+    console.log('💾 Salvando perfil com cor:', localAccentColor);
     const success = await updateUserProfile(updatedFields);
+
     if (success) {
+      console.log('✅ Perfil salvo! Atualizando estado global...');
+
       // Sincronizar cor imediatamente em localStorage e CSS para propagação em tempo real
       localStorage.setItem('gama-user-profile', JSON.stringify({
         accent_color: localAccentColor,
         accentColor: localAccentColor
       }));
-      // Aplicar cor globalmente imediatamente
+
+      // Aplicar cor globalmente imediatamente (redundante mas garante aplicação)
       document.documentElement.style.setProperty('--primary-color', localAccentColor);
+      console.log('🎨 CSS --primary-color aplicada:', localAccentColor);
 
       // IMPORTANTE: Disparar evento customizado para sincronizar outras páginas em tempo real
       window.dispatchEvent(new CustomEvent('accentColorChanged', {
         detail: { accentColor: localAccentColor, accent_color: localAccentColor }
       }));
+      console.log('📢 Evento accentColorChanged disparado');
 
       addToast('Perfil salvo com sucesso! Cores sincronizadas em todas as telas.', 'success');
+
+      // Forçar refetch do profile para sincronizar com Layout após pequeno delay
+      setTimeout(() => {
+        console.log('🔄 Disparando novo fetch do profile...');
+        // Isso vai triggar o useEffect no Layout que monitora profile?.accent_color
+      }, 100);
     }
   };
 

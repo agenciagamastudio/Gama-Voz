@@ -36,3 +36,4 @@ supabase/.branches/
 Thumbs.db
 
 .vercel
+.env*.local

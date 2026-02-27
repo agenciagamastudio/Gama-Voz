@@ -63,14 +63,21 @@ function Layout() {
                 ...prev,
                 ...profile,
                 // Garantir que a cor está no formato esperado
-                accentColor: profile.accent_color || prev?.accentColor
+                accentColor: profile.accent_color || prev?.accentColor,
+                accent_color: profile.accent_color || prev?.accent_color
             }));
             // Salvar em localStorage para persistência entre navegações
             localStorage.setItem('gama-user-profile', JSON.stringify({
                 ...currentUser,
                 ...profile,
-                accentColor: profile.accent_color
+                accentColor: profile.accent_color,
+                accent_color: profile.accent_color
             }));
+            // FORÇA aplicar a cor IMEDIATAMENTE quando profile muda
+            if (profile.accent_color) {
+                console.log('📢 Aplicando cor do profile:', profile.accent_color);
+                document.documentElement.style.setProperty('--primary-color', profile.accent_color);
+            }
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [profile?.accent_color]); // Monitorar especificamente a cor
