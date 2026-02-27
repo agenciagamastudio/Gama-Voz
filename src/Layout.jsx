@@ -100,7 +100,27 @@ function Layout() {
             const newColor = accentColor || accent_color;
             if (newColor) {
                 console.log('🎨 Cor sincronizada em tempo real:', newColor);
+
+                // Aplicar via CSS custom property
                 document.documentElement.style.setProperty('--primary-color', newColor);
+
+                // FORÇA: Criar stylesheet dinâmico para garantir que Tailwind aplique a cor
+                let styleEl = document.getElementById('dynamic-primary-color');
+                if (!styleEl) {
+                    styleEl = document.createElement('style');
+                    styleEl.id = 'dynamic-primary-color';
+                    document.head.appendChild(styleEl);
+                }
+                styleEl.textContent = `
+                    :root {
+                        --primary-color: ${newColor} !important;
+                    }
+                    .text-primary { color: ${newColor} !important; }
+                    .bg-primary { background-color: ${newColor} !important; }
+                    .border-primary { border-color: ${newColor} !important; }
+                    .shadow-primary { box-shadow: 0 0 20px rgba(0, 0, 0, 0.5), 0 0 40px ${newColor}40 !important; }
+                `;
+
                 setGlobalProfile(prev => ({
                     ...prev,
                     accentColor: newColor,
