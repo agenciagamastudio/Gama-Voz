@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import { useValueReport } from '../context/ValueReportContext';
 import { formatCurrency } from '../logic/calculosDeValor';
 import ImpactChart from './ImpactChart';
