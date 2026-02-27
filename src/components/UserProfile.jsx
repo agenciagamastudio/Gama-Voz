@@ -88,7 +88,20 @@ function UserProfile() {
     };
     const success = await updateUserProfile(updatedFields);
     if (success) {
-      addToast('Perfil salvo com sucesso no Supabase!', 'success');
+      // Sincronizar cor imediatamente em localStorage e CSS para propagação em tempo real
+      localStorage.setItem('gama-user-profile', JSON.stringify({
+        accent_color: localAccentColor,
+        accentColor: localAccentColor
+      }));
+      // Aplicar cor globalmente imediatamente
+      document.documentElement.style.setProperty('--primary-color', localAccentColor);
+
+      // IMPORTANTE: Disparar evento customizado para sincronizar outras páginas em tempo real
+      window.dispatchEvent(new CustomEvent('accentColorChanged', {
+        detail: { accentColor: localAccentColor, accent_color: localAccentColor }
+      }));
+
+      addToast('Perfil salvo com sucesso! Cores sincronizadas em todas as telas.', 'success');
     }
   };
 

@@ -85,30 +85,25 @@ function Layout() {
         }
     }, [globalProfile, profile?.accent_color]);
 
-    // SINCRONIZAÇÃO EM TEMPO REAL: Escuta mudanças do localStorage para atualizar cor dinamicamente
-    // Isso garante que quando UserProfile salva a cor, todas as páginas ficam sincronizadas
+    // SINCRONIZAÇÃO EM TEMPO REAL: Escuta evento customizado de mudança de cor
+    // Dispara quando UserProfile salva a cor, sincronizando todas as páginas instantaneamente
     useEffect(() => {
-        const handleStorageChange = (e) => {
-            if (e.key === 'gama-user-profile') {
-                try {
-                    const updated = JSON.parse(e.newValue || '{}');
-                    const newColor = updated.accent_color || updated.accentColor;
-                    if (newColor) {
-                        document.documentElement.style.setProperty('--primary-color', newColor);
-                        setGlobalProfile(prev => ({
-                            ...prev,
-                            accentColor: newColor,
-                            accent_color: newColor
-                        }));
-                    }
-                } catch (err) {
-                    console.error('Erro ao sincronizar cor do localStorage:', err);
-                }
+        const handleAccentColorChange = (e) => {
+            const { accentColor, accent_color } = e.detail || {};
+            const newColor = accentColor || accent_color;
+            if (newColor) {
+                console.log('🎨 Cor sincronizada em tempo real:', newColor);
+                document.documentElement.style.setProperty('--primary-color', newColor);
+                setGlobalProfile(prev => ({
+                    ...prev,
+                    accentColor: newColor,
+                    accent_color: newColor
+                }));
             }
         };
 
-        window.addEventListener('storage', handleStorageChange);
-        return () => window.removeEventListener('storage', handleStorageChange);
+        window.addEventListener('accentColorChanged', handleAccentColorChange);
+        return () => window.removeEventListener('accentColorChanged', handleAccentColorChange);
     }, []);
 
     // Atalho Secreto: Alt + Shift + A para Admin
