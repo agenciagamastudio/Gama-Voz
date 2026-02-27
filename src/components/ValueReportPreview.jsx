@@ -1,12 +1,10 @@
 import React from 'react';
-import { Link, useNavigate } from 'react-router-dom';
 import { useValueReport } from '../context/ValueReportContext';
 import { formatCurrency } from '../logic/calculosDeValor';
 import ImpactChart from './ImpactChart';
 
 function ValueReportPreview() {
   const { reportData } = useValueReport();
-  const navigate = useNavigate();
   
   const handleExportPDF = async () => {
     try {

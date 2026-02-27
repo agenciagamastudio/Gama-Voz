@@ -1,10 +1,8 @@
 import React from 'react';
-import { Link, useNavigate } from 'react-router-dom'; // Import useNavigate
 import { useProposal } from '../context/ProposalContext'; // Import useProposal
 
 function ProposalPreview() {
   const { proposalData } = useProposal();
-  const navigate = useNavigate();
 
   // Função de exportação protegida (lazy-loaded)
   const handleExportPDF = async () => {

@@ -21,6 +21,7 @@ function UserProfile() {
   const [localAvatar, setLocalAvatar] = useState(null); // Pode ser uma URL ou base64
 
   // Atualiza estados locais quando o perfil do Supabase é carregado/atualizado
+  // eslint-disable-next-line react-hooks/set-state-in-effect
   useEffect(() => {
     if (profile) {
       setLocalName(profile.full_name || ''); // Usar full_name do Supabase
@@ -61,7 +62,7 @@ function UserProfile() {
         lost: lostValue,
         trashCount: trash.length
       };
-    } catch (e) {
+    } catch {
       return { count: 0, value: 0, lost: 0, trashCount: 0 };
     }
   }, []);

@@ -216,7 +216,7 @@ export const AuthProvider = ({ children }) => {
       createModerator,
       updatePermissions,
       deleteUser,
-      checkPermission: (perm) => {
+      checkPermission: () => {
         // Lógica de permissões futura, pode usar o campo 'role' ou outros do 'profile'
         return currentUser !== null; // Usuário autenticado tem acesso básico por enquanto
       }
@@ -226,5 +226,6 @@ export const AuthProvider = ({ children }) => {
   );
 };
 
+// eslint-disable-next-line react-refresh/only-export-components
 export const useAuth = () => useContext(AuthContext);
 

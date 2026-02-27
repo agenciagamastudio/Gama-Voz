@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { suggestMonthlyRevenue } from '../../utils/marketData';
-import { formatCurrency, isPositiveNumber } from '../../logic/calculosDeValor';
+import { formatCurrency } from '../../logic/calculosDeValor';
 
 /**
  * Componente para formulário "Perfil da Operação"
