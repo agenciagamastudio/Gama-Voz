@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import { useProposal } from '../context/ProposalContext'; // Import useProposal
 
 function ProposalPreview() {
