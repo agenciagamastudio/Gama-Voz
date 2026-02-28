@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import { usePoints } from '../context/PointsContext';
 import { useToast } from '../context/ToastContext';
 import { useAuth } from '../context/AuthContext'; // Importar useAuth
+import { EarnPointsModal } from './EarnPointsModal';
 
 function UserProfile() {
   const { redeemCode, addBonusPoints } = usePoints();
@@ -10,6 +11,7 @@ function UserProfile() {
   const { profile, profileLoading, updateUserProfile, currentUser } = useAuth(); // Usar o hook useAuth
 
   const [promoCode, setPromoCode] = useState('');
+  const [showEarnPointsModal, setShowEarnPointsModal] = useState(false);
   
   // Estados locais para os campos editáveis, inicializados com os valores do perfil Supabase
   const [localName, setLocalName] = useState('');
@@ -42,15 +44,32 @@ function UserProfile() {
     }
   };
 
+  // Verificar se perfil está completo
+  const isProfileComplete = useMemo(() => {
+    return localName && localName.trim() !== '' && localAvatar;
+  }, [localName, localAvatar]);
+
+  // Mostrar modal de "Ganhe Pontos" quando perfil completo
+  useEffect(() => {
+    if (isProfileComplete && !showEarnPointsModal) {
+      // Auto-open modal quando perfil é completado pela primeira vez
+      const hasSeenModal = localStorage.getItem('gama-earn-points-modal-seen');
+      if (!hasSeenModal) {
+        setShowEarnPointsModal(true);
+        localStorage.setItem('gama-earn-points-modal-seen', 'true');
+      }
+    }
+  }, [isProfileComplete]);
+
   const stats = useMemo(() => {
     // ... lógica de stats mantida, ainda lendo do localStorage
     try {
       const proposalsRaw = localStorage.getItem('gama-proposals');
       const trashRaw = localStorage.getItem('gama-trash');
-      
+
       const proposals = proposalsRaw ? JSON.parse(proposalsRaw) : [];
       const trash = trashRaw ? JSON.parse(trashRaw) : [];
-      
+
       const totalValue = proposals.reduce((sum, p) => sum + (Number(p.totalInvestment) || 0), 0);
       const lostValue = trash.reduce((sum, p) => sum + (Number(p.totalInvestment) || 0), 0);
 
@@ -274,8 +293,29 @@ function UserProfile() {
         </div>
       </section>
 
+      {/* Ganhe Pontos Extra */}
+      {isProfileComplete && (
+        <section className="bg-gradient-to-br from-primary/10 to-yellow-500/5 p-6 rounded-2xl border border-primary/30 space-y-4 text-left">
+          <div className="flex items-center gap-3 mb-2">
+            <div className="w-10 h-10 bg-primary/20 rounded-xl flex items-center justify-center text-primary">
+              <span className="material-symbols-outlined font-black">stars</span>
+            </div>
+            <div>
+              <h3 className="text-sm font-black text-white uppercase tracking-tight">Ganhe Pontos Extras</h3>
+              <p className="text-[10px] text-slate-400 font-bold uppercase tracking-widest leading-none">Complete ações para desbloquear mais energia</p>
+            </div>
+          </div>
+          <button
+            onClick={() => setShowEarnPointsModal(true)}
+            className="w-full py-3 bg-gradient-to-r from-primary to-yellow-400 text-black font-black uppercase text-xs tracking-widest rounded-xl hover:shadow-lg hover:shadow-primary/30 transition-all transform active:scale-[0.98]"
+          >
+            Ver Ações Disponíveis
+          </button>
+        </section>
+      )}
+
       <div className="flex flex-col gap-3">
-        <button 
+        <button
           onClick={handleSaveProfile} // Chamar a função de salvar do Supabase
           className="w-full py-4 bg-primary text-black font-black uppercase text-xs tracking-widest rounded-2xl hover:bg-primary/90 shadow-lg shadow-primary/20 transition-all transform active:scale-[0.98] neon-glow"
         >
@@ -285,6 +325,13 @@ function UserProfile() {
           Voltar para Início
         </Link>
       </div>
+
+      {/* Modal de Ganhar Pontos */}
+      <EarnPointsModal
+        isOpen={showEarnPointsModal}
+        onClose={() => setShowEarnPointsModal(false)}
+        profileComplete={isProfileComplete}
+      />
 
     </div>
   );
