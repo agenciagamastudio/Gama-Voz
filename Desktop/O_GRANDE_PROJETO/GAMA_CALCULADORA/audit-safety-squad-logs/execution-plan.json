@@ -1,0 +1,42 @@
+{
+  "migration_id": "GAMA_CALC_RLS_FIX_20260228",
+  "timestamp": "2026-02-28T12:15:00Z",
+  "status": "ready_for_execution",
+  "executor_notes": "SQL migration generated from audit context. Ready to execute.",
+  "execution_plan": {
+    "phase_1": {
+      "name": "Enable RLS",
+      "commands": 2,
+      "tables_affected": ["reports", "proposals"],
+      "risk_level": "low",
+      "reversible": true
+    },
+    "phase_2": {
+      "name": "Create RLS Policies",
+      "commands": 8,
+      "total_policies": 8,
+      "pattern": "auth.uid() = user_id (user isolation)",
+      "risk_level": "low",
+      "reversible": true
+    },
+    "phase_3": {
+      "name": "Validation Queries",
+      "commands": 2,
+      "purpose": "Verify RLS enabled on all 3 tables"
+    }
+  },
+  "estimated_duration": "30 seconds",
+  "rollback_commands": [
+    "DROP POLICY \"Users view own reports\" ON public.reports;",
+    "DROP POLICY \"Users insert own reports\" ON public.reports;",
+    "DROP POLICY \"Users update own reports\" ON public.reports;",
+    "DROP POLICY \"Users delete own reports\" ON public.reports;",
+    "ALTER TABLE public.reports DISABLE ROW LEVEL SECURITY;",
+    "DROP POLICY \"Users view own proposals\" ON public.proposals;",
+    "DROP POLICY \"Users insert own proposals\" ON public.proposals;",
+    "DROP POLICY \"Users update own proposals\" ON public.proposals;",
+    "DROP POLICY \"Users delete own proposals\" ON public.proposals;",
+    "ALTER TABLE public.proposals DISABLE ROW LEVEL SECURITY;"
+  ],
+  "next_step": "Execute migration via GitHub Actions or Supabase CLI"
+}
