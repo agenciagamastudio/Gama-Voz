@@ -4,6 +4,7 @@ import { usePoints } from '../context/PointsContext';
 import { useToast } from '../context/ToastContext';
 import { useAuth } from '../context/AuthContext'; // Importar useAuth
 import { EarnPointsModal } from './EarnPointsModal';
+import { OnboardingTour } from './OnboardingTour';
 
 function UserProfile() {
   const { redeemCode, addBonusPoints } = usePoints();
@@ -333,6 +334,9 @@ function UserProfile() {
         onClose={() => setShowEarnPointsModal(false)}
         profileComplete={isProfileComplete}
       />
+
+      {/* Tour de Onboarding - APENAS após perfil completo */}
+      {isProfileComplete && <OnboardingTour />}
 
     </div>
   );
