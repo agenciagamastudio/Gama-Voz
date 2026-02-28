@@ -54,7 +54,7 @@ function PricingPlans() {
       
       <div className="text-center space-y-4">
         <h1 className="text-4xl md:text-5xl font-black text-white uppercase tracking-tighter">
-          Evolua sua <span className="text-primary drop-shadow-[0_0_15px_rgba(196,255,13,0.4)]">Consultoria</span>
+          Evolua sua <span className="text-primary drop-shadow-[0_0_15px_rgba(var(--primary-color-rgb),0.4)]">Consultoria</span>
         </h1>
         <p className="text-slate-400 max-w-xl mx-auto font-medium">Escolha o plano ideal para transformar ineficiências em lucros extraordinários.</p>
       </div>
