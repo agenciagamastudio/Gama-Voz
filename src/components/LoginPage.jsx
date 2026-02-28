@@ -114,7 +114,14 @@ function LoginPage() {
         </p>
 
         <p className="mt-2 text-center text-[10px] text-slate-600 font-medium">
-          Esqueceu a senha? Contate o <span className="text-primary cursor-pointer hover:underline">Administrador</span>.
+          Esqueceu a senha? Contate o <a
+            href="https://wa.me/5575981472503?text=Olá! Sou usuario da GAMA Calculadora e gostei muito. Recomendo!"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-primary cursor-pointer hover:underline"
+          >
+            Administrador via WhatsApp
+          </a>.
         </p>
       </div>
     </div>
