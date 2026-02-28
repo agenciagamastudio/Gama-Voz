@@ -1,8 +1,15 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { PieChart, Pie, Cell, ResponsiveContainer, Tooltip, Legend } from 'recharts';
 
 function ImpactChart({ data }) {
+  const [isLoading, setIsLoading] = useState(true);
   const COLORS = ['#C4FF0D', '#00D1FF', '#FF007A', '#FFD700', '#FFFFFF'];
+
+  useEffect(() => {
+    // Simular carregamento mínimo para renderização do Recharts
+    const timer = setTimeout(() => setIsLoading(false), 300);
+    return () => clearTimeout(timer);
+  }, [data]);
 
   // Agrupa dados por frequência ou tipo se necessário, aqui simplificado por cenário
   const chartData = data.map((scenario) => ({
@@ -19,8 +26,23 @@ function ImpactChart({ data }) {
     );
   }
 
+  // Skeleton loader enquanto o gráfico renderiza
+  if (isLoading) {
+    return (
+      <div className="h-64 w-full bg-white/5 border border-white/10 rounded-xl p-4 relative">
+        <p className="absolute top-4 left-4 text-[10px] font-black uppercase tracking-widest text-slate-500">Distribuição de Perdas</p>
+        <div className="flex items-center justify-center h-full">
+          <div className="flex flex-col items-center gap-3">
+            <div className="w-16 h-16 rounded-full border-4 border-primary/20 border-t-primary animate-spin"></div>
+            <p className="text-[10px] font-bold text-slate-500 uppercase tracking-widest">Renderizando gráfico...</p>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
   return (
-    <div className="h-64 w-full bg-[#111] border border-white/5 rounded-xl p-4 relative">
+    <div className="h-64 w-full bg-white/5 border border-white/10 rounded-xl p-4 relative">
       <p className="absolute top-4 left-4 text-[10px] font-black uppercase tracking-widest text-slate-500">Distribuição de Perdas</p>
       <ResponsiveContainer width="100%" height="100%">
         <PieChart>

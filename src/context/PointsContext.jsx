@@ -99,11 +99,34 @@ export const PointsProvider = ({ children }) => {
 
   useEffect(() => {
     if (!initialized || !currentUser) return;
-    // eslint-disable-next-line react-hooks/set-state-in-effect
+
+    // Verificar recarga apenas uma vez ao inicializar
     checkDailyRecharge();
-    const interval = setInterval(checkDailyRecharge, 1000 * 60 * 60);
+
+    // Definir intervalo para verificar a cada hora
+    const interval = setInterval(() => {
+      // Recriamos a lógica aqui para evitar dependência circular
+      const now = new Date();
+      const last = new Date(lastRecharged);
+
+      if (now.toDateString() !== last.toDateString()) {
+        const newLastRecharged = now.toISOString();
+        setBalance(DAILY_RECHARGE_AMOUNT);
+        setLastRecharged(newLastRecharged);
+
+        if (currentUser) {
+          supabase
+            .from('user_points')
+            .update({ balance: DAILY_RECHARGE_AMOUNT, last_recharged: newLastRecharged })
+            .eq('user_id', currentUser.id);
+        }
+
+        addToast('Energia diária recarregada! +20 pontos.', 'success');
+      }
+    }, 1000 * 60 * 60);
+
     return () => clearInterval(interval);
-  }, [initialized, currentUser, checkDailyRecharge]);
+  }, [initialized, currentUser]);
 
   // API pública — mantida 100% compatível com o código existente
   const spendPoints = (amount, actionName = 'Ação') => {
