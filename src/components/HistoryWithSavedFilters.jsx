@@ -306,7 +306,7 @@ function HistoryWithSavedFilters() {
         <div className="max-w-4xl mx-auto space-y-6">
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-3">
-              <div className="bg-primary/10 p-2 rounded-xl border border-primary/20 shadow-[0_0_15px_rgba(196,255,13,0.1)]">
+              <div className="bg-primary/10 p-2 rounded-xl shadow-[0_0_15px_rgba(196,255,13,0.1)]">
                 <span className="material-symbols-outlined text-primary text-2xl">history</span>
               </div>
               <div>
@@ -413,7 +413,7 @@ function HistoryWithSavedFilters() {
           <div className="grid grid-cols-1 gap-4">
             {loading ? (
               <div className="py-20 flex flex-col items-center justify-center text-center space-y-4">
-                <span className="material-symbols-outlined text-5xl text-slate-700 animate-pulse">history</span>
+                <span className="material-symbols-outlined text-5xl text-slate-700 opacity-50">history</span>
                 <p className="text-slate-500 font-bold uppercase text-[10px] tracking-widest">carregando histórico...</p>
               </div>
             ) : filteredDocs.length === 0 ? (
