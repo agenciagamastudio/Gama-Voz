@@ -633,7 +633,7 @@ function PricingCalculator() {
           <div className="flex items-center justify-between gap-4 md:pt-4 md:border-t md:border-white/5">
             <div className="flex flex-col">
               <p className="text-[9px] md:text-[10px] font-bold text-slate-500 uppercase tracking-[0.2em]">Total</p>
-              <p className="text-xl md:text-2xl font-black text-primary tracking-tight drop-shadow-[0_0_10px_rgba(196,255,13,0.3)]">{formatCurrency(totalInvestment)}</p>
+              <p className="text-xl md:text-2xl font-black text-primary tracking-tight drop-shadow-[0_0_10px_rgba(var(--primary-color-rgb),0.3)]">{formatCurrency(totalInvestment)}</p>
             </div>
             <div className="flex gap-2">
               <button

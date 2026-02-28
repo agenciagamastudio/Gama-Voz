@@ -58,7 +58,7 @@ export function SolutionROISection({
             </div>
             <div className="w-full h-1.5 bg-white/10 rounded-full overflow-hidden">
               <div
-                className="h-full bg-primary shadow-[0_0_10px_rgba(196,255,13,0.5)] transition-all duration-500"
+                className="h-full bg-primary shadow-[0_0_10px_rgba(var(--primary-color-rgb),0.5)] transition-all duration-500"
                 style={{ width: `${Math.min(percentageRecovered, 100)}%` }}
               />
             </div>
@@ -77,7 +77,7 @@ export function SolutionROISection({
               <p className="text-[10px] font-bold text-slate-500 uppercase tracking-widest mb-1">
                 Payback (Retorno)
               </p>
-              <p className="text-2xl font-black text-primary drop-shadow-[0_0_8px_rgba(196,255,13,0.3)]">
+              <p className="text-2xl font-black text-primary drop-shadow-[0_0_8px_rgba(var(--primary-color-rgb),0.3)]">
                 {roiMeses > 0 ? roiMeses.toFixed(1) : 0} <span className="text-xs font-medium opacity-60">meses</span>
               </p>
             </div>

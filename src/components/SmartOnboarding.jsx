@@ -108,7 +108,7 @@ function SmartOnboarding() {
       {/* Progress Bar */}
       <div className="fixed top-0 left-0 right-0 h-1 bg-white/5">
         <div 
-          className="h-full bg-primary shadow-[0_0_15px_rgba(196,255,13,0.5)] transition-all duration-500" 
+          className="h-full bg-primary shadow-[0_0_15px_rgba(var(--primary-color-rgb),0.5)] transition-all duration-500" 
           style={{ width: `${progress}%` }}
         ></div>
       </div>

@@ -5,12 +5,17 @@ const AccentColorContext = createContext();
 
 export const AccentColorProvider = ({ children }) => {
   const { profile } = useAuth();
-  const [accentColor, setAccentColor] = useState('#C4FF0D'); // Default
+  const [accentColor, setAccentColor] = useState(() => {
+    // Tentar pegar cor do localStorage (carregamento rápido)
+    const saved = localStorage.getItem('accent-color-cache');
+    return saved || '#C4FF0D';
+  });
 
   // ✅ ÚNICO lugar onde aplicamos a cor
   useEffect(() => {
     const color = profile?.accent_color || '#C4FF0D';
     setAccentColor(color);
+    localStorage.setItem('accent-color-cache', color);
 
     // Aplicar APENAS ao root (Tailwind pega automaticamente via var(--primary-color))
     document.documentElement.style.setProperty('--primary-color', color);

@@ -22,7 +22,7 @@ function ProposalPreview() {
   if (!proposalData || (!proposalData.projectName && !proposalData.clientCompany)) {
     return (
       <div className="min-h-screen bg-[#0a0a0a] flex flex-col items-center justify-center p-4 space-y-6 text-center">
-        <div className="w-20 h-20 bg-white/5 rounded-full flex items-center justify-center border border-white/10 shadow-[0_0_30px_rgba(196,255,13,0.1)]">
+        <div className="w-20 h-20 bg-white/5 rounded-full flex items-center justify-center border border-white/10 shadow-[0_0_30px_rgba(var(--primary-color-rgb),0.1)]">
           <span className="material-symbols-outlined text-4xl text-primary opacity-50">description_off</span>
         </div>
         <div className="space-y-2">
@@ -61,7 +61,7 @@ function ProposalPreview() {
               <span className="material-symbols-outlined text-sm">print</span>
               <span>Exportar PDF</span>
             </button>
-            <Link to="/proposal/share" className="px-6 py-2.5 bg-primary text-black font-black rounded-lg hover:shadow-[0_0_20px_rgba(196,255,13,0.4)] transition-all flex items-center gap-2">
+            <Link to="/proposal/share" className="px-6 py-2.5 bg-primary text-black font-black rounded-lg hover:shadow-[0_0_20px_rgba(var(--primary-color-rgb),0.4)] transition-all flex items-center gap-2">
               <span className="material-symbols-outlined text-sm">share</span>
               <span>Compartilhar</span>
             </Link>

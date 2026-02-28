@@ -140,7 +140,7 @@ export function OperationProfileForm({
             Valor Hora Operacional:
           </span>
         </div>
-        <span className="text-xl font-black text-primary drop-shadow-[0_0_10px_rgba(196,255,13,0.3)]">
+        <span className="text-xl font-black text-primary drop-shadow-[0_0_10px_rgba(var(--primary-color-rgb),0.3)]">
           {formatCurrency(valorHoraEmpresa)}
         </span>
       </div>

@@ -306,7 +306,7 @@ function HistoryWithSavedFilters() {
         <div className="max-w-4xl mx-auto space-y-6">
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-3">
-              <div className="bg-primary/10 p-2 rounded-xl shadow-[0_0_15px_rgba(196,255,13,0.1)]">
+              <div className="bg-primary/10 p-2 rounded-xl shadow-[0_0_15px_rgba(var(--primary-color-rgb),0.1)]">
                 <span className="material-symbols-outlined text-primary text-2xl">history</span>
               </div>
               <div>
@@ -389,7 +389,7 @@ function HistoryWithSavedFilters() {
             <div className="flex gap-3">
               <button
                 onClick={() => applyPresetFilter('10k')}
-                className={`flex items-center gap-2 px-4 py-2.5 rounded-xl border transition-all ${minPriceFilter === 10000 ? 'bg-primary/20 border-primary text-primary shadow-[0_0_15px_rgba(196,255,13,0.2)]' : 'bg-[#111] border-white/5 text-slate-400'}`}
+                className={`flex items-center gap-2 px-4 py-2.5 rounded-xl border transition-all ${minPriceFilter === 10000 ? 'bg-primary/20 border-primary text-primary shadow-[0_0_15px_rgba(var(--primary-color-rgb),0.2)]' : 'bg-[#111] border-white/5 text-slate-400'}`}
               >
                 <span className="material-symbols-outlined text-lg">payments</span>
                 <span className="text-xs font-bold">Acima de R$ 10k</span>
@@ -457,7 +457,7 @@ function HistoryWithSavedFilters() {
                       <p className="text-[9px] text-slate-500 uppercase font-black tracking-widest mb-1">
                         {doc.type === 'diagnostico' ? 'Impacto Anual' : 'Investimento'}
                       </p>
-                      <p className={`text-xl font-black drop-shadow-[0_0_8px_rgba(196,255,13,0.3)] ${activeTab === 'active' ? 'text-primary' : 'text-slate-600'}`}>
+                      <p className={`text-xl font-black drop-shadow-[0_0_8px_rgba(var(--primary-color-rgb),0.3)] ${activeTab === 'active' ? 'text-primary' : 'text-slate-600'}`}>
                         {formatCurrency(doc.totalInvestment)}
                       </p>
                       <p className="text-[9px] text-slate-600 uppercase font-bold mt-1 tracking-tighter">{doc.issueDate}</p>
