@@ -1,0 +1,73 @@
+name: audit-safety-squad
+version: "1.0.0"
+created: "2026-02-28"
+status: "active"
+
+metadata:
+  title: "Audit & Safety Squad"
+  description: "Pre-flight validation + execution + auto-commit for Supabase + GitHub"
+  author: "squad-creator (Craft)"
+  tags: [audit, safety, supabase, github, automation]
+
+purpose:
+  - Validate Supabase schema/RLS before changes
+  - Provide AI context to prevent errors
+  - Execute migrations safely
+  - Auto-commit results to GitHub
+
+agents:
+  - name: supabase-validator
+    role: "Valida estado do Supabase antes de mudanças"
+    path: "./agents/supabase-validator.md"
+
+  - name: supabase-executor
+    role: "Executa migrations com contexto"
+    path: "./agents/supabase-executor.md"
+
+  - name: github-committer
+    role: "Faz auto-commit automático"
+    path: "./agents/github-committer.md"
+
+tasks:
+  - id: pre-flight-supabase-audit
+    name: "Pre-Flight Supabase Audit"
+    path: "./tasks/pre-flight-supabase-audit.md"
+    agent: supabase-validator
+    trigger: "on-demand"
+
+  - id: execute-supabase-migration
+    name: "Execute Supabase Migration"
+    path: "./tasks/execute-supabase-migration.md"
+    agent: supabase-executor
+    dependencies: [pre-flight-supabase-audit]
+
+  - id: auto-commit-github
+    name: "Auto-Commit to GitHub"
+    path: "./tasks/auto-commit-github.md"
+    agent: github-committer
+    dependencies: [execute-supabase-migration]
+
+workflows:
+  - name: change-request-workflow
+    path: "./workflows/change-request-workflow.yaml"
+    description: "Orquestra: validação → execução → commit"
+    tasks: [pre-flight-supabase-audit, execute-supabase-migration, auto-commit-github]
+
+integration:
+  supabase:
+    url: "https://supabase.com"
+    auth: "via GitHub secrets (SUPABASE_ACCESS_TOKEN)"
+
+  github:
+    url: "https://github.com"
+    auto-commit: true
+    workflow-dir: ".github/workflows"
+
+reuses:
+  - artifact: "db-schema-audit.md"
+    source: ".aios-core/development/tasks"
+    scope: pre-flight validation
+
+  - artifact: "db-rls-audit.md"
+    source: ".aios-core/development/tasks"
+    scope: RLS policy validation

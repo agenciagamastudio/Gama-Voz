@@ -1,0 +1,144 @@
+name: Change Request Workflow
+version: "1.0.0"
+description: "Orquestra: Validação → Execução → Auto-Commit"
+
+workflow_definition:
+  id: change-request-workflow
+  status: active
+  trigger: on-demand
+
+phases:
+  - phase: 1-validate
+    name: "Pre-Flight Validation"
+    task: pre-flight-supabase-audit
+    agent: supabase-validator
+    description: "Auditar Supabase antes de mudança"
+
+    inputs:
+      - supabase_project_id
+      - supabase_token
+      - migration_request
+
+    steps:
+      - audit_schema
+      - audit_rls
+      - check_dependencies
+      - generate_ai_context
+
+    outputs:
+      - schema_snapshot.json
+      - rls_snapshot.json
+      - dependencies_snapshot.json
+      - ai_context.json
+
+    success_criteria:
+      - status == "ready_for_execution"
+      - no_critical_warnings
+      - ai_context_generated
+
+    on_failure:
+      action: "stop"
+      notify: "user"
+      message: "Pre-flight validation failed. Check warnings."
+
+  - phase: 2-execute
+    name: "Execute Migration"
+    task: execute-supabase-migration
+    agent: supabase-executor
+    dependencies: [1-validate]
+    description: "Executar mudança no Supabase com contexto"
+
+    inputs:
+      - ai_context (from phase 1)
+      - migration_sql
+      - audit_snapshots
+
+    steps:
+      - verify_audit_context
+      - create_migration_file
+      - run_workflow
+      - monitor_execution
+      - collect_logs
+
+    outputs:
+      - execution_log.json
+      - before_snapshot.json
+      - after_snapshot.json
+
+    success_criteria:
+      - status == "success"
+      - no_rollback
+      - logs_captured
+
+    on_failure:
+      action: "stop"
+      notify: "user"
+      message: "Migration failed. Rollback applied. Check logs."
+
+  - phase: 3-commit
+    name: "Auto-Commit to GitHub"
+    task: auto-commit-github
+    agent: github-committer
+    dependencies: [2-execute]
+    description: "Fazer commit automático com contexto"
+
+    inputs:
+      - execution_status (from phase 2)
+      - migration_logs
+      - affected_files
+
+    steps:
+      - verify_execution_status
+      - prepare_commit_files
+      - generate_commit_message
+      - create_local_commit
+      - notify_devops
+
+    outputs:
+      - commit_hash
+      - commit_message
+      - files_changed
+      - devops_notification
+
+    success_criteria:
+      - commit_created
+      - git_status_clean
+      - devops_notified
+
+    on_failure:
+      action: "skip"
+      notify: "user"
+      message: "Auto-commit skipped. Manual commit may be needed."
+
+---
+
+end_to_end:
+  user_initiates: "I want to change users table RLS"
+         ↓
+  phase_1: "supabase-validator checks current state"
+         ↓
+  phase_2: "supabase-executor applies migration"
+         ↓
+  phase_3: "github-committer commits with context"
+         ↓
+  result: "Ready for @devops push"
+
+---
+
+execution_modes:
+  automatic: false  # Requires user trigger at each phase for safety
+  interactive: true # Show confirmations + context
+  yolo: false       # (Not recommended for database changes)
+
+logging:
+  base_path: "audit-safety-squad/logs"
+  structure: "{migration_id}/{phase}/{step}.log"
+  retention: 30 days
+
+audit_trail:
+  - timestamp
+  - phase
+  - status
+  - user (if applicable)
+  - validation_results
+  - execution_results
