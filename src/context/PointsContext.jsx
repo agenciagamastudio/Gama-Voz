@@ -126,7 +126,7 @@ export const PointsProvider = ({ children }) => {
     }, 1000 * 60 * 60);
 
     return () => clearInterval(interval);
-  }, [initialized, currentUser]);
+  }, [initialized, currentUser, lastRecharged, addToast, checkDailyRecharge]);
 
   // API pública — mantida 100% compatível com o código existente
   const spendPoints = (amount, actionName = 'Ação') => {

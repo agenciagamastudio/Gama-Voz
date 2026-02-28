@@ -3,6 +3,7 @@ import { useAuth } from '../context/AuthContext';
 import { usePoints } from '../context/PointsContext';
 import { useToast } from '../context/ToastContext';
 import { supabase } from '../utils/supabase';
+import { ACHIEVEMENTS } from '../constants/achievements';
 
 /**
  * Hook para gerenciar achievements/ações de engajamento
@@ -16,46 +17,6 @@ export const useAchievements = () => {
   const [completedActions, setCompletedActions] = useState(new Set());
   const [loading, setLoading] = useState(false);
   const [initialized, setInitialized] = useState(false);
-
-  // Definição das ações de engajamento
-  const ACHIEVEMENTS = {
-    COMPLETE_PROFILE: {
-      id: 'complete_profile',
-      name: 'Completar Perfil',
-      points: 5,
-      description: 'Preencha seu perfil com nome, avatar e email'
-    },
-    FIRST_DIAGNOSTIC: {
-      id: 'first_diagnostic',
-      name: 'Primeiro Diagnóstico',
-      points: 5,
-      description: 'Complete seu primeiro diagnóstico de valor'
-    },
-    FIRST_PROPOSAL: {
-      id: 'first_proposal',
-      name: 'Primeira Proposta',
-      points: 5,
-      description: 'Crie sua primeira proposta de solução'
-    },
-    SHARE_PROPOSAL: {
-      id: 'share_proposal',
-      name: 'Compartilhar Proposta',
-      points: 3,
-      description: 'Compartilhe uma proposta via WhatsApp ou link'
-    },
-    FOLLOW_SOCIAL: {
-      id: 'follow_social',
-      name: 'Seguir Redes Sociais',
-      points: 5,
-      description: 'Siga as redes sociais da GAMA'
-    },
-    WHATSAPP_CONTACT: {
-      id: 'whatsapp_contact',
-      name: 'Enviar WhatsApp',
-      points: 5,
-      description: 'Envie uma mensagem via WhatsApp'
-    }
-  };
 
   // Carregar achievements completados do Supabase
   useEffect(() => {
