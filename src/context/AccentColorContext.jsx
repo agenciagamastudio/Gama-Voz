@@ -6,10 +6,18 @@ const AccentColorContext = createContext();
 export const AccentColorProvider = ({ children }) => {
   const { profile } = useAuth();
   const [accentColor, setAccentColor] = useState('#C4FF0D'); // Default
+  const [lastColor, setLastColor] = React.useState(null); // Track to avoid unnecessary updates
 
   // ✅ ÚNICO lugar onde aplicamos a cor
   useEffect(() => {
     const color = profile?.accent_color || '#C4FF0D';
+
+    // Only apply if color actually changed (prevent flickering from profile object recreation)
+    if (lastColor === color) {
+      return;
+    }
+
+    setLastColor(color);
     setAccentColor(color);
 
     // Aplicar APENAS ao root (Tailwind pega automaticamente via var(--primary-color))
@@ -21,7 +29,7 @@ export const AccentColorProvider = ({ children }) => {
     const g = parseInt(hex.substring(2, 4), 16);
     const b = parseInt(hex.substring(4, 6), 16);
     document.documentElement.style.setProperty('--primary-color-rgb', `${r}, ${g}, ${b}`);
-  }, [profile?.accent_color]);
+  }, [profile?.accent_color, lastColor]);
 
   return (
     <AccentColorContext.Provider value={{ accentColor }}>
