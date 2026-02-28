@@ -5,7 +5,7 @@ function ImpactChart({ data }) {
   const COLORS = ['#C4FF0D', '#00D1FF', '#FF007A', '#FFD700', '#FFFFFF'];
 
   // Agrupa dados por frequência ou tipo se necessário, aqui simplificado por cenário
-  const chartData = data.map((scenario, index) => ({
+  const chartData = data.map((scenario) => ({
     name: scenario.descricao.length > 15 ? scenario.descricao.substring(0, 15) + '...' : scenario.descricao,
     value: scenario.perdaCalculada.anual,
     fullDesc: scenario.descricao

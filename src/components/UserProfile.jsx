@@ -9,8 +9,6 @@ function UserProfile() {
   const { addToast } = useToast();
   const { profile, profileLoading, updateUserProfile, currentUser } = useAuth(); // Usar o hook useAuth
 
-  console.log('UserProfile rendered. currentUser:', currentUser, 'profile:', profile, 'profileLoading:', profileLoading);
-
   const [promoCode, setPromoCode] = useState('');
   
   // Estados locais para os campos editáveis, inicializados com os valores do perfil Supabase
@@ -21,7 +19,7 @@ function UserProfile() {
   const [localAvatar, setLocalAvatar] = useState(null); // Pode ser uma URL ou base64
 
   // Atualiza estados locais quando o perfil do Supabase é carregado/atualizado
-  // eslint-disable-next-line react-hooks/set-state-in-effect
+   
   useEffect(() => {
     if (profile) {
       setLocalName(profile.full_name || ''); // Usar full_name do Supabase
@@ -67,55 +65,22 @@ function UserProfile() {
     }
   }, []);
 
-  // Aplica a cor de destaque globalmente sempre que localAccentColor muda
-  useEffect(() => {
-    document.documentElement.style.setProperty('--primary-color', localAccentColor);
-    // Também podemos definir --primary-color-rgb se for necessário para rgba
-    const hex = localAccentColor.replace('#', '');
-    const r = parseInt(hex.substring(0, 2), 16);
-    const g = parseInt(hex.substring(2, 4), 16);
-    const b = parseInt(hex.substring(4, 6), 16);
-    document.documentElement.style.setProperty('--primary-color-rgb', `${r}, ${g}, ${b}`);
-  }, [localAccentColor]);
-
-
   const handleSaveProfile = async () => {
     const updatedFields = {
       full_name: localName,
-      // Temporariamente sem role e company no Supabase profiles
       accent_color: localAccentColor,
-      // avatar_url: localAvatar // Implementar upload de avatar para Supabase Storage futuramente
     };
 
-    console.log('💾 Salvando perfil com cor:', localAccentColor);
-    const success = await updateUserProfile(updatedFields);
-
-    if (success) {
-      console.log('✅ Perfil salvo! Atualizando estado global...');
-
-      // Sincronizar cor imediatamente em localStorage e CSS para propagação em tempo real
-      localStorage.setItem('gama-user-profile', JSON.stringify({
-        accent_color: localAccentColor,
-        accentColor: localAccentColor
-      }));
-
-      // Aplicar cor globalmente imediatamente (redundante mas garante aplicação)
-      document.documentElement.style.setProperty('--primary-color', localAccentColor);
-      console.log('🎨 CSS --primary-color aplicada:', localAccentColor);
-
-      // IMPORTANTE: Disparar evento customizado para sincronizar outras páginas em tempo real
-      window.dispatchEvent(new CustomEvent('accentColorChanged', {
-        detail: { accentColor: localAccentColor, accent_color: localAccentColor }
-      }));
-      console.log('📢 Evento accentColorChanged disparado');
-
-      addToast('Perfil salvo com sucesso! Cores sincronizadas em todas as telas.', 'success');
-
-      // Forçar refetch do profile para sincronizar com Layout após pequeno delay
-      setTimeout(() => {
-        console.log('🔄 Disparando novo fetch do profile...');
-        // Isso vai triggar o useEffect no Layout que monitora profile?.accent_color
-      }, 100);
+    try {
+      const success = await updateUserProfile(updatedFields);
+      if (success) {
+        addToast('Perfil salvo com sucesso! Cores sincronizadas em todas as telas.', 'success');
+        // AccentColorContext will automatically sync the color across the app
+      } else {
+        addToast('Erro ao salvar perfil. Tente novamente.', 'error');
+      }
+    } catch (error) {
+      addToast('Erro ao salvar perfil: ' + error.message, 'error');
     }
   };
 

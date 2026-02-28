@@ -14,9 +14,8 @@ export const AuthProvider = ({ children }) => {
   // Função para buscar o perfil do usuário
   const getProfile = async (userId) => {
     setProfileLoading(true);
-    console.log('Attempting to fetch profile for userId:', userId);
 
-    // Perfil padrão em memória (fallback rápido)
+    // Default profile (fallback)
     const defaultProfile = {
       id: userId,
       username: 'Usuário',
@@ -29,7 +28,7 @@ export const AuthProvider = ({ children }) => {
 
     try {
       // Query simples sem timeout
-      const { data, error } = await Promise.race([
+      const { data } = await Promise.race([
         supabase
           .from('profiles')
           .select('id, username, full_name, avatar_url, website, accent_color, role')
@@ -41,22 +40,14 @@ export const AuthProvider = ({ children }) => {
         )
       ]);
 
-      console.log('getProfile result:', { data, error, userId });
-
-      if (error) {
-        console.error('Supabase error:', error.message);
-      }
-
-      // Usar data se existir, senão usar fallback
+      // Use data if exists, else fallback
       const profileData = data || defaultProfile;
-      console.log('✅ Profile carregado:', { id: profileData.id, role: profileData.role, email: profileData.email });
       setProfile(profileData);
       setProfileLoading(false);
       return profileData;
 
-    } catch (err) {
-      console.error('getProfile exception:', err.message);
-      // Em caso de exceção, usar fallback imediatamente
+    } catch {
+      // On exception, use fallback immediately
       setProfile(defaultProfile);
       setProfileLoading(false);
       return defaultProfile;
@@ -87,40 +78,27 @@ export const AuthProvider = ({ children }) => {
     return true;
   };
 
-  useEffect(() => { // Wrap the auth state change logic in useEffect
-    console.log('AuthContext useEffect triggered'); // DEBUG LOG
-
+  useEffect(() => {
     const handleAuthStateChange = async (event, session) => {
-      console.log('handleAuthStateChange called. Event:', event, 'Session:', session); // DEBUG LOG
-
       let user = session?.user || null;
       setCurrentUser(user);
       setLoading(false);
 
       if (user) {
-        console.log('Auth State Changed:', event, 'User:', { email: user?.email, id: user?.id }); // DEBUG LOG
-      }
-
-      if (user) {
-        console.log('User found in session, attempting to get profile...'); // DEBUG LOG
         await getProfile(user.id);
-        console.log('getProfile call completed.'); // DEBUG LOG
       } else {
-        console.log('No user in session, clearing profile.'); // DEBUG LOG
         setProfile(null);
         setProfileLoading(false); // Clear profileLoading if user logs out
       }
     };
 
     supabase.auth.getSession().then(({ data: { session } }) => {
-      console.log('Initial getSession result:', session); // DEBUG LOG
-      handleAuthStateChange(null, session); // Verificação inicial
+      handleAuthStateChange(null, session);
     });
 
     const { data: { subscription } } = supabase.auth.onAuthStateChange(handleAuthStateChange);
 
     return () => {
-        console.log('AuthContext useEffect cleanup.'); // DEBUG LOG
         subscription.unsubscribe();
     };
   }, []);
@@ -169,11 +147,8 @@ export const AuthProvider = ({ children }) => {
           .eq('id', data.user.id);
 
         if (!updateError) {
-          console.log('✅ Master role atribuído automaticamente para', email);
-          // Recarregar perfil com role atualizado
+          // Reload profile with updated role
           await getProfile(data.user.id);
-        } else {
-          console.error('⚠️  Erro ao setar master role:', updateError.message);
         }
       }
 

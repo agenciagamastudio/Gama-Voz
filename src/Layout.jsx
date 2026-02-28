@@ -2,6 +2,7 @@ import React, { useState, useEffect, lazy, Suspense } from 'react';
 import { Routes, Route, Link, useLocation, useNavigate } from 'react-router-dom';
 import { usePoints } from './context/PointsContext';
 import { useAuth } from './context/AuthContext';
+import LoadingSpinner from './components/LoadingSpinner';
 import BottomNav from './components/BottomNav';
 
 const DiagnosticoDeValorCalculator = lazy(() => import('./components/DiagnosticoDeValorCalculator'));
@@ -35,103 +36,9 @@ function Layout() {
       currentUser.email?.toLowerCase() === MASTER_EMAIL.toLowerCase()
     );
 
-    // Estado global do perfil para sincronização de UI (Fallback para dados locais se não houver currentUser full)
-    const [globalProfile, setGlobalProfile] = useState(() => {
-        const saved = localStorage.getItem('gama-user-profile');
-        const parsed = saved ? JSON.parse(saved) : null;
-        // Aplicar cor do localStorage imediatamente se disponível
-        if (parsed?.accentColor || parsed?.accent_color) {
-            const color = parsed.accentColor || parsed.accent_color;
-            document.documentElement.style.setProperty('--primary-color', color);
-        }
-        return currentUser || parsed;
-    });
-
-    useEffect(() => {
-        if (currentUser) {
-            setGlobalProfile(currentUser);
-        }
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [currentUser?.id]);
-
-    // SYNC COM PROFILE DO CONTEXT - corrige sincronização de cores entre telas
-    useEffect(() => {
-        if (profile) {
-            // Sincroniza o globalProfile com as mudanças do profile context
-            // Especialmente importante para accent_color que pode mudar sem recarregar a página
-            setGlobalProfile(prev => ({
-                ...prev,
-                ...profile,
-                // Garantir que a cor está no formato esperado
-                accentColor: profile.accent_color || prev?.accentColor,
-                accent_color: profile.accent_color || prev?.accent_color
-            }));
-            // Salvar em localStorage para persistência entre navegações
-            localStorage.setItem('gama-user-profile', JSON.stringify({
-                ...currentUser,
-                ...profile,
-                accentColor: profile.accent_color,
-                accent_color: profile.accent_color
-            }));
-            // FORÇA aplicar a cor IMEDIATAMENTE quando profile muda
-            if (profile.accent_color) {
-                console.log('📢 Aplicando cor do profile:', profile.accent_color);
-                document.documentElement.style.setProperty('--primary-color', profile.accent_color);
-            }
-        }
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [profile?.accent_color]); // Monitorar especificamente a cor
-
-    useEffect(() => {
-        if (globalProfile?.accentColor) {
-            document.documentElement.style.setProperty('--primary-color', globalProfile.accentColor);
-        }
-        // Também aplicar a cor de profile.accent_color diretamente se disponível
-        if (profile?.accent_color) {
-            document.documentElement.style.setProperty('--primary-color', profile.accent_color);
-        }
-    }, [globalProfile, profile?.accent_color]);
-
-    // SINCRONIZAÇÃO EM TEMPO REAL: Escuta evento customizado de mudança de cor
-    // Dispara quando UserProfile salva a cor, sincronizando todas as páginas instantaneamente
-    useEffect(() => {
-        const handleAccentColorChange = (e) => {
-            const { accentColor, accent_color } = e.detail || {};
-            const newColor = accentColor || accent_color;
-            if (newColor) {
-                console.log('🎨 Cor sincronizada em tempo real:', newColor);
-
-                // Aplicar via CSS custom property
-                document.documentElement.style.setProperty('--primary-color', newColor);
-
-                // FORÇA: Criar stylesheet dinâmico para garantir que Tailwind aplique a cor
-                let styleEl = document.getElementById('dynamic-primary-color');
-                if (!styleEl) {
-                    styleEl = document.createElement('style');
-                    styleEl.id = 'dynamic-primary-color';
-                    document.head.appendChild(styleEl);
-                }
-                styleEl.textContent = `
-                    :root {
-                        --primary-color: ${newColor} !important;
-                    }
-                    .text-primary { color: ${newColor} !important; }
-                    .bg-primary { background-color: ${newColor} !important; }
-                    .border-primary { border-color: ${newColor} !important; }
-                    .shadow-primary { box-shadow: 0 0 20px rgba(0, 0, 0, 0.5), 0 0 40px ${newColor}40 !important; }
-                `;
-
-                setGlobalProfile(prev => ({
-                    ...prev,
-                    accentColor: newColor,
-                    accent_color: newColor
-                }));
-            }
-        };
-
-        window.addEventListener('accentColorChanged', handleAccentColorChange);
-        return () => window.removeEventListener('accentColorChanged', handleAccentColorChange);
-    }, []);
+    // NOTE: Color sync is now handled by AccentColorContext
+    // which monitors profile?.accent_color and applies it to CSS automatically
+    // No need for localStorage hacks, event listeners, or dynamic stylesheets here
 
     // Atalho Secreto: Alt + Shift + A para Admin
     useEffect(() => {
@@ -181,11 +88,11 @@ function Layout() {
                             <div className="flex items-center justify-between mb-10 text-left">
                                 <div className="flex items-center gap-3 text-left">
                                     <div className="w-10 h-10 rounded-full bg-primary/10 border border-primary/20 overflow-hidden flex items-center justify-center">
-                                        {globalProfile?.avatar ? <img src={globalProfile.avatar} alt="Avatar" className="w-full h-full object-cover" /> : <span className="material-symbols-outlined text-primary text-2xl">account_circle</span>}
+                                        {profile?.avatar ? <img src={profile.avatar} alt="Avatar" className="w-full h-full object-cover" /> : <span className="material-symbols-outlined text-primary text-2xl">account_circle</span>}
                                     </div>
                                     <div className="text-left">
-                                        <h1 className="text-sm font-black text-white uppercase tracking-tighter leading-tight">{globalProfile?.company || 'Gama Calc'}</h1>
-                                        <p className="text-[9px] font-bold text-slate-500 uppercase tracking-widest">{globalProfile?.name || 'Pro Master'}</p>
+                                        <h1 className="text-sm font-black text-white uppercase tracking-tighter leading-tight">{profile?.company || 'Gama Calc'}</h1>
+                                        <p className="text-[9px] font-bold text-slate-500 uppercase tracking-widest">{profile?.name || 'Pro Master'}</p>
                                     </div>
                                 </div>
                                 <button onClick={() => setIsMenuOpen(false)} className="text-slate-500 hover:text-white"><span className="material-symbols-outlined">close</span></button>
@@ -228,7 +135,7 @@ function Layout() {
                             <div className="flex flex-col">
                                 <div className="px-4 py-3 border-b border-white/5 mb-2 flex justify-between items-center">
                                     <div>
-                                        <p className="text-xs font-bold text-white truncate">{globalProfile?.name}</p>
+                                        <p className="text-xs font-bold text-white truncate">{profile?.name}</p>
                                         <p className="text-[10px] text-slate-500 uppercase tracking-widest truncate">{isAdmin ? 'Master Admin' : 'Usuário'}</p>
                                     </div>
                                     {isAdmin && (
@@ -302,11 +209,11 @@ function Layout() {
                                 <span className="material-symbols-outlined text-[18px] text-primary font-black animate-pulse">bolt</span>
                                 <span className="text-xs font-black text-white">{balance} pts</span>
                             </div>
-                            <div 
+                            <div
                                 onClick={() => setIsOptionsOpen(true)}
                                 className="h-9 w-9 rounded-full bg-primary/10 flex items-center justify-center text-primary font-black text-xs border border-primary/20 overflow-hidden hover:border-primary/50 transition-all shadow-lg cursor-pointer"
                             >
-                                {globalProfile?.avatar ? <img src={globalProfile.avatar} alt="Avatar" className="w-full h-full object-cover" /> : globalProfile?.name ? globalProfile.name.substring(0, 2).toUpperCase() : 'JD'}
+                                {profile?.avatar ? <img src={profile.avatar} alt="Avatar" className="w-full h-full object-cover" /> : profile?.name ? profile.name.substring(0, 2).toUpperCase() : 'JD'}
                             </div>
                         </div>
                     </header>
@@ -314,7 +221,7 @@ function Layout() {
             )}
 
             <main className={isFullPage ? '' : 'pb-44 md:pb-0'}>
-                <Suspense fallback={<div className="flex items-center justify-center min-h-[50vh] text-primary font-black animate-pulse text-xs tracking-widest uppercase">Carregando Gama Calc...</div>}>
+                <Suspense fallback={<div className="flex items-center justify-center min-h-[50vh]"><LoadingSpinner text="Carregando..." /></div>}>
                     <Routes>
                         <Route path="/onboarding" element={<SmartOnboarding />} />
                         <Route path="/pricing" element={<PricingPlans />} />

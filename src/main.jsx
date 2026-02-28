@@ -14,11 +14,11 @@ if ('serviceWorker' in navigator) {
   window.addEventListener('load', () => {
     navigator.serviceWorker
       .register('/sw.js', { scope: '/' })
-      .then(registration => {
-        console.log('✅ Service Worker registrado:', registration.scope);
+      .then(() => {
+        // Service Worker registered successfully
       })
-      .catch(error => {
-        console.warn('⚠️ Erro ao registrar Service Worker:', error);
+      .catch(() => {
+        // Service Worker registration failed
       });
   });
 }

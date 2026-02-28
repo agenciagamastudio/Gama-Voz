@@ -10,16 +10,6 @@ function LandingPage() {
     transition: { duration: 0.6, ease: "easeOut" }
   };
 
-  const staggerContainer = {
-    hidden: { opacity: 0 },
-    show: {
-      opacity: 1,
-      transition: {
-        staggerChildren: 0.2
-      }
-    }
-  };
-
   return (
     <div className="bg-[#050505] text-white overflow-x-hidden font-display selection:bg-primary selection:text-black">
       
