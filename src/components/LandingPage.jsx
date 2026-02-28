@@ -1,6 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
+import { OnboardingTour } from './OnboardingTour';
 
 function LandingPage() {
   const fadeInUp = {
@@ -197,6 +198,9 @@ function LandingPage() {
           </div>
         </div>
       </footer>
+
+      {/* Onboarding Tour para primeira vez */}
+      <OnboardingTour />
 
     </div>
   );
