@@ -88,6 +88,7 @@ function UserProfile() {
     const updatedFields = {
       full_name: localName,
       accent_color: localAccentColor,
+      avatar_url: localAvatar, // ✅ Agora salva o avatar!
     };
 
     try {

@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { useAchievements } from '../hooks/useAchievements';
 
 /**
@@ -7,6 +8,7 @@ import { useAchievements } from '../hooks/useAchievements';
  * Aparece APENAS após usuário completar perfil
  */
 export const EarnPointsModal = ({ isOpen, onClose, profileComplete }) => {
+  const navigate = useNavigate();
   const { getAchievementsList, completeAchievement, getTotalEarnedPoints } =
     useAchievements();
   const [selectedAction, setSelectedAction] = useState(null);
@@ -230,12 +232,12 @@ export const EarnPointsModal = ({ isOpen, onClose, profileComplete }) => {
                         <p className="text-sm text-slate-400">
                           Complete seu primeiro diagnóstico para ganhar estes pontos.
                         </p>
-                        <a
-                          href="/calculadora"
-                          className="w-full inline-block py-4 bg-primary text-black font-black uppercase text-sm rounded-2xl hover:bg-primary/90 transition-all text-center"
+                        <button
+                          onClick={() => navigate('/calculadora')}
+                          className="w-full py-4 bg-primary text-black font-black uppercase text-sm rounded-2xl hover:bg-primary/90 transition-all text-center"
                         >
                           Ir para Calculadora
-                        </a>
+                        </button>
                       </div>
                     )}
 
@@ -244,12 +246,12 @@ export const EarnPointsModal = ({ isOpen, onClose, profileComplete }) => {
                         <p className="text-sm text-slate-400">
                           Crie sua primeira proposta para desbloquear estes pontos.
                         </p>
-                        <a
-                          href="/calculadora"
-                          className="w-full inline-block py-4 bg-primary text-black font-black uppercase text-sm rounded-2xl hover:bg-primary/90 transition-all text-center"
+                        <button
+                          onClick={() => navigate('/calculadora')}
+                          className="w-full py-4 bg-primary text-black font-black uppercase text-sm rounded-2xl hover:bg-primary/90 transition-all text-center"
                         >
                           Criar Proposta
-                        </a>
+                        </button>
                       </div>
                     )}
 
