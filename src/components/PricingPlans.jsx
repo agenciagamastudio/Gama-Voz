@@ -64,8 +64,8 @@ function PricingPlans() {
           <div 
             key={tier.name}
             className={`relative flex flex-col p-8 rounded-3xl border transition-all duration-500 ${
-              tier.current 
-                ? 'bg-primary/5 border-primary shadow-[0_0_40px_rgba(196,255,13,0.1)] scale-105 z-10' 
+              tier.current
+                ? 'bg-primary/5 border-primary shadow-[0_0_40px_rgba(var(--primary-color-rgb),0.1)] scale-105 z-10'
                 : 'bg-card-bg border-white/5 hover:border-white/20'
             }`}
           >
