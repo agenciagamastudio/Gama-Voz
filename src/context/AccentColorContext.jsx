@@ -11,12 +11,25 @@ export const AccentColorProvider = ({ children }) => {
     return saved || '#C4FF0D';
   });
 
-  // ✅ ÚNICO lugar onde aplicamos a cor
+  // ✅ Aplicar cor do localStorage IMEDIATAMENTE ao renderizar
   useEffect(() => {
-    const color = profile?.accent_color || '#C4FF0D';
-    setAccentColor(color);
-    localStorage.setItem('accent-color-cache', color);
+    const saved = localStorage.getItem('accent-color-cache');
+    if (saved) {
+      applyColor(saved);
+    }
+  }, []);
 
+  // ✅ Sincronizar com profile quando carregar do Supabase
+  useEffect(() => {
+    if (profile?.accent_color) {
+      const color = profile.accent_color;
+      setAccentColor(color);
+      localStorage.setItem('accent-color-cache', color);
+      applyColor(color);
+    }
+  }, [profile?.accent_color]);
+
+  const applyColor = (color) => {
     // Aplicar APENAS ao root (Tailwind pega automaticamente via var(--primary-color))
     document.documentElement.style.setProperty('--primary-color', color);
 
@@ -26,7 +39,7 @@ export const AccentColorProvider = ({ children }) => {
     const g = parseInt(hex.substring(2, 4), 16);
     const b = parseInt(hex.substring(4, 6), 16);
     document.documentElement.style.setProperty('--primary-color-rgb', `${r}, ${g}, ${b}`);
-  }, [profile?.accent_color]);
+  };
 
   return (
     <AccentColorContext.Provider value={{ accentColor }}>
