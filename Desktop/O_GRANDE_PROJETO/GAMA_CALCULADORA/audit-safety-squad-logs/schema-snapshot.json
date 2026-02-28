@@ -1,0 +1,47 @@
+{
+  "timestamp": "2026-02-28T12:15:00Z",
+  "project_id": "qnphnhlrvujhqeamszha",
+  "status": "audited",
+  "tables": [
+    {
+      "name": "profiles",
+      "columns": 5,
+      "status": "rlс_enabled",
+      "description": "User profiles with RLS enabled"
+    },
+    {
+      "name": "reports",
+      "columns": 8,
+      "status": "rls_disabled",
+      "critical": true,
+      "description": "Diagnostic value reports - RLS MISSING"
+    },
+    {
+      "name": "proposals",
+      "columns": 7,
+      "status": "rls_disabled",
+      "critical": true,
+      "description": "Commercial proposals - RLS MISSING"
+    }
+  ],
+  "summary": {
+    "total_tables": 3,
+    "rls_enabled": 1,
+    "rls_disabled": 2,
+    "rls_coverage": "33%"
+  },
+  "warnings": [
+    {
+      "severity": "CRITICAL",
+      "table": "reports",
+      "issue": "RLS not enabled - data exposure risk",
+      "recommendation": "Enable RLS and create row-level policies"
+    },
+    {
+      "severity": "CRITICAL",
+      "table": "proposals",
+      "issue": "RLS not enabled - data exposure risk",
+      "recommendation": "Enable RLS and create row-level policies"
+    }
+  ]
+}

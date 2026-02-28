@@ -1,0 +1,42 @@
+{
+  "migration_id": "GAMA_CALC_RLS_FIX_20260228",
+  "timestamp": "2026-02-28T12:15:00Z",
+  "status": "ready_to_execute",
+  "context": {
+    "objective": "Enable RLS on reports and proposals tables, create 8 policies total",
+    "project": "GAMA_CALCULADORA",
+    "tables_affected": ["reports", "proposals"],
+    "operations": [
+      {
+        "type": "ALTER_TABLE",
+        "table": "reports",
+        "action": "ENABLE ROW LEVEL SECURITY"
+      },
+      {
+        "type": "ALTER_TABLE",
+        "table": "proposals",
+        "action": "ENABLE ROW LEVEL SECURITY"
+      },
+      {
+        "type": "CREATE_POLICIES",
+        "table": "reports",
+        "count": 4,
+        "condition": "auth.uid() = user_id"
+      },
+      {
+        "type": "CREATE_POLICIES",
+        "table": "proposals",
+        "count": 4,
+        "condition": "auth.uid() = user_id"
+      }
+    ],
+    "warnings": [
+      "This is a CRITICAL security fix - data is currently exposed",
+      "All 8 policies follow same pattern (user isolation by auth.uid())",
+      "No dependent views or functions found",
+      "Safe to execute immediately"
+    ],
+    "rollback_plan": "DROP POLICY commands are documented",
+    "testing": "Verify with SQL query in pre-flight validation step"
+  }
+}

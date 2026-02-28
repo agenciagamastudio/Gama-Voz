@@ -1,0 +1,52 @@
+{
+  "timestamp": "2026-02-28T12:15:00Z",
+  "project_id": "qnphnhlrvujhqeamszha",
+  "rls_status": "partial",
+  "policies": [
+    {
+      "table": "profiles",
+      "policy_count": 4,
+      "enabled": true,
+      "policies": [
+        "Users view own profiles",
+        "Users insert own profiles",
+        "Users update own profiles",
+        "Users delete own profiles"
+      ]
+    },
+    {
+      "table": "reports",
+      "policy_count": 0,
+      "enabled": false,
+      "critical": true,
+      "needed_policies": [
+        "Users view own reports",
+        "Users insert own reports",
+        "Users update own reports",
+        "Users delete own reports"
+      ]
+    },
+    {
+      "table": "proposals",
+      "policy_count": 0,
+      "enabled": false,
+      "critical": true,
+      "needed_policies": [
+        "Users view own proposals",
+        "Users insert own proposals",
+        "Users update own proposals",
+        "Users delete own proposals"
+      ]
+    }
+  ],
+  "coverage": {
+    "tables_with_rls": 1,
+    "tables_without_rls": 2,
+    "total_policies": 4,
+    "percentage_coverage": "33%"
+  },
+  "risk_assessment": {
+    "level": "HIGH",
+    "reason": "2 critical tables without RLS - data exposure"
+  }
+}
