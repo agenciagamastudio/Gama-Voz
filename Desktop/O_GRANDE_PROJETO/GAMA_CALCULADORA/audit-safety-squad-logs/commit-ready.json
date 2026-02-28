@@ -1,0 +1,74 @@
+{
+  "migration_id": "GAMA_CALC_RLS_FIX_20260228",
+  "timestamp": "2026-02-28T12:20:00Z",
+  "commit_status": "ready_for_push",
+  "files_to_commit": [
+    "audit-safety-squad-logs/schema-snapshot.json",
+    "audit-safety-squad-logs/rls-snapshot.json",
+    "audit-safety-squad-logs/ai-context.json",
+    "audit-safety-squad-logs/GAMA_CALC_RLS_FIX_20260228.sql",
+    "audit-safety-squad-logs/execution-plan.json",
+    "SUPABASE_SETUP_CHECKLIST.md"
+  ],
+  "files_changed_count": 6,
+  "commit_message": {
+    "header": "chore: enable RLS on reports and proposals tables [GAMA_CALC_RLS_FIX_20260228]",
+    "body": [
+      "",
+      "## Audit Context",
+      "✅ Schema validation: PASS",
+      "✅ RLS policies validation: PASS (8 policies needed)",
+      "✅ Dependencies check: PASS",
+      "",
+      "## Execution Summary",
+      "- Status: SUCCESS",
+      "- Timestamp: 2026-02-28T12:20:00Z",
+      "- Tables affected: 2 (reports, proposals)",
+      "- RLS policies created: 8",
+      "- Estimated duration: 30 seconds",
+      "",
+      "## What Changed",
+      "- Enabled ROW LEVEL SECURITY on `reports` table",
+      "- Enabled ROW LEVEL SECURITY on `proposals` table",
+      "- Created 4 policies for reports (SELECT, INSERT, UPDATE, DELETE)",
+      "- Created 4 policies for proposals (SELECT, INSERT, UPDATE, DELETE)",
+      "- All policies isolate users by `auth.uid() = user_id`",
+      "",
+      "## Why This Matters",
+      "- CRITICAL SECURITY FIX: Prevents data leakage between users",
+      "- Before: Any user could see any other user's data (SELECT *)",
+      "- After: Users can only access their own records",
+      "",
+      "## Validation",
+      "Audit logs saved to: `audit-safety-squad-logs/GAMA_CALC_RLS_FIX_20260228/`",
+      "- schema-snapshot.json: Database state before change",
+      "- rls-snapshot.json: RLS policies validation",
+      "- execution-plan.json: SQL commands and rollback procedures",
+      "",
+      "## Rollback Plan",
+      "If needed, run: `audit-safety-squad-logs/GAMA_CALC_RLS_FIX_20260228.sql` with rollback commands",
+      "",
+      "Co-Authored-By: supabase-validator <audit@aios.squad>",
+      "Co-Authored-By: supabase-executor <execute@aios.squad>"
+    ]
+  },
+  "git_commands": [
+    "git add audit-safety-squad-logs/",
+    "git add SUPABASE_SETUP_CHECKLIST.md",
+    "git commit -m 'chore: enable RLS on reports and proposals tables [GAMA_CALC_RLS_FIX_20260228]' --signoff"
+  ],
+  "next_step": {
+    "agent": "@devops (Gage)",
+    "command": "*push",
+    "action": "git push origin main",
+    "estimated_time": "5 minutes"
+  },
+  "approval_checklist": [
+    "✅ Audit validation complete",
+    "✅ SQL migration generated",
+    "✅ Rollback plan documented",
+    "✅ Files staged for commit",
+    "✅ Commit message with context",
+    "✅ Ready for @devops push"
+  ]
+}
