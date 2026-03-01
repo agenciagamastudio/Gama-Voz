@@ -233,7 +233,7 @@ export const EarnPointsModal = ({ isOpen, onClose, profileComplete }) => {
                           Complete seu primeiro diagnóstico para ganhar estes pontos.
                         </p>
                         <button
-                          onClick={() => navigate('/calculadora')}
+                          onClick={() => navigate('/')}
                           className="w-full py-4 bg-primary text-black font-black uppercase text-sm rounded-2xl hover:bg-primary/90 transition-all text-center"
                         >
                           Ir para Calculadora
@@ -247,7 +247,7 @@ export const EarnPointsModal = ({ isOpen, onClose, profileComplete }) => {
                           Crie sua primeira proposta para desbloquear estes pontos.
                         </p>
                         <button
-                          onClick={() => navigate('/calculadora')}
+                          onClick={() => navigate('/')}
                           className="w-full py-4 bg-primary text-black font-black uppercase text-sm rounded-2xl hover:bg-primary/90 transition-all text-center"
                         >
                           Criar Proposta
