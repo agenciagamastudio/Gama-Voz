@@ -25,12 +25,11 @@ function UserProfile() {
    
   useEffect(() => {
     if (profile) {
-      setLocalName(profile.full_name || ''); // Usar full_name do Supabase
-      // profile.role e profile.company não existem na tabela profiles ainda, usar placeholders ou valores padrão
-      setLocalRole(''); // Placeholder
-      setLocalCompany(''); // Placeholder
+      setLocalName(profile.full_name || '');
+      setLocalRole(profile.professional_role || '');
+      setLocalCompany(profile.company || '');
       setLocalAccentColor(profile.accent_color || '#C4FF0D');
-      setLocalAvatar(profile.avatar_url || null); // Usar avatar_url do Supabase
+      setLocalAvatar(profile.avatar_url || null);
     }
   }, [profile]);
 
@@ -45,10 +44,18 @@ function UserProfile() {
     }
   };
 
-  // Verificar se perfil está completo
+  // Verificar se perfil está completo (nome, avatar, cargo e empresa)
   const isProfileComplete = useMemo(() => {
-    return localName && localName.trim() !== '' && localAvatar;
-  }, [localName, localAvatar]);
+    return (
+      localName &&
+      localName.trim() !== '' &&
+      localAvatar &&
+      localRole &&
+      localRole.trim() !== '' &&
+      localCompany &&
+      localCompany.trim() !== ''
+    );
+  }, [localName, localAvatar, localRole, localCompany]);
 
   // Mostrar modal de "Ganhe Pontos" quando perfil completo
   useEffect(() => {
@@ -89,7 +96,9 @@ function UserProfile() {
     const updatedFields = {
       full_name: localName,
       accent_color: localAccentColor,
-      avatar_url: localAvatar, // ✅ Agora salva o avatar!
+      avatar_url: localAvatar,
+      professional_role: localRole, // ✅ Agora salva o cargo!
+      company: localCompany, // ✅ Agora salva a empresa!
     };
 
     try {
