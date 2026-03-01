@@ -6,6 +6,7 @@ import { useValueReport } from '../context/ValueReportContext';
 import { usePoints } from '../context/PointsContext';
 import { useAuth } from '../context/AuthContext';
 import { useToast } from '../context/ToastContext';
+import { useAchievements } from '../hooks/useAchievements';
 import { supabase } from '../utils/supabase';
 import { suggestMonthlyRevenue } from '../utils/marketData';
 import {
@@ -24,6 +25,7 @@ function DiagnosticoDeValorCalculator() {
     const { spendPoints } = usePoints();
     const { currentUser } = useAuth();
     const { addToast } = useToast();
+    const { completeAchievement } = useAchievements();
 
     // Supabase: ID do draft atual e estado de salvamento
     const [diagnosticId, setDiagnosticId] = useState(null);
@@ -434,6 +436,9 @@ function DiagnosticoDeValorCalculator() {
         // Compatibilidade com HistoryWithSavedFilters (localStorage ainda em uso lá)
         const existingDocs = JSON.parse(localStorage.getItem('gama-proposals') || '[]');
         localStorage.setItem('gama-proposals', JSON.stringify([diagnosticReport, ...existingDocs]));
+
+        // ✅ Registra achievement de primeiro diagnóstico
+        await completeAchievement('first_diagnostic');
 
         updateReportData(diagnosticReport);
         navigate('/value-report/preview');

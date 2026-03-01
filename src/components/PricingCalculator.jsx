@@ -4,6 +4,7 @@ import { useProposal } from '../context/ProposalContext';
 import { useToast } from '../context/ToastContext';
 import { usePoints } from '../context/PointsContext';
 import { useAuth } from '../context/AuthContext';
+import { useAchievements } from '../hooks/useAchievements';
 import { supabase } from '../utils/supabase';
 
 function PricingCalculator() {
@@ -12,6 +13,7 @@ function PricingCalculator() {
   const { addToast } = useToast();
   const { spendPoints } = usePoints();
   const { currentUser } = useAuth();
+  const { completeAchievement } = useAchievements();
 
   const userSettings = JSON.parse(localStorage.getItem('gama-user-settings') || '{}');
 
@@ -304,6 +306,9 @@ function PricingCalculator() {
         ...existing,
       ]));
     }
+
+    // ✅ Registra achievement de primeira proposta
+    await completeAchievement('first_proposal');
 
     updateProposalData(proposalData);
     addToast('Proposta gerada com sucesso!', 'success');
