@@ -78,7 +78,7 @@ function Layout() {
     const isFullPage = location.pathname === '/onboarding' || location.pathname === '/login';
 
     return (
-        <div className="bg-background-dark text-slate-300 font-display min-h-screen flex flex-col relative overflow-x-hidden">
+        <div className="bg-gama-dark text-gama-text-secondary font-poppins min-h-screen flex flex-col relative overflow-x-hidden">
             {!isFullPage && (
                 <>
                     {/* Menu Lateral */}

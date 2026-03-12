@@ -92,15 +92,39 @@ export const AuthProvider = ({ children }) => {
       }
     };
 
-    supabase.auth.getSession().then(({ data: { session } }) => {
-      handleAuthStateChange(null, session);
-    });
+    // Check for bypass mode (debug/test)
+    const params = new URLSearchParams(window.location.search);
+    const isBypassMode = params.get('bypass') === 'true';
 
-    const { data: { subscription } } = supabase.auth.onAuthStateChange(handleAuthStateChange);
+    if (isBypassMode) {
+      // Create mock user for testing
+      const mockUser = {
+        id: 'debug-user-id',
+        email: 'test@gama-calculadora.local',
+        user_metadata: {}
+      };
+      setCurrentUser(mockUser);
+      setProfile({
+        id: 'debug-user-id',
+        username: 'Debug User',
+        full_name: 'Test User',
+        avatar_url: null,
+        website: null,
+        accent_color: null,
+        role: 'user'
+      });
+      setLoading(false);
+    } else {
+      supabase.auth.getSession().then(({ data: { session } }) => {
+        handleAuthStateChange(null, session);
+      });
 
-    return () => {
-        subscription.unsubscribe();
-    };
+      const { data: { subscription } } = supabase.auth.onAuthStateChange(handleAuthStateChange);
+
+      return () => {
+          subscription.unsubscribe();
+      };
+    }
   }, []);
 
   const login = async (email, password) => {

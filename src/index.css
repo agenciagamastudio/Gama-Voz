@@ -27,8 +27,32 @@
   box-sizing: border-box;
 }
 
+html, body {
+    overflow: hidden;
+}
+
 body {
-    font-family: 'Space Grotesk', sans-serif;
+    font-family: 'Poppins', sans-serif;
+    background-color: var(--bg-primary);
+    color: var(--text-primary);
+}
+
+#root {
+    width: 100%;
+    height: 100vh;
+    overflow-y: auto;
+    overflow-x: hidden;
+}
+
+/* Remove scrollbar (scrollable mas invisível) */
+#root::-webkit-scrollbar {
+    width: 0;
+    height: 0;
+}
+
+#root {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
 }
 .neon-glow {
     box-shadow: 0 0 15px rgba(var(--primary-color-rgb), 0.3);
