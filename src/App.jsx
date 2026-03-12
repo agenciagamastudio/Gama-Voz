@@ -37,16 +37,19 @@ function App() {
                                 <ValueReportProvider>
                                 <Suspense fallback={<LoadingSpinner text="CARREGANDO SISTEMA..." />}>
                                     <Routes>
-                                        <Route path="/login" element={<LoginPage />} />
-                                        <Route path="/signup" element={<SignUpPage />} /> {/* Adicionar rota de cadastro */}
-                                        <Route path="/welcome" element={<LandingPage />} />
-                                        <Route 
-                                            path="/*" 
+                                        {/* Redirecionar login/signup/welcome para dashboard */}
+                                        <Route path="/login" element={<Navigate to="/" replace />} />
+                                        <Route path="/signup" element={<Navigate to="/" replace />} />
+                                        <Route path="/welcome" element={<Navigate to="/" replace />} />
+
+                                        {/* Dashboard (padrão) */}
+                                        <Route
+                                            path="/*"
                                             element={
                                                 <ProtectedRoute>
                                                     <Layout />
                                                 </ProtectedRoute>
-                                            } 
+                                            }
                                         />
                                     </Routes>
                                 </Suspense>
