@@ -79,52 +79,24 @@ export const AuthProvider = ({ children }) => {
   };
 
   useEffect(() => {
-    const handleAuthStateChange = async (event, session) => {
-      let user = session?.user || null;
-      setCurrentUser(user);
-      setLoading(false);
-
-      if (user) {
-        await getProfile(user.id);
-      } else {
-        setProfile(null);
-        setProfileLoading(false); // Clear profileLoading if user logs out
-      }
+    // Always create a default authenticated user (no login required)
+    const defaultUser = {
+      id: 'default-user-id',
+      email: 'usuario@gama-calculadora.local',
+      user_metadata: {}
     };
 
-    // Check for bypass mode (debug/test)
-    const params = new URLSearchParams(window.location.search);
-    const isBypassMode = params.get('bypass') === 'true';
-
-    if (isBypassMode) {
-      // Create mock user for testing
-      const mockUser = {
-        id: 'debug-user-id',
-        email: 'test@gama-calculadora.local',
-        user_metadata: {}
-      };
-      setCurrentUser(mockUser);
-      setProfile({
-        id: 'debug-user-id',
-        username: 'Debug User',
-        full_name: 'Test User',
-        avatar_url: null,
-        website: null,
-        accent_color: null,
-        role: 'user'
-      });
-      setLoading(false);
-    } else {
-      supabase.auth.getSession().then(({ data: { session } }) => {
-        handleAuthStateChange(null, session);
-      });
-
-      const { data: { subscription } } = supabase.auth.onAuthStateChange(handleAuthStateChange);
-
-      return () => {
-          subscription.unsubscribe();
-      };
-    }
+    setCurrentUser(defaultUser);
+    setProfile({
+      id: 'default-user-id',
+      username: 'Usuário',
+      full_name: 'Usuário GAMA',
+      avatar_url: null,
+      website: null,
+      accent_color: '#88CE11',
+      role: 'user'
+    });
+    setLoading(false);
   }, []);
 
   const login = async (email, password) => {

@@ -14,19 +14,14 @@ const LoginPage = lazy(() => import('./components/LoginPage'));
 const SignUpPage = lazy(() => import('./components/SignUpPage')); // Importar SignUpPage
 const LandingPage = lazy(() => import('./components/LandingPage'));
 
-// Componente de Proteção de Rota
+// Componente de Proteção de Rota (simplificado - sem autenticação)
 const ProtectedRoute = ({ children }) => {
-    const { currentUser, loading } = useAuth();
-    const params = new URLSearchParams(window.location.search);
-    const isBypassMode = params.get('bypass') === 'true';
+    const { loading } = useAuth();
 
-    if (loading && !isBypassMode) {
-        return <div className="min-h-screen bg-[#050505] flex items-center justify-center text-primary font-black animate-pulse">VERIFICANDO AUTENTICAÇÃO...</div>;
+    if (loading) {
+        return <div className="min-h-screen bg-gama-dark flex items-center justify-center text-primary font-black animate-pulse">CARREGANDO...</div>;
     }
 
-    if (!currentUser && !isBypassMode) {
-        return <Navigate to="/welcome" replace />;
-    }
     return children;
 };
 
