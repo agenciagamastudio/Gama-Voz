@@ -1,0 +1,162 @@
+---
+# Comprehensive Component Audit Workflow
+# Purpose: Full review of component across all dimensions
+# Duration: 2-4 hours per component
+# Primary: A11y Auditor + Performance Optimizer + Component Reviewer (parallel)
+
+name: Comprehensive Component Audit
+id: audit-components
+version: 1.0.0
+
+phases:
+  - phase: 1
+    name: Intake
+    duration: 15-30 min
+    owner: design-system-chief
+
+    steps:
+      - name: Receive component request
+        action: Clarify which component(s) to audit
+        inputs: ["component-name", "file-path", "priority"]
+
+      - name: Route to specialists
+        action: Assign to A11y, Performance, and Component Reviewer (parallel)
+        checkpoint: "Component clearly identified"
+
+    outputs:
+      - component_identified: true
+      - specialists_assigned: ["a11y-auditor", "performance-optimizer", "component-reviewer"]
+
+  - phase: 2
+    name: Parallel Audits
+    duration: 60-120 min
+    owner: a11y-auditor + performance-optimizer + component-reviewer
+    parallelization: true
+
+    concurrent_tasks:
+      - task_a11y:
+          owner: a11y-auditor
+          steps:
+            - Validate contrast ratios (WCAG AA/AAA)
+            - Test keyboard navigation
+            - Check focus management
+            - Audit ARIA attributes
+            - Validate semantic HTML
+            - Test touch targets (44x44px minimum)
+            - Produce score + recommendations
+
+      - task_perf:
+          owner: performance-optimizer
+          steps:
+            - Analyze CSS impact
+            - Check bundle size contribution
+            - Profile runtime performance
+            - Identify optimization opportunities
+            - Produce score + recommendations
+
+      - task_component:
+          owner: component-reviewer
+          steps:
+            - Review props API
+            - Validate variants (light/dark/disabled/loading/error)
+            - Check documentation
+            - Audit component reusability
+            - Validate composition patterns
+            - Produce score + recommendations
+
+    veto_conditions_collective:
+      - "Contrast < 4.5:1 (WCAG AA)" → A11y VETO
+      - "Performance exceeds budget" → Perf VETO
+      - "Missing critical variant" → Component VETO
+
+    outputs:
+      - a11y_report: A11y score + findings
+      - perf_report: Performance score + findings
+      - component_report: Quality score + findings
+
+  - phase: 3
+    name: Consolidation
+    duration: 30-45 min
+    owner: design-system-chief
+
+    steps:
+      - name: Review all reports
+        action: Analyze A11y + Perf + Component reports
+
+      - name: Calculate aggregate score
+        action: Average of (A11y + Perf + Component) / 3
+
+      - name: Check veto conditions
+        action: |
+          Verify NONE triggered:
+          - A11y VETO (contrast issue)
+          - Perf VETO (budget exceeded)
+          - Component VETO (critical variant missing)
+
+      - name: Cross-specialist resolution
+        action: |
+          IF issue spans multiple dimensions (e.g., accessible but heavy):
+            1. Schedule 15-30min sync
+            2. Specialists agree on trade-off or optimization
+            3. Document resolution
+
+      - name: Decision
+        action: |
+          IF score >= 7 AND no vetoes:
+            → APPROVED
+          ELSE:
+            → REJECTED (specify which specialist returns for fixes)
+
+    outputs:
+      - aggregate_score: 0-10
+      - decision: APPROVED | REJECTED
+      - feedback: (if rejected)
+
+  - phase: 4
+    name: Governance
+    duration: 15-30 min
+    owner: governance-keeper
+
+    steps:
+      - name: Create ADR
+        action: Document approval decision + reasoning
+
+      - name: Update CHANGELOG
+        action: Add component audit entry
+
+      - name: Version bump
+        action: Major/Minor/Patch based on change type
+
+      - name: Notify team
+        action: Send summary to #design-system
+
+    outputs:
+      - adr_created: true
+      - changelog_updated: true
+      - version_bumped: true
+      - notification_sent: true
+
+---
+checkpoints:
+  - after_phase_1: "Component identified, specialists assigned"
+  - after_phase_2: "All 3 audits complete, reports ready"
+  - after_phase_3: "Decision made (A + P + C scores aggregated)"
+  - after_phase_4: "Decision documented, stakeholders notified"
+
+handoffs:
+  phase_1_to_2: "Chief → Specialists (parallel)"
+  phase_2_to_3: "Specialists → Chief (with reports)"
+  phase_3_to_4: "Chief → Governance Keeper (if approved)"
+
+success_criteria:
+  - "A11y score >= 7"
+  - "Performance score >= 7"
+  - "Component score >= 7"
+  - "No veto conditions triggered"
+  - "Decision documented"
+
+config:
+  duration_minutes: 120-240
+  primary_agents: [a11y-auditor, performance-optimizer, component-reviewer]
+  orchestrator: design-system-chief
+  parallelization: true (phase 2)

@@ -1,0 +1,81 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800;900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&display=swap');
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  /* GAMA OLED PRO PALETTE */
+  --primary: #88CE11;
+  --background: #000000;
+  --foreground: #FFFFFF;
+  --surface: #0A0A0A;
+  --surface-raised: #121212;
+  --text-secondary: #8E8E93;
+  --border: rgba(255, 255, 255, 0.08);
+  --glass-bg: rgba(0, 0, 0, 0.85);
+  --success: #28CD41;
+  --error: #FF3B30;
+  --warning: #FF9500;
+}
+
+[data-theme='light'] {
+  --background: #FFFFFF;
+  --foreground: #000000;
+  --surface: #F9F9F9;
+  --surface-raised: #FFFFFF;
+  --text-secondary: #86868B;
+  --border: rgba(0, 0, 0, 0.1);
+  --glass-bg: rgba(255, 255, 255, 0.85);
+}
+
+@layer base {
+  body {
+    background-color: var(--background);
+    color: var(--foreground);
+    font-family: 'Poppins', -apple-system, BlinkMacSystemFont, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+}
+
+@layer components {
+  .glass {
+    background-color: var(--glass-bg);
+    border-bottom: 1px solid var(--border);
+    backdrop-filter: saturate(180%) blur(12px);
+    -webkit-backdrop-filter: saturate(180%) blur(12px);
+  }
+
+  .surface-card {
+    background-color: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    transition: transform 0.4s cubic-bezier(0.2, 0.8, 0.2, 1),
+                background-color 0.4s ease,
+                border-color 0.4s ease;
+  }
+
+  .logo-box {
+    background-color: var(--foreground);
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 8px;
+    box-shadow: 0 0 20px rgba(255, 255, 255, 0.1);
+  }
+
+  .logo-text-furo {
+    color: var(--background);
+    font-weight: 900;
+    font-size: 24px;
+    user-select: none;
+  }
+}
+
+.tabular-nums {
+  font-family: 'JetBrains Mono', monospace;
+  font-variant-numeric: tabular-nums;
+}

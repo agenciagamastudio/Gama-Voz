@@ -1,0 +1,94 @@
+===============================================================================
+QA VALIDATION — CHARTS RECHARTS READY FOR EXECUTION
+===============================================================================
+
+DATE: 2026-03-10
+STATUS: ⏳ WAITING FOR TASKS 6 & 7
+QA AGENT: @qa (Vinicius)
+
+===============================================================================
+QUICK REFERENCE
+===============================================================================
+
+When Tasks 6 & 7 are COMPLETE:
+
+1. Navigate to: docs/qa/
+
+2. Choose one of three documents:
+   a) QA-CHARTS-VALIDATION.md        (Complete, ~40 min)
+   b) QA-CHARTS-QUICKSTART.md        (Quick, ~30 min)
+   c) QA-CHARTS-EXECUTION-LOG.md     (Tracking, incremental)
+
+3. Start validation following the checklist
+
+===============================================================================
+COMPONENTS TO VALIDATE
+===============================================================================
+
+✓ BarChartDRE           → Dashboard
+✓ WaterfallChartDRE     → Dashboard
+✓ PieChartCustos        → Dashboard
+✓ GaugeMetas            → Reports
+✓ HistoricalProfitChart → Reports
+
+===============================================================================
+PRE-REQUISITES
+===============================================================================
+
+These tasks must be COMPLETE before validation:
+- [ ] Task 6: [name] — Status: PENDING
+- [ ] Task 7: [name] — Status: PENDING
+
+ACTION: When both tasks show ✅ DONE, trigger validation
+
+===============================================================================
+VALIDATION PHASES
+===============================================================================
+
+Phase 1: Preparação      (Setup dev environment)
+Phase 2: Visual          (Colors, layout, visibility)
+Phase 3: Interativa      (Tooltips, legends, zoom)
+Phase 4: Dados           (Formatting, no NaN/undefined)
+Phase 5: Responsividade  (Mobile/tablet/desktop)
+Phase 6: Performance     (Lighthouse, render time)
+Phase 7: Acessibilidade  (ARIA, contrast, keyboard)
+Phase 8: Regressões      (No broken features)
+
+Estimated total time: 30-50 minutes
+
+===============================================================================
+DOCUMENTATION LOCATION
+===============================================================================
+
+Path: C:\Users\Usuario\Desktop\O_GRANDE_PROJETO\GAMA_FINANCEIRO\gama-financeiro-prime\docs\qa\
+
+Files:
+- QA-CHARTS-VALIDATION.md       (Main checklist, 66 points)
+- QA-CHARTS-QUICKSTART.md       (Quick reference guide)
+- QA-CHARTS-EXECUTION-LOG.md    (Execution tracking)
+- README-QA-CHARTS.md           (Overview)
+
+===============================================================================
+SIGNAL
+===============================================================================
+
+EXECUTE VALIDATION WHEN:
+
+✓ Task 6 completed
+✓ Task 7 completed
+✓ Charts components implemented
+✓ Dashboard and Reports pages have gráficos
+
+Open any of the 3 docs above and follow the instructions.
+
+===============================================================================
+CONTACT
+===============================================================================
+
+QA Agent: @qa (Vinicius)
+Issues/Escalation: Assign bugs to @dev
+Blocker? Escalate to @aios-master
+
+===============================================================================
+STATUS: READY TO VALIDATE ON SIGNAL
+===============================================================================
