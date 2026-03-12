@@ -1,0 +1,273 @@
+---
+# Governance & Decision Logging Workflow
+# Purpose: Document design system decisions in ADR format, maintain changelog
+# Duration: 30 min - 1 hour
+# Primary: Governance Keeper
+# Triggered: After any major decision (approval, deprecation, version bump)
+
+name: Governance & Decision Logging
+id: governance-loop
+version: 1.0.0
+
+triggers:
+  - "Component approved by Chief"
+  - "Breaking change made"
+  - "Component deprecated"
+  - "Major version bump needed"
+  - "Architectural decision made"
+
+phases:
+  - phase: 1
+    name: Decision Intake
+    duration: 5-10 min
+    owner: governance-keeper
+
+    steps:
+      - name: Receive decision from Chief
+        action: |
+          Collect:
+          - What decision was made?
+          - Why was it made?
+          - Who approved it?
+          - What are the consequences?
+        inputs: ["decision-summary", "approval-reason", "deciders", "impact"]
+
+      - name: Gather context
+        action: |
+          Collect related info:
+          - Previous related decisions (ADR numbers)
+          - Affected components
+          - Migration path (if breaking)
+          - Timeline for rollout
+
+    outputs:
+      - decision_documented: true
+      - context_gathered: true
+
+  - phase: 2
+    name: ADR Creation
+    duration: 10-20 min
+    owner: governance-keeper
+
+    steps:
+      - name: Create ADR entry
+        action: |
+          ADR Format (Architecture Decision Record):
+
+          # ADR-{NextNumber}: {DecisionTitle}
+
+          **Date:** {today}
+          **Status:** Accepted | Deprecated | Superseded By {ADR-number}
+          **Deciders:** {Chief}, {Specialists involved}
+
+          ## Problem
+          {What issue this decision addresses}
+
+          ## Decision
+          {What was decided and why}
+
+          ## Consequences
+
+          ### Positive
+          {Benefits}
+
+          ### Negative
+          {Drawbacks}
+
+          ## Alternatives Considered
+          {Other options that were rejected and why}
+
+          ## Related Decisions
+          {Links to previous/future ADRs}
+
+        checkpoint: "ADR structure complete"
+
+      - name: Save ADR
+        action: Write to `adr/ADR-{number}.md`
+
+    outputs:
+      - adr_file_created: true
+      - adr_number: "ADR-{NextNumber}"
+      - adr_status: "Accepted"
+
+  - phase: 3
+    name: CHANGELOG Update
+    duration: 10-15 min
+    owner: governance-keeper
+
+    steps:
+      - name: Determine change type
+        action: |
+          Classify:
+          - Added: New components, new tokens, new features
+          - Changed: Modified existing (backward compatible)
+          - Deprecated: Marked for future removal (2-week notice)
+          - Removed: Deleted after deprecation period
+          - Fixed: Bug fixes
+          - Security: Security-related changes
+
+      - name: Add CHANGELOG entry
+        action: |
+          Format:
+
+          ## [version] - YYYY-MM-DD
+
+          ### {ChangeType}
+          - {Component}: {Description of what changed}
+            - Reason: {Why this change was made}
+            - Impact: {Who is affected}
+            - Migration: {If breaking, how to migrate}
+
+        checkpoint: "CHANGELOG entry added"
+
+    outputs:
+      - changelog_updated: true
+      - entry_added: true
+
+  - phase: 4
+    name: Versioning
+    duration: 5-10 min
+    owner: governance-keeper
+
+    steps:
+      - name: Determine version bump
+        action: |
+          Semantic Versioning (SemVer):
+
+          MAJOR (X.0.0):
+          - Breaking changes
+          - Component removed
+          - Props removed or renamed
+          - Token value changed significantly
+
+          MINOR (1.X.0):
+          - New components added
+          - New tokens added
+          - New props (backward compatible)
+          - Non-breaking changes
+
+          PATCH (1.0.X):
+          - Bug fixes
+          - Documentation updates
+          - Style refinements (no layout impact)
+
+      - name: Update version
+        action: |
+          Update:
+          - config.yaml: version field
+          - CHANGELOG.md: header [version] - date
+          - Package metadata (if applicable)
+
+        checkpoint: "Version bumped and documented"
+
+    outputs:
+      - version_bumped: true
+      - old_version: "X.Y.Z"
+      - new_version: "X.Y.Z"
+
+  - phase: 5
+    name: Communication
+    duration: 10-15 min
+    owner: governance-keeper
+
+    steps:
+      - name: Prepare announcement
+        action: |
+          For minor/patch changes:
+          - Brief Slack message in #design-system
+          - Summary of what changed
+
+          For major/breaking changes:
+          - Detailed migration guide
+          - Slack announcement
+          - Timeline for deprecation/removal
+          - Contact person for questions
+
+      - name: Send Slack notification
+        action: |
+          Message template:
+
+          📢 **Design System Update: [version]**
+
+          **Summary:** {What changed}
+          **Reason:** {Why this change}
+          **Impact:** {Who is affected}
+          **Action required:** {If any}
+          **Timeline:** {Deadlines, if breaking}
+          **Documentation:** {Links to migration guide}
+
+          Questions? Ask in this thread or #design-system
+
+      - name: Create migration guide (if breaking)
+        action: |
+          Path: docs/MIGRATION-{version}.md
+          Content:
+          - Before/after code examples
+          - Step-by-step migration steps
+          - FAQ
+          - Timeline
+          - Support contacts
+
+    outputs:
+      - announcement_sent: true
+      - migration_guide_created: (if applicable)
+      - stakeholders_notified: true
+
+  - phase: 6
+    name: Verification
+    duration: 5-10 min
+    owner: governance-keeper
+
+    steps:
+      - name: Verify all completed
+        action: |
+          Checklist:
+          ✓ ADR created in adr/ folder
+          ✓ CHANGELOG.md updated
+          ✓ Version bumped
+          ✓ Slack notification sent
+          ✓ Migration guide created (if needed)
+          ✓ All files committed to git
+
+      - name: Close loop
+        action: Notify Chief that decision is fully logged
+
+    outputs:
+      - governance_complete: true
+      - adr_link: "squads/.../adr/ADR-{number}.md"
+      - changelog_updated: true
+      - announcement_link: "Slack thread"
+
+---
+checkpoints:
+  - after_phase_1: "Decision context gathered"
+  - after_phase_2: "ADR created and saved"
+  - after_phase_3: "CHANGELOG updated"
+  - after_phase_4: "Version bumped"
+  - after_phase_5: "Stakeholders notified"
+  - after_phase_6: "Governance complete"
+
+handoffs:
+  - "Chief → Governance Keeper (decision to document)"
+  - "Governance Keeper → Stakeholders (announcement)"
+
+success_criteria:
+  - "ADR file created in adr/ folder"
+  - "CHANGELOG.md updated with new entry"
+  - "Version bumped correctly (SemVer)"
+  - "Slack announcement sent"
+  - "Migration guide created (if breaking)"
+  - "All changes committed to git"
+
+triggers_for_workflow:
+  component_approved: "After Chief approves a component"
+  breaking_change: "When making a breaking change"
+  component_deprecated: "When deprecating a component"
+  version_release: "Before releasing new version"
+  major_decision: "For any architectural decision"
+
+config:
+  duration_minutes: 30-60
+  primary_agent: governance-keeper
+  trigger_agent: design-system-chief
+  parallelization: false (sequential)

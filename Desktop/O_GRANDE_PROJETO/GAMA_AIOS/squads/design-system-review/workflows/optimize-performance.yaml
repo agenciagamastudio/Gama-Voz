@@ -1,0 +1,164 @@
+---
+# Performance Optimization Workflow
+# Purpose: Optimize design system CSS and runtime performance
+# Duration: 2-3 hours
+# Primary: Performance Optimizer
+
+name: Performance Optimization
+id: optimize-performance
+version: 1.0.0
+
+phases:
+  - phase: 1
+    name: Intake & Analysis
+    duration: 30-45 min
+    owner: performance-optimizer
+
+    steps:
+      - name: Receive optimization request
+        action: Clarify scope (CSS, JS, assets, specific components?)
+        inputs: ["scope", "bundle-file", "current-size", "target-size"]
+
+      - name: Analyze bundle
+        action: |
+          Measure:
+          - Current gzipped size
+          - Identify largest sections (colors, utilities, etc.)
+          - Find unused CSS
+          - Detect redundancies
+
+      - name: Profile runtime
+        action: |
+          Measure:
+          - Component render times
+          - Animation smoothness (FPS)
+          - Reflow/repaint triggers
+          - Memory usage
+
+    outputs:
+      - baseline_size: X KB
+      - unused_css_identified: Y KB
+      - performance_issues: list
+
+  - phase: 2
+    name: Optimization
+    duration: 60-90 min
+    owner: performance-optimizer
+
+    steps:
+      - name: Tree-shake unused CSS
+        action: |
+          Remove:
+          - Unused utility classes
+          - Dead code selectors
+          - Duplicate definitions
+
+      - name: Consolidate duplicates
+        action: |
+          Replace:
+          - Hardcoded colors with CSS vars
+          - Multiple spacing definitions with scale
+          - Redundant shadows with elevation tokens
+
+      - name: Improve runtime
+        action: |
+          Optimize:
+          - Use transform instead of left/top (GPU acceleration)
+          - Add will-change hints
+          - Reduce blur/shadow complexity
+          - Lazy-load heavy animations
+
+      - name: Asset optimization
+        action: |
+          Review:
+          - Image formats (WebP alternatives?)
+          - Font subsetting (only needed characters)
+          - SVG optimization
+
+      - name: Produce score
+        action: |
+          Score on 0-10:
+          - Bundle size improvement (0-10)
+          - Runtime performance (0-10)
+          - Tree-shake coverage (0-10)
+          - No regressions (0-10)
+          Average = Overall Score
+
+    outputs:
+      - optimized_bundle_size: X KB
+      - size_reduction: Y% (goal: 10%+)
+      - performance_score: 0-10
+      - recommendations: list
+      - estimated_gains: "30ms faster, 60 FPS maintained"
+
+  - phase: 3
+    name: Quality Gate
+    duration: 15-30 min
+    owner: design-system-chief
+
+    steps:
+      - name: Review performance report
+        action: |
+          Validate:
+          - Bundle within target ✓
+          - No regressions ✓
+          - Performance improved ✓
+
+      - name: Decision
+        action: |
+          IF score >= 7 AND size within budget:
+            → APPROVED
+          ELSE:
+            → REJECTED (return to Performance Optimizer)
+
+    outputs:
+      - decision: APPROVED | REJECTED
+      - feedback: (if rejected)
+
+  - phase: 4
+    name: Governance
+    duration: 15-30 min
+    owner: governance-keeper
+
+    steps:
+      - name: Create ADR
+        action: Document optimization rationale + gains
+
+      - name: Update CHANGELOG
+        action: Add under "Changed" section
+
+      - name: Version bump
+        action: Usually PATCH or MINOR
+
+      - name: Notify team
+        action: Announce improvements to #design-system
+
+    outputs:
+      - adr_created: true
+      - changelog_updated: true
+      - notification_sent: true
+
+---
+checkpoints:
+  - after_phase_1: "Bundle analyzed, issues identified"
+  - after_phase_2: "Optimizations complete, score calculated"
+  - after_phase_3: "Quality gate passed (or feedback returned)"
+  - after_phase_4: "Decision documented, team notified"
+
+handoffs:
+  phase_1_2_same: "Performance Optimizer owns phases 1-2"
+  phase_2_to_3: "Perf Optimizer → Chief (with report)"
+  phase_3_to_4: "Chief → Governance Keeper (if approved)"
+
+success_criteria:
+  - "Bundle size <= target"
+  - "No performance regressions"
+  - "10%+ reduction achieved"
+  - "Score >= 7"
+  - "Gains documented"
+
+config:
+  duration_minutes: 120-180
+  primary_agent: performance-optimizer
+  orchestrator: design-system-chief
+  governance: governance-keeper

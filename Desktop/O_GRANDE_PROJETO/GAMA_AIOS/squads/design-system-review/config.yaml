@@ -1,0 +1,129 @@
+---
+# Design System Review Squad Configuration
+# Version: 1.0.0
+# Created: 2026-03-12
+# Purpose: Comprehensive review and improvement of Gama Design System v1.0
+
+squad:
+  id: design-system-review
+  name: Design System Review Squad
+  version: 1.0.0
+  description: |
+    Specialized team for auditing, validating, and improving design systems.
+    Focuses on accessibility (WCAG AA/AAA), performance optimization, and governance.
+    Based on 2025-2026 best practices (Brad Frost, Nathan Curtis, Design Tokens Framework).
+
+  entry_agent: design-system-chief
+  tier_distribution:
+    tier_0: ["design-system-chief"]
+    tier_1: ["token-validator", "a11y-auditor", "performance-optimizer", "component-reviewer", "governance-keeper"]
+
+  scope:
+    focus:
+      - "Validação de design tokens contra WCAG"
+      - "Auditoria de acessibilidade (contraste, keyboard nav, ARIA)"
+      - "Otimização de performance (CSS, bundle size)"
+      - "Governança e decision logging"
+      - "Revisão de componentes e quality gates"
+    not_in_scope:
+      - "Criar novos componentes do zero (revisar existentes)"
+      - "Design gráfico/visual (validar, não criar)"
+      - "Implementação de features novas (audit only)"
+
+  domain: design-systems
+  keywords:
+    - design-tokens
+    - accessibility
+    - wcag
+    - performance
+    - design-system
+    - acessibilidade
+    - componentes
+    - governanca
+
+  agents:
+    - id: design-system-chief
+      name: Design System Chief
+      type: orchestrator
+      tier: 0
+      path: agents/design-system-chief.md
+    - id: token-validator
+      name: Token Validator
+      type: specialist
+      tier: 1
+      path: agents/token-validator.md
+    - id: a11y-auditor
+      name: Accessibility Auditor
+      type: specialist
+      tier: 1
+      path: agents/a11y-auditor.md
+    - id: performance-optimizer
+      name: Performance Optimizer
+      type: specialist
+      tier: 1
+      path: agents/performance-optimizer.md
+    - id: component-reviewer
+      name: Component Reviewer
+      type: specialist
+      tier: 1
+      path: agents/component-reviewer.md
+    - id: governance-keeper
+      name: Governance Keeper
+      type: specialist
+      tier: 1
+      path: agents/governance-keeper.md
+
+  workflows:
+    - id: validate-tokens
+      name: Validate Design Tokens
+      path: workflows/validate-tokens.yaml
+      purpose: Validar tokens contra WCAG e padrões Gama
+    - id: audit-components
+      name: Comprehensive Component Audit
+      path: workflows/audit-components.yaml
+      purpose: Auditoria completa de componentes existentes
+    - id: optimize-performance
+      name: Performance Optimization
+      path: workflows/optimize-performance.yaml
+      purpose: Otimizar CSS, bundle size, e performance runtime
+    - id: governance-loop
+      name: Governance & Decision Logging
+      path: workflows/governance-loop.yaml
+      purpose: Implementar decisão logging e changelog automático
+
+  update_task: tasks/update-design-system-review.md
+  delete_task: tasks/delete-design-system-review.md
+
+  dependencies:
+    external:
+      - wcag-standard
+      - design-tokens-framework
+      - atomic-design-methodology
+    internal:
+      - gama-design-system-v1.0
+
+  governance:
+    maintainers:
+      - role: chief
+        agent: design-system-chief
+    approval_gate: component-reviewer + a11y-auditor (for A score)
+    change_log: CHANGELOG.md (auto-generated)
+    veto_conditions:
+      - "Component fails WCAG AA contrast test → blocks merge"
+      - "Performance budget exceeded → blocks merge"
+      - "Missing accessibility documentation → blocks merge"
+
+  quality_gates:
+    min_score: 7.0
+    dimensions:
+      - accessibility (weight: 30%)
+      - performance (weight: 30%)
+      - governance (weight: 20%)
+      - component-quality (weight: 20%)
+
+  tested: false
+  production_ready: false
+
+  created_by: squad-chief
+  created_date: 2026-03-12
+  last_updated: 2026-03-12
