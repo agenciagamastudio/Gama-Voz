@@ -1,0 +1,172 @@
+/* ════════════════════════════════════════════════════════════════ */
+/* GAMA Design System — CSS Custom Properties (Official 2026)         */
+/* Applied to: Gama Calculadora                                       */
+/* ════════════════════════════════════════════════════════════════ */
+
+:root {
+  /* ──────────────────────────────────────────────────────────── */
+  /* CORE COLORS — Valores Primitivos                            */
+  /* ──────────────────────────────────────────────────────────── */
+
+  /* Neutrals */
+  --color-core-black: #0A0A0A;
+  --color-core-dark: #161616;
+  --color-core-surface: #272727;
+  --color-core-gray-secondary: #A1A1AA;
+  --color-core-gray-tertiary: #71717A;
+  --color-core-gray-muted: #52525B;
+  --color-core-white: #FFFFFF;
+
+  /* Brand */
+  --color-core-brand-green: #88CE11;
+
+  /* Semantic Functional */
+  --color-core-success: #10B981;
+  --color-core-warning: #F59E0B;
+  --color-core-error: #E11D48;
+  --color-core-info: #3B82F6;
+
+  /* ──────────────────────────────────────────────────────────── */
+  /* SEMANTIC COLORS — Aliases Semânticos                         */
+  /* Use ESTES para estilizar                                      */
+  /* ──────────────────────────────────────────────────────────── */
+
+  /* Backgrounds */
+  --color-bg-primary: var(--color-core-dark);
+  --color-bg-secondary: var(--color-core-black);
+
+  /* Surfaces */
+  --color-surface-default: var(--color-core-surface);
+  --color-surface-hover: rgba(255, 255, 255, 0.05);
+
+  /* Text */
+  --color-text-primary: var(--color-core-white);
+  --color-text-secondary: var(--color-core-gray-secondary);
+  --color-text-tertiary: var(--color-core-gray-tertiary);
+  --color-text-muted: var(--color-core-gray-muted);
+
+  /* Brand/Interactive */
+  --color-primary: var(--color-core-brand-green);
+  --color-primary-disabled: rgba(136, 206, 17, 0.5);
+
+  /* Semantic */
+  --color-success: var(--color-core-success);
+  --color-warning: var(--color-core-warning);
+  --color-error: var(--color-core-error);
+  --color-info: var(--color-core-info);
+
+  /* Borders */
+  --color-border-default: rgba(255, 255, 255, 0.1);
+  --color-border-hover: rgba(255, 255, 255, 0.2);
+
+  /* ──────────────────────────────────────────────────────────── */
+  /* TYPOGRAPHY — Escalas e Pesos                                 */
+  /* ──────────────────────────────────────────────────────────── */
+
+  /* Font Families */
+  --font-primary: "Poppins", system-ui, -apple-system, sans-serif;
+  --font-code: "JetBrains Mono", "Courier New", monospace;
+
+  /* Font Sizes */
+  --font-size-display: 48px;
+  --font-size-3xl: 36px;
+  --font-size-2xl: 24px;
+  --font-size-xl: 20px;
+  --font-size-base: 16px;
+  --font-size-sm: 14px;
+  --font-size-xs: 12px;
+
+  /* Font Weights */
+  --font-weight-light: 300;
+  --font-weight-regular: 400;
+  --font-weight-medium: 500;
+  --font-weight-semibold: 600;
+  --font-weight-bold: 700;
+  --font-weight-extrabold: 800;
+  --font-weight-black: 900;
+
+  /* ──────────────────────────────────────────────────────────── */
+  /* SPACING — Escala Múltipla de 4px                             */
+  /* ──────────────────────────────────────────────────────────── */
+
+  --space-xs: 4px;
+  --space-sm: 8px;
+  --space-md: 12px;
+  --space-lg: 16px;
+  --space-xl: 24px;
+  --space-2xl: 32px;
+  --space-3xl: 48px;
+
+  /* ──────────────────────────────────────────────────────────── */
+  /* BORDERS — Radius                                              */
+  /* ──────────────────────────────────────────────────────────── */
+
+  --border-radius-sm: 8px;
+  --border-radius-md: 12px;
+  --border-radius-lg: 16px;
+
+  /* ──────────────────────────────────────────────────────────── */
+  /* SHADOWS — Elevação (Dark Mode: Soft 3D)                      */
+  /* ──────────────────────────────────────────────────────────── */
+
+  --shadow-sm: 0 4px 12px rgba(0, 0, 0, 0.15);
+  --shadow-md: 0 8px 24px rgba(0, 0, 0, 0.2);
+  --shadow-lg: 0 12px 40px rgba(0, 0, 0, 0.25);
+
+  /* ──────────────────────────────────────────────────────────── */
+  /* TRANSITIONS — Tempos e Easing                                 */
+  /* ──────────────────────────────────────────────────────────── */
+
+  --transition-fast: 150ms ease-in-out;
+  --transition-standard: 300ms ease-in-out;
+  --transition-slow: 500ms ease-in-out;
+}
+
+/* ════════════════════════════════════════════════════════════════ */
+/* DEFAULT STYLES — Aplicados Automaticamente                       */
+/* ════════════════════════════════════════════════════════════════ */
+
+html, body {
+  font-family: var(--font-primary);
+  font-size: var(--font-size-base);
+  font-weight: var(--font-weight-regular);
+  color: var(--color-text-primary);
+  background-color: var(--color-bg-primary);
+  transition: background-color var(--transition-standard),
+              color var(--transition-standard);
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* ════════════════════════════════════════════════════════════════ */
+/* LIGHT MODE (Optional) — [data-theme="light"]                      */
+/* ════════════════════════════════════════════════════════════════ */
+
+[data-theme="light"],
+html.light {
+  /* Light Mode: Inverted colors for readability */
+  --color-bg-primary: #FFFFFF;
+  --color-bg-secondary: #F5F5F5;
+  --color-surface-default: #FAFAFA;
+  --color-surface-hover: rgba(0, 0, 0, 0.05);
+  --color-text-primary: #0A0A0A;
+  --color-text-secondary: #666666;
+  --color-text-tertiary: #999999;
+  --color-text-muted: #CCCCCC;
+  --color-border-default: rgba(0, 0, 0, 0.1);
+  --color-border-hover: rgba(0, 0, 0, 0.2);
+  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.4);
+  --shadow-md: 0 2px 4px rgba(0, 0, 0, 0.5);
+  --shadow-lg: 0 4px 8px rgba(0, 0, 0, 0.6);
+}

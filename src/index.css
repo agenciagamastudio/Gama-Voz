@@ -3,8 +3,20 @@
 @tailwind utilities;
 
 :root {
-  --primary-color: #c4ff0d;
-  --primary-color-rgb: 196, 255, 13;
+  /* GAMA Design System 2026 - Official Colors */
+  --primary-color: #88CE11;
+  --primary-color-rgb: 136, 206, 17;
+  --bg-primary: #161616;
+  --bg-secondary: #0A0A0A;
+  --surface-default: #272727;
+  --surface-hover: rgba(255, 255, 255, 0.05);
+  --text-primary: #FFFFFF;
+  --text-secondary: #A1A1AA;
+  --text-tertiary: #71717A;
+  --text-muted: #52525B;
+  --border-default: rgba(255, 255, 255, 0.1);
+  --border-hover: rgba(255, 255, 255, 0.2);
+
   font-synthesis: none;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;

@@ -59,8 +59,8 @@ function SignUpPage() {
   };
 
   return (
-    <div className="min-h-screen bg-[#050505] flex items-center justify-center p-4 font-display">
-      <div className="w-full max-w-md bg-card-bg border border-white/5 rounded-3xl p-8 shadow-2xl relative overflow-hidden">
+    <div className="min-h-screen bg-gama-dark flex items-center justify-center p-4 font-poppins">
+      <div className="w-full max-w-md bg-gama-surface border border-gama-border-default rounded-3xl p-8 shadow-2xl relative overflow-hidden">
         
         {/* Glow Effect */}
         <div className="absolute top-0 right-0 w-32 h-32 bg-primary/10 rounded-full blur-[60px] pointer-events-none"></div>
@@ -69,8 +69,8 @@ function SignUpPage() {
           <div className="w-16 h-16 rounded-2xl bg-primary/10 flex items-center justify-center border border-primary/20 shadow-[0_0_20px_rgba(var(--primary-color-rgb),0.2)]">
             <span className="material-symbols-outlined text-3xl text-primary font-black">person_add</span>
           </div>
-          <h1 className="text-2xl font-black text-white uppercase tracking-tight italic">Criar <span className="text-primary">Conta</span></h1>
-          <p className="text-[10px] text-slate-500 font-black uppercase tracking-[0.2em]">Cadastre-se para Acessar</p>
+          <h1 className="text-2xl font-black text-gama-text uppercase tracking-tight italic">Criar <span className="text-primary">Conta</span></h1>
+          <p className="text-[10px] text-gama-text-tertiary font-black uppercase tracking-[0.2em]">Cadastre-se para Acessar</p>
         </div>
 
         <form onSubmit={handleSignUp} className="space-y-5 relative z-10">
@@ -82,20 +82,20 @@ function SignUpPage() {
           )}
 
           <div className="space-y-1.5 text-left">
-            <label className="text-[10px] font-bold text-slate-500 uppercase tracking-widest ml-1">E-mail</label>
+            <label className="text-[11px] font-black text-gama-text-secondary uppercase tracking-widest ml-1">E-mail</label>
             <input
               type="email"
               required
               value={email}
               onChange={(e) => setEmail(e.target.value)}
-              className="w-full bg-[#0a0a0a] border border-white/10 rounded-xl px-4 py-3 text-white outline-none focus:border-primary focus:ring-1 focus:ring-primary/50 transition-all font-bold placeholder:text-slate-800"
+              className="w-full bg-gama-darker border border-gama-border-hover rounded-xl px-4 py-3 text-gama-text outline-none focus:border-primary focus:ring-2 focus:ring-primary/30 transition-all font-bold placeholder:text-gama-text-tertiary hover:border-gama-border-hover"
               placeholder="seu@email.com"
             />
-            <p className="text-[9px] text-slate-600 font-medium ml-1">Você receberá um email de confirmação</p>
+            <p className="text-[9px] text-gama-text-secondary font-medium ml-1">Você receberá um email de confirmação</p>
           </div>
 
           <div className="space-y-1.5 text-left">
-            <label className="text-[10px] font-bold text-slate-500 uppercase tracking-widest ml-1">Criar Senha</label>
+            <label className="text-[11px] font-black text-gama-text-secondary uppercase tracking-widest ml-1">Criar Senha</label>
             <div className="relative">
               <input
                 type={showPassword ? 'text' : 'password'}
@@ -103,13 +103,13 @@ function SignUpPage() {
                 minLength="8"
                 value={password}
                 onChange={handlePasswordChange}
-                className="w-full bg-[#0a0a0a] border border-white/10 rounded-xl px-4 py-3 text-white outline-none focus:border-primary focus:ring-1 focus:ring-primary/50 transition-all font-bold placeholder:text-slate-800"
+                className="w-full bg-gama-darker border border-gama-border-hover rounded-xl px-4 py-3 text-gama-text outline-none focus:border-primary focus:ring-2 focus:ring-primary/30 transition-all font-bold placeholder:text-gama-text-tertiary hover:border-gama-border-hover pr-12"
                 placeholder="Min. 8 caracteres"
               />
               <button
                 type="button"
                 onClick={() => setShowPassword(!showPassword)}
-                className="absolute right-4 top-1/2 -translate-y-1/2 text-slate-600 hover:text-primary transition-colors"
+                className="absolute right-4 top-1/2 -translate-y-1/2 text-gama-text-tertiary hover:text-primary transition-colors"
               >
                 <span className="material-symbols-outlined text-lg">
                   {showPassword ? 'visibility_off' : 'visibility'}
@@ -120,7 +120,7 @@ function SignUpPage() {
             {/* Força da Senha */}
             {password && (
               <div className="flex items-center gap-2 mt-2">
-                <div className="flex-1 h-2 bg-slate-700 rounded-full overflow-hidden">
+                <div className="flex-1 h-2 bg-gama-surface rounded-full overflow-hidden">
                   <div
                     className={`h-full transition-all ${
                       passwordStrength === 0 ? 'w-1/4 bg-red-500' :
@@ -141,20 +141,20 @@ function SignUpPage() {
           </div>
 
           <div className="space-y-1.5 text-left">
-            <label className="text-[10px] font-bold text-slate-500 uppercase tracking-widest ml-1">Confirmar Senha</label>
+            <label className="text-[11px] font-black text-gama-text-secondary uppercase tracking-widest ml-1">Confirmar Senha</label>
             <div className="relative">
               <input
                 type={showConfirmPassword ? 'text' : 'password'}
                 required
                 value={confirmPassword}
                 onChange={(e) => setConfirmPassword(e.target.value)}
-                className="w-full bg-[#0a0a0a] border border-white/10 rounded-xl px-4 py-3 text-white outline-none focus:border-primary focus:ring-1 focus:ring-primary/50 transition-all font-bold placeholder:text-slate-800"
+                className="w-full bg-gama-darker border border-gama-border-hover rounded-xl px-4 py-3 text-gama-text outline-none focus:border-primary focus:ring-2 focus:ring-primary/30 transition-all font-bold placeholder:text-gama-text-tertiary hover:border-gama-border-hover pr-12"
                 placeholder="••••••••"
               />
               <button
                 type="button"
                 onClick={() => setShowConfirmPassword(!showConfirmPassword)}
-                className="absolute right-4 top-1/2 -translate-y-1/2 text-slate-600 hover:text-primary transition-colors"
+                className="absolute right-4 top-1/2 -translate-y-1/2 text-gama-text-tertiary hover:text-primary transition-colors"
               >
                 <span className="material-symbols-outlined text-lg">
                   {showConfirmPassword ? 'visibility_off' : 'visibility'}
@@ -171,13 +171,13 @@ function SignUpPage() {
           <button
             type="submit"
             disabled={loading || !password || !email || password !== confirmPassword}
-            className="w-full py-4 bg-primary text-black font-black uppercase text-xs tracking-widest rounded-xl hover:bg-primary/90 shadow-lg shadow-primary/20 transition-all transform active:scale-[0.98] neon-glow disabled:opacity-50 disabled:cursor-not-allowed"
+            className="w-full py-4 bg-primary text-gama-darker font-black uppercase text-xs tracking-widest rounded-xl hover:brightness-110 shadow-lg shadow-primary/25 transition-all transform active:scale-95 neon-glow disabled:opacity-50 disabled:cursor-not-allowed"
           >
             {loading ? '⏳ Cadastrando...' : 'Criar Conta'}
           </button>
         </form>
 
-        <p className="mt-8 text-center text-[10px] text-slate-600 font-medium">
+        <p className="mt-8 text-center text-[10px] text-gama-text-tertiary font-medium">
           Já tem uma conta? <Link to="/login" className="text-primary cursor-pointer hover:underline">Faça login</Link>.
         </p>
       </div>
