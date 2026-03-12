@@ -11,7 +11,8 @@ import LoadingSpinner from './components/LoadingSpinner';
 import Layout from './Layout';
 
 const LoginPage = lazy(() => import('./components/LoginPage'));
-const SignUpPage = lazy(() => import('./components/SignUpPage')); // Importar SignUpPage
+const SignUpPage = lazy(() => import('./components/SignUpPage'));
+const ResetPassword = lazy(() => import('./components/ResetPassword'));
 const LandingPage = lazy(() => import('./components/LandingPage'));
 
 // Componente de Proteção de Rota (simplificado - sem autenticação)
@@ -37,6 +38,9 @@ function App() {
                                 <ValueReportProvider>
                                 <Suspense fallback={<LoadingSpinner text="CARREGANDO SISTEMA..." />}>
                                     <Routes>
+                                        {/* Reset Password (from Supabase email link) */}
+                                        <Route path="/reset-password" element={<ResetPassword />} />
+
                                         {/* Redirecionar login/signup/welcome para dashboard */}
                                         <Route path="/login" element={<Navigate to="/" replace />} />
                                         <Route path="/signup" element={<Navigate to="/" replace />} />
