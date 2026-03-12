@@ -385,7 +385,7 @@ function DiagnosticoDeValorCalculator() {
           {/* Header */}
           <div className="text-center space-y-2 mb-4">
             <h1 className="text-2xl font-black text-white tracking-tight uppercase">
-              Diagnóstico de <span className="text-primary drop-shadow-[0_0_10px_rgba(196,255,13,0.3)]">Valor</span>
+              Diagnóstico de <span className="text-primary drop-shadow-[0_0_10px_rgba(var(--primary-color-rgb),0.3)]">Valor</span>
             </h1>
             <p className="text-slate-500 text-[10px] font-bold uppercase tracking-[0.2em]">
               Mapeamento de Impacto e ROI Estratégico

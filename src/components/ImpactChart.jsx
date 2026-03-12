@@ -6,8 +6,8 @@ function ImpactChart({ data }) {
   const COLORS = ['#C4FF0D', '#00D1FF', '#FF007A', '#FFD700', '#FFFFFF'];
 
   useEffect(() => {
-    // Simular carregamento mínimo para renderização do Recharts
-    const timer = setTimeout(() => setIsLoading(false), 300);
+    // Aumentar timeout para dar tempo ao Recharts renderizar
+    const timer = setTimeout(() => setIsLoading(false), 800);
     return () => clearTimeout(timer);
   }, [data]);
 

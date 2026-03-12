@@ -4,6 +4,7 @@ import { usePoints } from './context/PointsContext';
 import { useAuth } from './context/AuthContext';
 import LoadingSpinner from './components/LoadingSpinner';
 import BottomNav from './components/BottomNav';
+import { OnboardingTour } from './components/OnboardingTour';
 
 const DiagnosticoDeValorCalculator = lazy(() => import('./components/DiagnosticoDeValorCalculator'));
 const PricingCalculator = lazy(() => import('./components/PricingCalculator'));
@@ -242,6 +243,9 @@ function Layout() {
             </main>
 
             {!isFullPage && <BottomNav />}
+
+            {/* ✅ Tour de Onboarding para primeira vez */}
+            <OnboardingTour />
         </div>
     );
 }

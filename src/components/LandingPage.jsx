@@ -1,6 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
+import { OnboardingTour } from './OnboardingTour';
 
 function LandingPage() {
   const fadeInUp = {
@@ -51,7 +52,7 @@ function LandingPage() {
             A ferramenta definitiva para orquestradores que desejam quantificar ineficiências e provar o ROI de suas propostas com precisão matemática.
           </p>
           <div className="pt-8 flex flex-col md:flex-row items-center justify-center gap-4 px-6">
-            <Link to="/onboarding" className="w-full md:w-auto px-10 py-5 bg-primary text-black font-black uppercase text-sm tracking-[0.2em] rounded-2xl hover:bg-primary/90 shadow-[0_0_30px_rgba(196,255,13,0.3)] transition-all transform hover:scale-105 text-center">
+            <Link to="/onboarding" className="w-full md:w-auto px-10 py-5 bg-primary text-black font-black uppercase text-sm tracking-[0.2em] rounded-2xl hover:bg-primary/90 shadow-[0_0_30px_rgba(var(--primary-color-rgb),0.3)] transition-all transform hover:scale-105 text-center">
               Começar Agora — Grátis
             </Link>
             <a href="#features" className="w-full md:w-auto px-10 py-5 border border-white/10 text-white font-black uppercase text-sm tracking-[0.2em] rounded-2xl hover:bg-white/5 transition-all text-center">
@@ -167,7 +168,7 @@ function LandingPage() {
           initial={{ scale: 0.9, opacity: 0 }}
           whileInView={{ scale: 1, opacity: 1 }}
           viewport={{ once: true }}
-          className="max-w-4xl mx-auto bg-gradient-to-br from-primary to-[#88CE11] p-12 md:p-20 rounded-[60px] text-center space-y-8 shadow-[0_0_60px_rgba(196,255,13,0.2)]"
+          className="max-w-4xl mx-auto bg-gradient-to-br from-primary to-[#88CE11] p-12 md:p-20 rounded-[60px] text-center space-y-8 shadow-[0_0_60px_rgba(var(--primary-color-rgb),0.2)]"
         >
           <h2 className="text-4xl md:text-7xl font-black text-black leading-none uppercase tracking-tighter">
             Pronto para virar<br />o jogo comercial?
@@ -197,6 +198,9 @@ function LandingPage() {
           </div>
         </div>
       </footer>
+
+      {/* Onboarding Tour para primeira vez */}
+      <OnboardingTour />
 
     </div>
   );

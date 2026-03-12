@@ -44,7 +44,7 @@ function LoginPage() {
         <div className="absolute top-0 right-0 w-32 h-32 bg-primary/10 rounded-full blur-[60px] pointer-events-none"></div>
 
         <div className="flex flex-col items-center gap-2 mb-8">
-          <div className="w-16 h-16 rounded-2xl bg-primary/10 flex items-center justify-center border border-primary/20 shadow-[0_0_20px_rgba(196,255,13,0.2)]">
+          <div className="w-16 h-16 rounded-2xl bg-primary/10 flex items-center justify-center border border-primary/20 shadow-[0_0_20px_rgba(var(--primary-color-rgb),0.2)]">
             <span className="material-symbols-outlined text-3xl text-primary font-black">lock</span>
           </div>
           <h1 className="text-2xl font-black text-white uppercase tracking-tight italic">Gama <span className="text-primary">Calc</span></h1>

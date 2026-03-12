@@ -198,7 +198,7 @@ function AdvancedFilters() {
                 onClick={() => handleStatusToggle(statusOption)}
                 className={`px-6 py-2.5 rounded-xl border text-[10px] font-black uppercase tracking-widest flex items-center gap-2 transition-all ${
                   statusFilter.includes(statusOption)
-                    ? 'border-primary bg-primary text-black shadow-[0_0_15px_rgba(196,255,13,0.3)]'
+                    ? 'border-primary bg-primary text-black shadow-[0_0_15px_rgba(var(--primary-color-rgb),0.3)]'
                     : 'border-white/10 bg-white/5 text-slate-500 hover:border-white/20 hover:text-white'
                 }`}
               >
