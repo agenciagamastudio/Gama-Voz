@@ -85,6 +85,7 @@ function NavGroup({ item, isCollapsed }: { item: NavItem; isCollapsed: boolean }
     <li>
       <button
         onClick={() => setIsOpen(!isOpen)}
+        aria-expanded={isOpen}
         title={isCollapsed ? item.label : ''}
         className={`flex items-center gap-3 px-4 py-3 rounded-lg transition-colors duration-200 w-full ${
           isCollapsed ? 'w-11 h-11 mx-auto justify-center p-0' : ''
@@ -135,7 +136,7 @@ export function SideNav() {
       {/* Hamburger Button - Mobile Only */}
       <button
         onClick={() => setIsDrawerOpen(true)}
-        className="fixed top-4 left-4 lg:hidden z-40 w-10 h-10 flex items-center justify-center rounded-full bg-gama-surface/80 hover:bg-gama-surface transition-colors duration-200"
+        className="fixed top-4 left-4 lg:hidden z-40 w-11 h-11 flex items-center justify-center rounded-full bg-gama-surface/80 hover:bg-gama-surface transition-colors duration-200"
         aria-label="Open navigation"
       >
         <Menu size={24} className="text-gama-primary" />
@@ -195,17 +196,17 @@ export function SideNav() {
             <p className="text-xs text-gama-text-secondary mb-2.5 font-semibold">📖 Reference</p>
             <ul className="space-y-1.5 text-xs">
               <li>
-                <a href="#" className="text-gama-primary hover:text-gama-primary/80 transition-colors duration-200">
+                <a href="/tokens" className="text-gama-primary hover:text-gama-primary/80 transition-colors duration-200">
                   Design Tokens JSON
                 </a>
               </li>
               <li>
-                <a href="#" className="text-gama-primary hover:text-gama-primary/80 transition-colors duration-200">
+                <a href="/components/atoms" className="text-gama-primary hover:text-gama-primary/80 transition-colors duration-200">
                   Component API
                 </a>
               </li>
               <li>
-                <a href="#" className="text-gama-primary hover:text-gama-primary/80 transition-colors duration-200">
+                <a href="/tailwind-config" className="text-gama-primary hover:text-gama-primary/80 transition-colors duration-200">
                   Tailwind Config
                 </a>
               </li>

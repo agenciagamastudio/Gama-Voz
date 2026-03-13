@@ -81,6 +81,7 @@ function NavGroup({ item, isDrawer }: { item: NavItem; isDrawer: boolean }) {
     <li>
       <button
         onClick={() => setIsOpen(!isOpen)}
+        aria-expanded={isOpen}
         className={`flex items-center gap-3 px-4 py-3 rounded-lg transition-colors duration-200 w-full ${
           anyChildActive || isOpen ? 'bg-gama-surface/70 text-gama-primary' : 'text-gama-text hover:bg-gama-surface/60'
         }`}
@@ -117,7 +118,7 @@ export function DrawerNav() {
   const drawerRef = useRef<HTMLDivElement>(null)
   const firstFocusableRef = useRef<HTMLButtonElement>(null)
 
-  // Focus trap and swipe support
+  // Focus trap, escape key, and swipe support
   useEffect(() => {
     if (!isDrawerOpen) return
 
@@ -137,6 +138,12 @@ export function DrawerNav() {
     }
 
     const handleKeyDown = (e: KeyboardEvent) => {
+      // Handle Escape key
+      if (e.key === 'Escape') {
+        setIsDrawerOpen(false)
+        return
+      }
+
       if (e.key === 'Tab') {
         const focusableElements = drawerRef.current?.querySelectorAll(
           'a, button, [tabindex]:not([tabindex="-1"])'
