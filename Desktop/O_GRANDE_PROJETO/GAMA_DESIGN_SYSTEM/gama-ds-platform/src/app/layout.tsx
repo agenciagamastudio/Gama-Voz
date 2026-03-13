@@ -1,10 +1,17 @@
 import type { Metadata } from 'next'
 import { SideNav } from '@/components/platform/SideNav'
+import { DrawerNav } from '@/components/platform/DrawerNav'
+import { MainWrapper } from '@/components/platform/MainWrapper'
+import { SidenavProvider } from '@/components/platform/SidenavContext'
 import './globals.css'
 
 export const metadata: Metadata = {
   title: 'GAMA Design System',
   description: 'Design System + BrandBook Platform for Grupo Gama',
+  icons: {
+    icon: '/favicon.svg',
+    apple: '/favicon.svg',
+  },
 }
 
 export default function RootLayout({
@@ -28,12 +35,13 @@ export default function RootLayout({
         />
       </head>
       <body suppressHydrationWarning>
-        <div className="flex min-h-screen">
-          <SideNav />
-          <main className="ml-16 flex-1">
-            {children}
-          </main>
-        </div>
+        <SidenavProvider>
+          <DrawerNav />
+          <div className="flex min-h-screen w-full">
+            <SideNav />
+            <MainWrapper>{children}</MainWrapper>
+          </div>
+        </SidenavProvider>
       </body>
     </html>
   )
