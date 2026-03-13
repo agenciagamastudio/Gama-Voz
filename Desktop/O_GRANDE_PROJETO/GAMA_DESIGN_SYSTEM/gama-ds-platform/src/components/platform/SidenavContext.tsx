@@ -15,7 +15,7 @@ export function SidenavProvider({ children }: { children: ReactNode }) {
   const [isHovered, setIsHovered] = useState(false)
   const [isDrawerOpen, setIsDrawerOpen] = useState(false)
 
-  // Close drawer on Escape key
+  // Close drawer on Escape key + reserve scrollbar space (prevent CLS)
   useEffect(() => {
     const handleEscape = (e: KeyboardEvent) => {
       if (e.key === 'Escape' && isDrawerOpen) {
@@ -31,6 +31,13 @@ export function SidenavProvider({ children }: { children: ReactNode }) {
         document.removeEventListener('keydown', handleEscape)
         document.body.style.overflow = 'unset'
       }
+    }
+
+    // Reserve scrollbar space to prevent CLS
+    document.documentElement.style.overflowY = 'scroll'
+
+    return () => {
+      document.documentElement.style.overflowY = 'auto'
     }
   }, [isDrawerOpen])
 

@@ -116,9 +116,4 @@ input:focus-visible {
     transition-duration: 0.01ms !important;
     scroll-behavior: auto !important;
   }
-
-  /* Drawer: instant open/close */
-  .drawer-transition {
-    transition: none !important;
-  }
 }
