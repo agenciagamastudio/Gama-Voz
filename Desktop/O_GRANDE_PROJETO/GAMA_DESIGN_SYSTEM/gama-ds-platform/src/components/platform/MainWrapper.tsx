@@ -12,7 +12,7 @@ export function MainWrapper({ children }: MainWrapperProps) {
 
   return (
     <main
-      className={`transition-all duration-300 ease-in-out flex-1 overflow-x-hidden relative z-0 pt-20 lg:pt-0 ${
+      className={`motion-transition-default duration-300 ease-in-out flex-1 overflow-x-hidden relative z-0 pt-20 lg:pt-0 ${
         isHovered ? 'lg:ml-64' : 'lg:ml-16'
       }`}
     >

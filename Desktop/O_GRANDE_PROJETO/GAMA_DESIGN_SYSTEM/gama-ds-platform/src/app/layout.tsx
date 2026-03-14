@@ -3,6 +3,7 @@ import { SideNav } from '@/components/platform/SideNav'
 import { DrawerNav } from '@/components/platform/DrawerNav'
 import { MainWrapper } from '@/components/platform/MainWrapper'
 import { SidenavProvider } from '@/components/platform/SidenavContext'
+import { BrandProvider } from '@/context/BrandContext'
 import './globals.css'
 
 export const metadata: Metadata = {
@@ -35,13 +36,15 @@ export default function RootLayout({
         />
       </head>
       <body suppressHydrationWarning>
-        <SidenavProvider>
-          <DrawerNav />
-          <div className="flex min-h-screen w-full">
-            <SideNav />
-            <MainWrapper>{children}</MainWrapper>
-          </div>
-        </SidenavProvider>
+        <BrandProvider>
+          <SidenavProvider>
+            <DrawerNav />
+            <div className="flex min-h-screen w-full">
+              <SideNav />
+              <MainWrapper>{children}</MainWrapper>
+            </div>
+          </SidenavProvider>
+        </BrandProvider>
       </body>
     </html>
   )

@@ -63,7 +63,7 @@ function NavGroup({ item, isDrawer }: { item: NavItem; isDrawer: boolean }) {
       <li>
         <Link
           href={item.href}
-          className={`flex items-center gap-3 px-4 py-3 rounded-lg transition-colors duration-200 ${
+          className={`flex items-center gap-3 px-4 py-3 rounded-lg motion-transition-default duration-200 ${
             isActive
               ? 'bg-gama-primary text-gama-dark font-bold'
               : 'text-gama-text hover:bg-gama-surface/60'
@@ -83,13 +83,13 @@ function NavGroup({ item, isDrawer }: { item: NavItem; isDrawer: boolean }) {
       <button
         onClick={() => setIsOpen(!isOpen)}
         aria-expanded={isOpen}
-        className={`flex items-center gap-3 px-4 py-3 rounded-lg transition-colors duration-200 w-full ${
+        className={`flex items-center gap-3 px-4 py-3 rounded-lg motion-transition-default duration-200 w-full ${
           anyChildActive || isOpen ? 'bg-gama-surface/70 text-gama-primary' : 'text-gama-text hover:bg-gama-surface/60'
         }`}
       >
         <span className="flex-shrink-0 w-5 h-5 flex items-center justify-center">{item.icon}</span>
         <span className="text-sm font-medium flex-1 text-left">{item.label}</span>
-        <ChevronDown size={16} className={`transition-transform flex-shrink-0 ${isOpen ? 'rotate-180' : ''}`} />
+        <ChevronDown size={16} className={`motion-transition-fast flex-shrink-0 ${isOpen ? 'rotate-180' : ''}`} />
       </button>
 
       {isOpen && (
@@ -98,7 +98,7 @@ function NavGroup({ item, isDrawer }: { item: NavItem; isDrawer: boolean }) {
             <li key={child.href}>
               <Link
                 href={child.href}
-                className={`block px-3 py-2 text-xs rounded transition-colors duration-200 ${
+                className={`block px-3 py-2 text-xs rounded motion-transition-default duration-200 ${
                   pathname === child.href
                     ? 'bg-gama-primary text-gama-dark font-bold'
                     : 'text-gama-text-secondary hover:text-gama-text hover:bg-gama-surface/60'
@@ -194,7 +194,7 @@ export function DrawerNav() {
       {/* Drawer Modal - 75% mobile, max 320px */}
       <div
         ref={drawerRef}
-        className={`fixed top-0 left-0 h-screen z-50 w-3/4 max-w-xs bg-gama-darker border-r border-gama-surface flex flex-col lg:hidden transition-transform duration-300 ease-out ${
+        className={`fixed top-0 left-0 h-screen z-50 w-3/4 max-w-xs bg-gama-darker border-r border-gama-surface flex flex-col lg:hidden motion-transition-fast duration-300 ease-out ${
           isDrawerOpen ? 'translate-x-0' : '-translate-x-full'
         }`}
         role="navigation"
@@ -210,7 +210,7 @@ export function DrawerNav() {
           <button
             ref={firstFocusableRef}
             onClick={() => setIsDrawerOpen(false)}
-            className="w-11 h-11 flex items-center justify-center rounded-lg hover:bg-gama-surface/70 transition-colors duration-200 flex-shrink-0 ml-2"
+            className="w-11 h-11 flex items-center justify-center rounded-lg hover:bg-gama-surface/70 motion-transition-default duration-200 flex-shrink-0 ml-2"
             aria-label="Close navigation"
           >
             <X size={24} className="text-gama-primary" />
@@ -232,17 +232,17 @@ export function DrawerNav() {
             <p className="text-xs text-gama-text-secondary mb-2.5 font-semibold">📖 Reference</p>
             <ul className="space-y-2 text-xs">
               <li>
-                <a href="#" className="text-gama-primary hover:text-gama-primary/80 transition-colors duration-200">
+                <a href="#" className="text-gama-primary hover:text-gama-primary/80 motion-transition-default duration-200">
                   Design Tokens JSON
                 </a>
               </li>
               <li>
-                <a href="#" className="text-gama-primary hover:text-gama-primary/80 transition-colors duration-200">
+                <a href="#" className="text-gama-primary hover:text-gama-primary/80 motion-transition-default duration-200">
                   Component API
                 </a>
               </li>
               <li>
-                <a href="#" className="text-gama-primary hover:text-gama-primary/80 transition-colors duration-200">
+                <a href="#" className="text-gama-primary hover:text-gama-primary/80 motion-transition-default duration-200">
                   Tailwind Config
                 </a>
               </li>

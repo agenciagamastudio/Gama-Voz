@@ -5,6 +5,9 @@
 /* Import tokenized CSS custom properties */
 @import './../../design-tokens/tokens.css';
 
+/* Import motion utilities */
+@import './motion.css';
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;

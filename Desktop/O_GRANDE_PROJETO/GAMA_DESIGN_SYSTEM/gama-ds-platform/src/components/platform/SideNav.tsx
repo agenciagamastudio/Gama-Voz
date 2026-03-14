@@ -7,6 +7,7 @@ import { useState } from 'react'
 import { ThemeToggle } from './ThemeToggle'
 import { useSidenavContext } from './SidenavContext'
 import { Logo } from './Logo'
+import { BrandSwitcher } from './BrandSwitcher'
 
 interface NavItem {
   label: string
@@ -65,7 +66,7 @@ function NavGroup({ item, isCollapsed }: { item: NavItem; isCollapsed: boolean }
         <Link
           href={item.href}
           title={isCollapsed ? item.label : ''}
-          className={`flex items-center gap-3 px-4 py-3 rounded-lg transition-colors duration-200 ${
+          className={`flex items-center gap-3 px-4 py-3 rounded-lg motion-transition-default duration-200 ${
             isCollapsed ? 'w-11 h-11 mx-auto justify-center p-0' : ''
           } ${
             isActive
@@ -88,7 +89,7 @@ function NavGroup({ item, isCollapsed }: { item: NavItem; isCollapsed: boolean }
         onClick={() => setIsOpen(!isOpen)}
         aria-expanded={isOpen}
         title={isCollapsed ? item.label : ''}
-        className={`flex items-center gap-3 px-4 py-3 rounded-lg transition-colors duration-200 w-full ${
+        className={`flex items-center gap-3 px-4 py-3 rounded-lg motion-transition-default duration-200 w-full ${
           isCollapsed ? 'w-11 h-11 mx-auto justify-center p-0' : ''
         } ${
           anyChildActive || isOpen ? 'bg-gama-surface/70 text-gama-primary' : 'text-gama-text hover:bg-gama-surface/60'
@@ -100,7 +101,7 @@ function NavGroup({ item, isCollapsed }: { item: NavItem; isCollapsed: boolean }
             <span className="text-sm font-medium flex-1 text-left">{item.label}</span>
             <ChevronDown
               size={16}
-              className={`transition-transform flex-shrink-0 ${isOpen ? 'rotate-180' : ''}`}
+              className={`motion-transition-fast flex-shrink-0 ${isOpen ? 'rotate-180' : ''}`}
             />
           </>
         )}
@@ -112,7 +113,7 @@ function NavGroup({ item, isCollapsed }: { item: NavItem; isCollapsed: boolean }
             <li key={child.href}>
               <Link
                 href={child.href}
-                className={`block px-4 py-3 text-xs rounded transition-colors duration-200 ${
+                className={`block px-4 py-3 text-xs rounded motion-transition-default duration-200 ${
                   pathname === child.href
                     ? 'bg-gama-primary text-gama-dark font-bold'
                     : 'text-gama-text-secondary hover:text-gama-text hover:bg-gama-surface/60'
@@ -137,7 +138,7 @@ export function SideNav() {
       {/* Hamburger Button - Mobile Only */}
       <button
         onClick={() => setIsDrawerOpen(true)}
-        className="fixed top-4 left-4 lg:hidden z-40 w-11 h-11 flex items-center justify-center rounded-full bg-gama-surface/80 hover:bg-gama-surface transition-colors duration-200"
+        className="fixed top-4 left-4 lg:hidden z-40 w-11 h-11 flex items-center justify-center rounded-full bg-gama-surface/80 hover:bg-gama-surface motion-transition-default duration-200"
         aria-label="Open navigation"
       >
         <Menu size={24} className="text-gama-primary" />
@@ -147,14 +148,14 @@ export function SideNav() {
       <aside
         onMouseEnter={() => setIsHovered(true)}
         onMouseLeave={() => setIsHovered(false)}
-        className={`hidden lg:fixed top-0 left-0 h-screen bg-gama-darker border-r border-gama-surface z-50 transition-all duration-300 ease-in-out flex flex-col ${
+        className={`hidden lg:block lg:fixed top-0 left-0 h-screen bg-gama-darker border-r border-gama-surface z-50 motion-transition-default duration-300 ease-in-out flex flex-col ${
           isCollapsed ? 'w-16' : 'w-64'
         }`}
       >
       {/* Header - Logo */}
       <div className="flex-shrink-0 px-3 py-5 border-b border-gama-surface flex items-center justify-center">
         {isCollapsed ? (
-          <div className="w-10 h-10 rounded-lg flex items-center justify-center hover:bg-gama-surface/70 transition-colors duration-200">
+          <div className="w-10 h-10 rounded-lg flex items-center justify-center hover:bg-gama-surface/70 motion-transition-default duration-200">
             <Logo size="md" />
           </div>
         ) : (
@@ -178,17 +179,17 @@ export function SideNav() {
             <p className="text-xs text-gama-text-secondary mb-2.5 font-semibold">📖 Reference</p>
             <ul className="space-y-1.5 text-xs">
               <li>
-                <a href="/tokens" className="text-gama-primary hover:text-gama-primary/80 transition-colors duration-200">
+                <a href="/tokens" className="text-gama-primary hover:text-gama-primary/80 motion-transition-default duration-200">
                   Design Tokens JSON
                 </a>
               </li>
               <li>
-                <a href="/components/atoms" className="text-gama-primary hover:text-gama-primary/80 transition-colors duration-200">
+                <a href="/components/atoms" className="text-gama-primary hover:text-gama-primary/80 motion-transition-default duration-200">
                   Component API
                 </a>
               </li>
               <li>
-                <a href="/tailwind-config" className="text-gama-primary hover:text-gama-primary/80 transition-colors duration-200">
+                <a href="/tailwind-config" className="text-gama-primary hover:text-gama-primary/80 motion-transition-default duration-200">
                   Tailwind Config
                 </a>
               </li>
@@ -196,6 +197,11 @@ export function SideNav() {
           </div>
         </div>
       )}
+
+      {/* Brand Switcher */}
+      <div className={`flex-shrink-0 px-3 py-3 border-t border-gama-surface ${isCollapsed ? 'flex justify-center' : ''}`}>
+        <BrandSwitcher />
+      </div>
 
       {/* Theme Toggle */}
       <div className={`flex-shrink-0 px-3 py-3 border-t border-gama-surface flex ${isCollapsed ? 'justify-center' : 'justify-end'}`}>

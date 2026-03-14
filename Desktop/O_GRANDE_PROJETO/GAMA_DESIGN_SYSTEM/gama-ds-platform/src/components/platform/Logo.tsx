@@ -1,6 +1,7 @@
 'use client'
 
 import Link from 'next/link'
+import BrandLogo from '@/components/atoms/BrandLogo'
 
 interface LogoProps {
   size?: 'sm' | 'md' | 'lg'
@@ -32,7 +33,8 @@ export function Logo({ size = 'md', withText = false, className = '', href = '/l
   if (!withText) {
     return (
       <Link href={href} title="GAMA - Ir para Home" className="hover:opacity-80 transition-opacity inline-block">
-        {svg}
+        {/* Brand-specific logo (dynamic) */}
+        <BrandLogo size={size} />
       </Link>
     )
   }
@@ -40,7 +42,8 @@ export function Logo({ size = 'md', withText = false, className = '', href = '/l
   return (
     <Link href={href} className="flex items-center gap-3 hover:opacity-80 transition-opacity">
       <div className={`flex-shrink-0 flex items-center justify-center ${size === 'lg' ? 'w-12 h-12' : size === 'md' ? 'w-10 h-10' : 'w-8 h-8'}`}>
-        {svg}
+        {/* Brand-specific logo (dynamic) */}
+        <BrandLogo size={size} />
       </div>
       <div className="min-w-0 flex-1">
         <p className="text-xs text-gama-text-secondary truncate">GAMA</p>

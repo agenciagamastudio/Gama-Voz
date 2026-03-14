@@ -48,7 +48,7 @@ export class ErrorBoundary extends React.Component<
             <p>{this.state.error.message}</p>
             <button
               onClick={this.reset}
-              className="mt-3 px-4 py-2 bg-gama-error text-white rounded-md hover:brightness-110"
+              className="mt-3 px-4 py-2 bg-gama-error text-white rounded-md [&:hover]:brightness-[var(--brightness-hover)] transition-all duration-200"
               type="button"
             >
               Tentar Novamente
