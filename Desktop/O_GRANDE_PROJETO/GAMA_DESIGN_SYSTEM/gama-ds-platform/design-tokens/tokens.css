@@ -213,40 +213,47 @@
 
 [data-theme="light"],
 html.light {
-  /* Light Mode: Inverted colors for readability */
+  /* Light Mode: Premium & High Contrast Design */
 
-  /* Backgrounds (light instead of dark) */
+  /* Backgrounds (clean white with subtle gray secondary) */
   --color-bg-primary: #FFFFFF;
-  --color-bg-secondary: #F5F5F5;
+  --color-bg-secondary: #F8F8F8;
 
-  /* Surfaces (light cards on light background) */
-  --color-surface-default: #FAFAFA;
-  --color-surface-hover: rgba(0, 0, 0, 0.05);
+  /* Surfaces (elevated cards with clear hierarchy) */
+  --color-surface-default: #F3F3F3;
+  --color-surface-elevated: #E8E8E8;
+  --color-surface-hover: rgba(0, 0, 0, 0.08);
 
-  /* Text (dark text on light background) */
-  --color-text-primary: #0A0A0A;
-  --color-text-secondary: #666666;
-  --color-text-tertiary: #999999;
-  --color-text-muted: #CCCCCC;
+  /* Text (high contrast dark text for accessibility) */
+  --color-text-primary: #1A1A1A;
+  --color-text-secondary: #404040;
+  --color-text-tertiary: #666666;
+  --color-text-muted: #999999;
 
-  /* Primary (same bright green) */
-  --color-primary: #88CE11;
-  --color-primary-disabled: rgba(136, 206, 17, 0.3);
+  /* Primary (vibrant green for emphasis) */
+  --color-primary: #6FA000;
+  --color-primary-disabled: rgba(107, 160, 0, 0.3);
 
-  /* Semantic (adjusted for light mode) */
-  --color-success: #10B981;
-  --color-warning: #F59E0B;
-  --color-error: #E11D48;
-  --color-info: #3B82F6;
+  /* Semantic (adjusted for light mode with good contrast) */
+  --color-success: #0B8B5E;
+  --color-warning: #C17B00;
+  --color-error: #AE1A42;
+  --color-info: #0066CC;
 
-  /* Borders (dark borders on light background) */
-  --color-border-default: rgba(0, 0, 0, 0.1);
-  --color-border-hover: rgba(0, 0, 0, 0.2);
+  /* Borders (refined and clean) */
+  --color-border-default: rgba(0, 0, 0, 0.12);
+  --color-border-hover: rgba(0, 0, 0, 0.25);
 
-  /* Light Mode: Sombras Duras (Clean) */
-  --shadow-sm: var(--shadow-sm-light);
-  --shadow-md: var(--shadow-md-light);
-  --shadow-lg: var(--shadow-lg-light);
+  /* Light Mode: Sombras Refinadas (Subtle but Clear) */
+  --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.08);
+  --shadow-md: 0 2px 6px rgba(0, 0, 0, 0.10);
+  --shadow-lg: 0 4px 12px rgba(0, 0, 0, 0.12);
+
+  /* Fills (Interactive States for Light Mode) */
+  --color-fill-primary: rgba(0, 0, 0, 0.08);
+  --color-fill-secondary: rgba(0, 0, 0, 0.06);
+  --color-fill-tertiary: rgba(0, 0, 0, 0.04);
+  --color-fill-quaternary: rgba(0, 0, 0, 0.02);
 }
 
 /* ════════════════════════════════════════════════════════════════ */
