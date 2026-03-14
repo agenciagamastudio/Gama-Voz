@@ -2,6 +2,7 @@ import type { Metadata } from 'next'
 import { SideNav } from '@/components/platform/SideNav'
 import { DrawerNav } from '@/components/platform/DrawerNav'
 import { MainWrapper } from '@/components/platform/MainWrapper'
+import { PageLoadingIndicator } from '@/components/platform/PageLoadingIndicator'
 import { SidenavProvider } from '@/components/platform/SidenavContext'
 import { BrandProvider } from '@/context/BrandContext'
 import './globals.css'
@@ -38,6 +39,7 @@ export default function RootLayout({
       <body suppressHydrationWarning>
         <BrandProvider>
           <SidenavProvider>
+            <PageLoadingIndicator />
             <DrawerNav />
             <div className="flex min-h-screen w-full">
               <SideNav />
