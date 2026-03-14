@@ -1,29 +1,8 @@
-'use client'
-
 import { Suspense } from 'react'
 import TerminalActivityMonitor from '@/components/organisms/TerminalActivityMonitor'
 import TerminalInterface from '@/components/organisms/TerminalInterface'
-import LoginModal from '@/components/organisms/LoginModal'
-import { useAuth } from '@/contexts/AuthContext'
 
 export default function Home() {
-  const { isAuthenticated, isLoading } = useAuth()
-
-  if (isLoading) {
-    return (
-      <main className="min-h-screen bg-void-dark flex items-center justify-center">
-        <div className="text-center">
-          <div className="inline-block h-8 w-8 rounded-full border-4 border-kinetic-limon border-t-transparent animate-spin mb-4" />
-          <p className="text-text-secondary">Carregando...</p>
-        </div>
-      </main>
-    )
-  }
-
-  if (!isAuthenticated) {
-    return <LoginModal />
-  }
-
   return (
     <main className="min-h-screen bg-void-dark p-4">
       <div className="max-w-7xl mx-auto space-y-6">

@@ -2,7 +2,6 @@
 
 import React, { useState, useEffect, useRef } from 'react';
 import { io } from 'socket.io-client';
-import { useAuth } from '@/contexts/AuthContext';
 
 interface TerminalLine {
   id: string;
@@ -19,13 +18,11 @@ export default function TerminalInterface({ terminalId }: { terminalId: string }
   const [historyIndex, setHistoryIndex] = useState(-1);
   const terminalEndRef = useRef<HTMLDivElement>(null);
   const socketRef = useRef<any>(null);
-  const { token } = useAuth();
 
   useEffect(() => {
-    // Conectar ao WebSocket com autenticação
+    // Conectar ao WebSocket (autenticação desativada por enquanto)
     socketRef.current = io('ws://localhost:3101', {
       reconnection: true,
-      auth: token ? { token } : {},
     });
 
     socketRef.current.on('connect', () => {
@@ -57,7 +54,7 @@ export default function TerminalInterface({ terminalId }: { terminalId: string }
     return () => {
       socketRef.current?.disconnect();
     };
-  }, [terminalId, token]);
+  }, [terminalId]);
 
   // Auto-scroll para o final
   useEffect(() => {

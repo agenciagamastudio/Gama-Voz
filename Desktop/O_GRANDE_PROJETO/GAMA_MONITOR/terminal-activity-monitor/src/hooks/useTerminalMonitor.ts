@@ -1,6 +1,5 @@
 import { useEffect, useState, useCallback } from 'react'
 import { io, Socket } from 'socket.io-client'
-import { useAuth } from '@/contexts/AuthContext'
 
 interface TerminalMetrics {
   status: 'online' | 'offline' | 'running' | 'idle'
@@ -23,7 +22,6 @@ export function useTerminalMonitor(terminalId: string) {
   const [logs, setLogs] = useState<LogEntry[]>([])
   const [isConnected, setIsConnected] = useState(false)
   const [socket, setSocket] = useState<Socket | null>(null)
-  const { token } = useAuth()
 
   useEffect(() => {
     const wsUrl = process.env.NEXT_PUBLIC_WS_URL || 'ws://localhost:3101'
@@ -33,7 +31,6 @@ export function useTerminalMonitor(terminalId: string) {
       reconnection: true,
       reconnectionAttempts: 10,
       transports: ['websocket'],
-      auth: token ? { token } : {},
     })
 
     newSocket.on('connect', () => {
@@ -64,7 +61,7 @@ export function useTerminalMonitor(terminalId: string) {
         newSocket.disconnect()
       }
     }
-  }, [terminalId, token])
+  }, [terminalId])
 
   const sendLog = useCallback(
     (log: Omit<LogEntry, 'id' | 'timestamp'>) => {
