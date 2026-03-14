@@ -46,9 +46,9 @@ export function Logo({ size = 'md', withText = false, className = '', href = '/l
         <BrandLogo size={size} />
       </div>
       <div className="min-w-0 flex-1">
-        <p className="text-xs text-gama-text-secondary truncate">GAMA</p>
+        <p className="text-xs font-bold text-gama-text truncate">GAMA</p>
         <p className="text-xs text-gama-text-secondary truncate">Design System</p>
-        <p className="text-xs text-gama-text-muted mt-0.5">v1.0.0</p>
+        <p className="text-xs text-gama-text-tertiary mt-0.5">v1.0.0</p>
       </div>
     </Link>
   )
