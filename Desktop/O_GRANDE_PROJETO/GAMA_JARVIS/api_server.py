@@ -89,17 +89,28 @@ def get_state():
     # Adiciona hora atual
     state["timestamp"] = datetime.now().isoformat()
 
-    # Tenta atualizar status do Monitor
-    try:
-        response = requests.get("http://localhost:3015/api/status", timeout=1)
-        if response.status_code == 200:
-            monitor = response.json()
-            state["monitor_status"] = {
-                "active_projects": monitor.get("active_projects", 0),
-                "timestamp": monitor.get("timestamp", "")
-            }
-    except Exception as e:
-        logger.debug(f"Monitor API indisponível: {e}")
+    # Tenta atualizar status do Monitor (tenta múltiplas portas)
+    monitor_ports = [3015, 3016, 3017]
+    monitor_found = False
+
+    for port in monitor_ports:
+        try:
+            response = requests.get(f"http://localhost:{port}/api/status", timeout=1)
+            if response.status_code == 200:
+                monitor = response.json()
+                state["monitor_status"] = {
+                    "active_projects": monitor.get("active_projects", 0),
+                    "timestamp": monitor.get("timestamp", "")
+                }
+                logger.debug(f"Monitor encontrado na porta {port}")
+                monitor_found = True
+                break
+        except Exception as e:
+            logger.debug(f"Porta {port} indisponível: {e}")
+            continue
+
+    if not monitor_found:
+        logger.debug("Monitor API indisponível em nenhuma porta")
         state["monitor_status"]["active_projects"] = 0
 
     return jsonify(state), 200

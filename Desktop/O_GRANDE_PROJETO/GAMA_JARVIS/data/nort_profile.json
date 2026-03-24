@@ -1,0 +1,59 @@
+{
+  "nome": "Matheus",
+  "perfil": "ENTP, D82/I74, Produtor-Promotor",
+  "mbti": "ENTP",
+  "disc": {
+    "dominancia": 82,
+    "influencia": 74,
+    "estabilidade": 0,
+    "conformidade": 0
+  },
+  "arquetipo": "Produtor-Promotor",
+  "pontos_fortes": [
+    "Rapidez na execução",
+    "Visão estratégica",
+    "Carisma e influência",
+    "Adaptabilidade",
+    "Pensamento criativo e não-convencional"
+  ],
+  "pontos_fracos": [
+    "Tendência a espalhar-se demais",
+    "Dificuldade em completar detalhes",
+    "Impulsividade em decisões",
+    "Foco instável em tarefas repetitivas"
+  ],
+  "ritmo": {
+    "horario_pico": "10h-14h",
+    "energia_minima": "18h-20h",
+    "melhor_dia_semana": "terça-quarta",
+    "tipo_tarefa_preferida": "estrategica, criativa, desafio",
+    "tipo_tarefa_evitar": "repetitiva, burocrática"
+  },
+  "motivadores": [
+    "Resultados rápidos",
+    "Inovação",
+    "Impacto visível",
+    "Autonomia",
+    "Reconhecimento"
+  ],
+  "demotivadores": [
+    "Tarefas repetitivas",
+    "Burocracia desnecessária",
+    "Falta de liberdade",
+    "Processos lentos",
+    "Falta de progresso visível"
+  ],
+  "estilo_comunicacao": {
+    "preferencia": "direto, objetivo",
+    "tom": "informal, descontraído",
+    "feedback": "franco, construtivo"
+  },
+  "modo_trabalho": {
+    "preferencia": "autonomo",
+    "ambiente": "alta energia, colaborativo",
+    "interrupcoes": "aceita contexto-switching",
+    "deadlines": "responde bem a pressão"
+  },
+  "ultimo_update": "2026-03-24",
+  "fonte": "Briefing inicial GAMA Jarvis v2"
+}

@@ -4,6 +4,8 @@ Alternativa ao Ollama com API do Groq
 """
 
 import logging
+import json
+from pathlib import Path
 from config import (
     BRAIN_BACKEND,
     GROQ_API_KEY,
@@ -14,6 +16,60 @@ from config import (
 )
 
 logger = logging.getLogger("jarvis.brain")
+
+# ============================================================================
+# NORT PROFILE LOADING
+# ============================================================================
+
+def load_nort_profile():
+    """Carrega perfil NORT se disponível"""
+    nort_path = Path(__file__).parent / "data" / "nort_profile.json"
+
+    if not nort_path.exists():
+        logger.debug("Perfil NORT não encontrado")
+        return None
+
+    try:
+        with open(nort_path, "r", encoding="utf-8") as f:
+            profile = json.load(f)
+            logger.info(f"✅ Perfil NORT carregado: {profile.get('nome', 'desconhecido')}")
+            return profile
+    except Exception as e:
+        logger.warning(f"Erro ao carregar perfil NORT: {e}")
+        return None
+
+def build_nort_context(profile):
+    """Constrói contexto de NORT para incluir no prompt do sistema"""
+    if not profile:
+        return ""
+
+    context = "\n\n=== CONTEXTO NORT DO USUÁRIO ===\n"
+    context += f"Nome: {profile.get('nome', 'N/A')}\n"
+    context += f"Perfil: {profile.get('perfil', 'N/A')}\n"
+
+    # DISC
+    disc = profile.get('disc', {})
+    if disc:
+        context += f"DISC: D{disc.get('dominancia', 0)}/I{disc.get('influencia', 0)}/S{disc.get('estabilidade', 0)}/C{disc.get('conformidade', 0)}\n"
+
+    # Pontos fortes
+    fortes = profile.get('pontos_fortes', [])
+    if fortes:
+        context += f"Pontos Fortes: {', '.join(fortes[:3])}\n"
+
+    # Ritmo
+    ritmo = profile.get('ritmo', {})
+    if ritmo:
+        context += f"Horário de Pico: {ritmo.get('horario_pico', 'N/A')}\n"
+        context += f"Tipo de Tarefa Preferida: {ritmo.get('tipo_tarefa_preferida', 'N/A')}\n"
+
+    # Motivadores
+    motivadores = profile.get('motivadores', [])
+    if motivadores:
+        context += f"Motivadores: {', '.join(motivadores[:3])}\n"
+
+    context += "---\n"
+    return context
 
 # ============================================================================
 # GROQ BRAIN (Padrão)
@@ -50,6 +106,9 @@ class JarvisGroqBrain:
 
         self.conversation_history = []
 
+        # Carrega perfil NORT na inicialização
+        self.nort_profile = load_nort_profile()
+
     def get_system_status(self):
         """Obtém status do GAMA_MONITOR para contexto"""
         if not MONITOR_ENABLED:
@@ -68,8 +127,12 @@ class JarvisGroqBrain:
         return None
 
     def build_context_prompt(self, user_input):
-        """Constrói contexto adicional baseado no status do sistema"""
+        """Constrói contexto adicional baseado no status do sistema e perfil NORT"""
         context = SYSTEM_PROMPT
+
+        # Adiciona contexto NORT se disponível
+        if self.nort_profile:
+            context += build_nort_context(self.nort_profile)
 
         # Adiciona status do sistema se disponível
         status = self.get_system_status()
@@ -203,6 +266,9 @@ class JarvisOllamaBrain:
 
         self.conversation_history = []
 
+        # Carrega perfil NORT na inicialização
+        self.nort_profile = load_nort_profile()
+
     def get_system_status(self):
         """Obtém status do GAMA_MONITOR para contexto"""
         if not MONITOR_ENABLED:
@@ -221,8 +287,12 @@ class JarvisOllamaBrain:
         return None
 
     def build_context_prompt(self, user_input):
-        """Constrói contexto adicional baseado no status do sistema"""
+        """Constrói contexto adicional baseado no status do sistema e perfil NORT"""
         context = SYSTEM_PROMPT
+
+        # Adiciona contexto NORT se disponível
+        if self.nort_profile:
+            context += build_nort_context(self.nort_profile)
 
         status = self.get_system_status()
         if status:
