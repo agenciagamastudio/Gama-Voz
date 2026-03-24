@@ -1,6 +1,0 @@
-{
-  "/api/brands/[id]/route": "app/api/brands/[id]/route.js",
-  "/api/brands/[id]/tokens/route": "app/api/brands/[id]/tokens/route.js",
-  "/api/brands/route": "app/api/brands/route.js",
-  "/page": "app/page.js"
-}
