@@ -1,0 +1,14 @@
+{
+  "id": "gama-tv",
+  "name": "Gama TV",
+  "description": "Publicidade corporativa via TV e displays",
+  "logo": "/logos/gama-tv.svg",
+  "website": "https://gama-tv.com",
+  "active": true,
+  "order": 2,
+  "metadata": {
+    "department": "Media & Broadcasting",
+    "year_founded": 2024,
+    "color_scheme": "broadcast-blue"
+  }
+}

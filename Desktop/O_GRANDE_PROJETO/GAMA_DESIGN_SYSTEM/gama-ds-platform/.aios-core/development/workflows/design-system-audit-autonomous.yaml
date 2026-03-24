@@ -1,0 +1,431 @@
+---
+# Design System Audit — Fully Autonomous Workflow
+# Mode: YOLO (no user confirmation, auto-decision making)
+# Executor: Ralph Loop or similar
+# Duration: 2-4 hours per brand audit
+
+workflow_id: design-system-audit-autonomous
+name: "Design System Audit — Complete & Autonomous"
+description: "End-to-end design system audit with automatic delegation and decision-making"
+version: "1.0.0"
+
+# CRITICAL: Mode determines execution
+mode: "AUTONOMOUS"  # ← No prompts, no user input, pure automation
+execution_model: "ralph-loop"  # ← Runs as continuous background task
+max_duration_hours: 4
+completion_token: "AUDIT_REPORT_GENERATED"
+
+# Pre-execution validation
+prerequisites:
+  - design_tokens_exist: true
+  - brand_guidelines_exist: true
+  - source_code_exists: true
+  - dev_server_available: true
+
+# ═══════════════════════════════════════════════════════════════════════
+# PHASE 1: PARALLEL AUDITS (Steps 1-6)
+# ═══════════════════════════════════════════════════════════════════════
+
+phases:
+
+  phase_1:
+    name: "Parallel Audits"
+    description: "6 specialized auditors run simultaneously"
+    parallelizable: true
+
+    step_1:
+      name: "Token Validation"
+      agent: "design-system-auditor-tokens"
+      task: "audit-design-tokens"
+
+      inputs:
+        tokens_file: "brand-configs/{brand}/tokens.json"
+        tailwind_config: "tailwind.config.ts"
+        css_variables: "src/styles/variables.css"
+
+      execution:
+        mode: "autonomous"
+        auto_approve: true
+        timeout_minutes: 15
+
+      decision_tree:
+        - condition: "token_issues_count > 10"
+          severity: "HIGH"
+          action: "escalate_to: design-system-auditor-orchestrator"
+          continue: true
+
+        - condition: "semantic_colors_missing"
+          severity: "MEDIUM"
+          action: "log_issue_and_continue"
+          continue: true
+
+        - condition: "spacing_scale_violated"
+          severity: "MEDIUM"
+          action: "log_issue_and_continue"
+          continue: true
+
+        default: "continue_to_next_step"
+
+      outputs:
+        - token-audit-report.md
+        - token-issues.json
+        - token-health-score: 0-100
+
+      on_error:
+        - action: "retry_once"
+        - action: "log_error"
+        - action: "escalate_to: kaizen-chief"
+        - action: "continue_workflow"
+
+    step_2:
+      name: "Accessibility Audit"
+      agent: "design-system-auditor-a11y"
+      task: "audit-wcag-compliance"
+
+      inputs:
+        component_files: "src/components/**/*.tsx"
+        brand_guidelines: "BRAND-IDENTITY-{brand}.md"
+        screenshots: "[from playwright]"
+
+      execution:
+        mode: "autonomous"
+        auto_approve: true
+        timeout_minutes: 20
+
+      decision_tree:
+        - condition: "critical_wcag_violations"
+          severity: "CRITICAL"
+          action: "STOP_and_report"
+          continue: false
+
+        - condition: "high_contrast_issues"
+          severity: "HIGH"
+          action: "log_and_continue"
+          continue: true
+
+        - condition: "minor_aria_issues"
+          severity: "LOW"
+          action: "log_and_continue"
+          continue: true
+
+        default: "continue"
+
+      outputs:
+        - a11y-audit-report.md
+        - a11y-issues.json
+        - wcag-score: 0-100
+        - recommendations.md
+
+      on_error:
+        - action: "escalate_to: design-system-auditor-a11y"
+        - action: "continue"
+
+    step_3:
+      name: "Performance Audit"
+      agent: "design-system-auditor-performance"
+      task: "audit-core-web-vitals"
+
+      inputs:
+        build_artifacts: ".next/ | dist/"
+        source_code: "src/"
+        urls: "[http://localhost:{port}]"
+
+      execution:
+        mode: "autonomous"
+        auto_approve: true
+        timeout_minutes: 25
+
+      decision_tree:
+        - condition: "lighthouse_score < 50"
+          severity: "HIGH"
+          action: "escalate_to: kaizen-chief"
+          continue: true
+
+        - condition: "cls_score_poor"
+          severity: "MEDIUM"
+          action: "log_and_continue"
+          continue: true
+
+        - condition: "bundle_size_excessive"
+          severity: "MEDIUM"
+          action: "escalate_to: architect"
+          continue: true
+
+        default: "continue"
+
+      outputs:
+        - performance-audit-report.md
+        - lighthouse-scores.json
+        - performance-score: 0-100
+
+      on_error:
+        - action: "retry_once"
+        - action: "escalate_to: kaizen-chief"
+        - action: "continue"
+
+    step_4:
+      name: "Component Coverage Audit"
+      agent: "design-system-auditor-coverage"
+      task: "audit-component-coverage"
+
+      inputs:
+        component_directory: "src/components/"
+        src_directory: "src/"
+        documentation: "**/*.md"
+
+      execution:
+        mode: "autonomous"
+        auto_approve: true
+        timeout_minutes: 15
+
+      decision_tree:
+        - condition: "coverage < 60%"
+          severity: "HIGH"
+          action: "log_and_create_roadmap"
+          continue: true
+
+        - condition: "missing_atomic_levels"
+          severity: "MEDIUM"
+          action: "log_and_continue"
+          continue: true
+
+        default: "continue"
+
+      outputs:
+        - coverage-report.md
+        - component-inventory.json
+        - gap-analysis.json
+        - architecture-score: 0-100
+
+      on_error:
+        - action: "escalate_to: architect"
+        - action: "continue"
+
+    step_5:
+      name: "Brand Compliance Audit"
+      agent: "design-system-auditor-brand"
+      task: "audit-brand-compliance"
+
+      inputs:
+        brand_guidelines: "BRAND-IDENTITY-{brand}.md"
+        tokens_file: "brand-configs/{brand}/tokens.json"
+        screenshots: "[from playwright]"
+
+      execution:
+        mode: "autonomous"
+        auto_approve: true
+        timeout_minutes: 20
+
+      decision_tree:
+        - condition: "critical_brand_violations"
+          severity: "CRITICAL"
+          action: "escalate_to: ux-design-expert"
+          continue: true
+
+        - condition: "color_usage_incorrect"
+          severity: "HIGH"
+          action: "log_and_continue"
+          continue: true
+
+        - condition: "typography_inconsistent"
+          severity: "MEDIUM"
+          action: "log_and_continue"
+          continue: true
+
+        default: "continue"
+
+      outputs:
+        - brand-compliance-report.md
+        - brand-violations.json
+        - visual-consistency-score: 0-100
+
+      on_error:
+        - action: "escalate_to: ux-design-expert"
+        - action: "continue"
+
+    step_6:
+      name: "Handoff Quality Audit"
+      agent: "design-system-auditor-handoff"
+      task: "audit-handoff-quality"
+
+      inputs:
+        source_code: "src/components/**/*.tsx"
+        documentation: "**/*.md"
+        stories_files: "**/*.stories.tsx"
+
+      execution:
+        mode: "autonomous"
+        auto_approve: true
+        timeout_minutes: 15
+
+      decision_tree:
+        - condition: "documentation_coverage < 50%"
+          severity: "MEDIUM"
+          action: "log_and_create_roadmap"
+          continue: true
+
+        - condition: "missing_examples"
+          severity: "LOW"
+          action: "log_and_continue"
+          continue: true
+
+        default: "continue"
+
+      outputs:
+        - handoff-quality-report.md
+        - documentation-gaps.json
+        - developer-experience-score: 0-100
+
+      on_error:
+        - action: "log_error"
+        - action: "continue"
+
+  # ═══════════════════════════════════════════════════════════════════
+  # PHASE 2: CONSOLIDATION (Step 7)
+  # ═══════════════════════════════════════════════════════════════════
+
+  phase_2:
+    name: "Report Consolidation"
+    description: "Synthesize all 6 audits into executive report"
+    depends_on: "phase_1"
+
+    step_7:
+      name: "Generate Executive Report"
+      agent: "design-system-auditor-orchestrator"
+      task: "consolidate-audit-reports"
+
+      inputs:
+        - token-audit-report.json
+        - a11y-audit-report.json
+        - performance-audit-report.json
+        - coverage-report.json
+        - brand-compliance-report.json
+        - handoff-quality-report.json
+
+      execution:
+        mode: "autonomous"
+        auto_approve: true
+        timeout_minutes: 10
+
+      outputs:
+        - AUDIT-REPORT-{brand}-EXECUTIVE.md (main deliverable)
+        - AUDIT-REPORT-{brand}-DETAILED.json
+        - priority-matrix.json
+        - roadmap-12-weeks.md
+        - audit-metrics.json
+
+      final_decision_tree:
+        - condition: "overall_score >= 80"
+          action: "verdict: HEALTHY"
+
+        - condition: "overall_score 60-79"
+          action: "verdict: NEEDS_ATTENTION"
+
+        - condition: "overall_score < 60"
+          action: "verdict: CRITICAL"
+
+        - condition: "critical_issues_found"
+          action: "escalate_to: pm"
+          note: "Requires strategic decision"
+
+# ═══════════════════════════════════════════════════════════════════════
+# ERROR HANDLING & RECOVERY
+# ═══════════════════════════════════════════════════════════════════════
+
+error_handling:
+  retry_policy: "once_per_failure"
+  max_retries_per_step: 1
+  escalation_chain:
+    - primary: "kaizen-chief"  # Continuous improvement
+    - secondary: "architect"   # Architecture issues
+    - tertiary: "pm"           # Strategic decisions
+
+  critical_errors:
+    - "dev_server_unavailable" → "STOP and report"
+    - "source_code_missing" → "STOP and report"
+    - "tokens_invalid" → "STOP and report"
+
+  recoverable_errors:
+    - "timeout" → "retry_once then escalate"
+    - "api_error" → "retry_once then continue"
+    - "parse_error" → "log and continue"
+
+# ═══════════════════════════════════════════════════════════════════════
+# AUTOMATION RULES
+# ═══════════════════════════════════════════════════════════════════════
+
+automation:
+  decision_making: "FULL_AUTONOMOUS"  # ← No user prompts
+  escalation: "AUTOMATIC"              # ← Escalate to proper squad
+  reporting: "AUTOMATED"               # ← Generate reports automatically
+  user_prompts: "ZERO"                 # ← Never ask user
+
+# ═══════════════════════════════════════════════════════════════════════
+# EXECUTION CONTEXT
+# ═══════════════════════════════════════════════════════════════════════
+
+context:
+  brand: "{brand_name}"  # e.g., "gama-financeiro"
+  environment: "localhost:3007"
+  timestamp: "{now}"
+  audit_id: "audit-{brand}-{timestamp}"
+
+# ═══════════════════════════════════════════════════════════════════════
+# OUTPUT DELIVERY
+# ═══════════════════════════════════════════════════════════════════════
+
+outputs:
+  primary: "AUDIT-REPORT-{brand}-EXECUTIVE.md"
+  artifacts_directory: "docs/audits/{brand}/{timestamp}/"
+  files:
+    - AUDIT-REPORT-EXECUTIVE.md
+    - AUDIT-REPORT-DETAILED.json
+    - priority-matrix.json
+    - roadmap-12-weeks.md
+    - audit-metrics.json
+    - token-audit-report.md
+    - a11y-audit-report.md
+    - performance-audit-report.md
+    - coverage-report.md
+    - brand-compliance-report.md
+    - handoff-quality-report.md
+
+# ═══════════════════════════════════════════════════════════════════════
+# ACTIVATION COMMAND
+# ═══════════════════════════════════════════════════════════════════════
+
+activation:
+  command: |
+    /ralph-loop "Auditar design system {brand}" \
+      --workflow design-system-audit-autonomous \
+      --mode YOLO \
+      --brand {brand_name} \
+      --max-iterations 50 \
+      --completion-promise "AUDIT_REPORT_GENERATED"
+
+  examples:
+    - "/ralph-loop \"Auditar Gama Financeiro\" --brand gama-financeiro"
+    - "/ralph-loop \"Auditar Gama Studio\" --brand gama-studio"
+    - "/ralph-loop \"Auditar todos os brands\" --brand \"*\""
+
+# ═══════════════════════════════════════════════════════════════════════
+# METADATA
+# ═══════════════════════════════════════════════════════════════════════
+
+metadata:
+  created_date: "2026-03-14"
+  version: "1.0.0"
+  status: "PRODUCTION_READY"
+  maintainer: "Design System Audit Squad"
+  next_review: "2026-06-14"
+
+  agents_involved: 7
+  estimated_duration_hours: 2-4
+  parallelizable_steps: 6
+  sequential_steps: 1
+
+  expected_outcomes:
+    - Comprehensive audit report
+    - Priority matrix
+    - 12-week roadmap
+    - Metric baseline for trending

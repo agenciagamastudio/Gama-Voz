@@ -1,0 +1,6 @@
+{
+  "version": 3,
+  "sources": [],
+  "sections": [
+    {"offset": {"line": 52, "column": 0}, "map": {"version":3,"sources":["file:///C:/Users/Usuario/Desktop/O_GRANDE_PROJETO/GAMA_DESIGN_SYSTEM/gama-ds-platform/src/app/api/brands/%5Bid%5D/route.ts"],"sourcesContent":["import { readFileSync } from 'fs'\r\nimport { join } from 'path'\r\n\r\nexport async function GET(request: Request, { params }: { params: Promise<{ id: string }> }) {\r\n  const { id } = await params\r\n\r\n  try {\r\n    const brandJsonPath = join(process.cwd(), 'brand-configs', id, 'brand.json')\r\n    const brandData = JSON.parse(readFileSync(brandJsonPath, 'utf-8'))\r\n    return Response.json(brandData)\r\n  } catch (error) {\r\n    console.error(`Erro carregando brand ${id}:`, error)\r\n    return Response.json({ error: `Brand ${id} não encontrado` }, { status: 404 })\r\n  }\r\n}\r\n"],"names":[],"mappings":";;;;AAAA;AACA;;;AAEO,eAAe,IAAI,OAAgB,EAAE,EAAE,MAAM,EAAuC;IACzF,MAAM,EAAE,EAAE,EAAE,GAAG,MAAM;IAErB,IAAI;QACF,MAAM,gBAAgB,IAAA,yGAAI,EAAC,QAAQ,GAAG,IAAI,iBAAiB,IAAI;QAC/D,MAAM,YAAY,KAAK,KAAK,CAAC,IAAA,6GAAY,EAAC,eAAe;QACzD,OAAO,SAAS,IAAI,CAAC;IACvB,EAAE,OAAO,OAAO;QACd,QAAQ,KAAK,CAAC,CAAC,sBAAsB,EAAE,GAAG,CAAC,CAAC,EAAE;QAC9C,OAAO,SAAS,IAAI,CAAC;YAAE,OAAO,CAAC,MAAM,EAAE,GAAG,eAAe,CAAC;QAAC,GAAG;YAAE,QAAQ;QAAI;IAC9E;AACF"}}]
+}

@@ -1,0 +1,22 @@
+module.exports=[26294,a=>{"use strict";var b=a.i(39900),c=a.i(70764);function d({checked:a=!1,onChange:d,disabled:e=!1,label:f}){let[g,h]=(0,c.useState)(a);return(0,b.jsxs)("div",{className:"flex items-center gap-3",children:[(0,b.jsx)("button",{onClick:()=>{e||(h(!g),d?.(!g))},disabled:e,className:`relative w-14 h-7 rounded-full motion-transition-default border-2 ${g?"bg-gama-primary border-gama-primary shadow-md":"bg-gray-300 border-gray-400 dark:bg-gama-surface dark:border-gama-surface-accent shadow-sm"} ${e?"opacity-50 cursor-not-allowed":"cursor-pointer hover:shadow-lg"}`,style:{paddingLeft:"2px",paddingRight:"2px"},children:(0,b.jsx)("div",{className:`absolute top-1 w-5 h-5 rounded-full bg-white shadow-md motion-transition-fast ${g?"translate-x-7":"translate-x-1"}`})}),f&&(0,b.jsx)("span",{className:"text-sm font-medium text-gama-text",children:f})]})}a.s(["Toggle",()=>d])},78893,a=>{"use strict";var b=a.i(39900),c=a.i(70764),d=a.i(26294);function e(){let[a,e]=(0,c.useState)(!1),[f,g]=(0,c.useState)(!0);return(0,b.jsx)("div",{className:"min-h-screen bg-gama-dark p-4 sm:p-8 md:p-12",children:(0,b.jsxs)("div",{className:"max-w-6xl mx-auto",children:[(0,b.jsxs)("div",{className:"mb-16",children:[(0,b.jsxs)("h1",{className:"text-2xl sm:text-3xl md:text-4xl font-black text-gama-text mb-4",children:["Toggles — ",(0,b.jsx)("span",{className:"text-gama-primary",children:"Mudança de Estado"})]}),(0,b.jsx)("p",{className:"text-gama-text-secondary text-lg max-w-2xl",children:"Componentes para alternar entre dois estados de forma simples e intuitiva."})]}),(0,b.jsxs)("section",{className:"mb-16 p-8 bg-gama-surface rounded-2xl border border-gama-surface-accent",children:[(0,b.jsx)("h2",{className:"text-2xl font-black text-gama-text mb-8",children:"Estados"}),(0,b.jsxs)("div",{className:"space-y-6",children:[(0,b.jsxs)("div",{className:"p-6 bg-gama-dark rounded-lg",children:[(0,b.jsx)(d.Toggle,{label:"Notificações ativadas",checked:a,onChange:e}),(0,b.jsxs)("p",{className:"text-gama-text-secondary text-xs mt-2",children:["Status: ",a?"Ativado":"Desativado"]})]}),(0,b.jsxs)("div",{className:"p-6 bg-gama-dark rounded-lg",children:[(0,b.jsx)(d.Toggle,{label:"Modo escuro",checked:f,onChange:g}),(0,b.jsxs)("p",{className:"text-gama-text-secondary text-xs mt-2",children:["Status: ",f?"Ativado":"Desativado"]})]}),(0,b.jsxs)("div",{className:"p-6 bg-gama-dark rounded-lg",children:[(0,b.jsx)(d.Toggle,{label:"Toggle desabilitado",disabled:!0}),(0,b.jsx)("p",{className:"text-gama-text-secondary text-xs mt-2",children:"Status: Desabilitado"})]})]})]}),(0,b.jsxs)("section",{className:"mb-16 p-8 bg-gama-surface rounded-2xl border border-gama-surface-accent",children:[(0,b.jsx)("h2",{className:"text-2xl font-black text-gama-text mb-8",children:"Casos de Uso"}),(0,b.jsxs)("div",{className:"grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6 md:gap-8",children:[(0,b.jsxs)("div",{className:"p-6 bg-gama-dark rounded-lg",children:[(0,b.jsx)("p",{className:"text-gama-text-secondary text-xs uppercase font-black mb-4",children:"Configurações"}),(0,b.jsxs)("div",{className:"space-y-4",children:[(0,b.jsx)(d.Toggle,{label:"Receber notificações por email",checked:!0}),(0,b.jsx)(d.Toggle,{label:"Receber notificações via SMS"})]})]}),(0,b.jsxs)("div",{className:"p-6 bg-gama-dark rounded-lg",children:[(0,b.jsx)("p",{className:"text-gama-text-secondary text-xs uppercase font-black mb-4",children:"Preferências"}),(0,b.jsxs)("div",{className:"space-y-4",children:[(0,b.jsx)(d.Toggle,{label:"Modo desenvolvimento"}),(0,b.jsx)(d.Toggle,{label:"Habilitar análises",checked:!0})]})]})]})]}),(0,b.jsxs)("section",{className:"p-8 bg-gama-surface rounded-2xl border border-gama-surface-accent",children:[(0,b.jsx)("h2",{className:"text-2xl font-black text-gama-text mb-6",children:"Como Usar"}),(0,b.jsx)("div",{className:"bg-gama-dark p-4 rounded-lg overflow-x-auto",children:(0,b.jsx)("pre",{className:"text-gama-text-secondary text-sm",children:`import { useState } from 'react'
+import { Toggle } from '@/components/atoms/Toggle'
+
+export default function Component() {
+  const [isEnabled, setIsEnabled] = useState(false)
+
+  return (
+    <>
+      {/* Toggle b\xe1sico */}
+      <Toggle
+        label="Ativar notifica\xe7\xf5es"
+        checked={isEnabled}
+        onChange={setIsEnabled}
+      />
+
+      {/* Toggle desabilitado */}
+      <Toggle label="Desabilitado" disabled />
+    </>
+  )
+}`})})]})]})})}a.s(["default",()=>e])}];
+
+//# sourceMappingURL=Desktop_O_GRANDE_PROJETO_GAMA_DESIGN_SYSTEM_gama-ds-platform_src_5c373d2c._.js.map

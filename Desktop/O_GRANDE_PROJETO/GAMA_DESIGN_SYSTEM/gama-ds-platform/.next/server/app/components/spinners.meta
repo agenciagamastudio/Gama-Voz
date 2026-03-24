@@ -1,0 +1,16 @@
+{
+  "headers": {
+    "x-nextjs-stale-time": "300",
+    "x-nextjs-prerender": "1",
+    "x-next-cache-tags": "_N_T_/layout,_N_T_/components/layout,_N_T_/components/spinners/layout,_N_T_/components/spinners/page,_N_T_/components/spinners"
+  },
+  "segmentPaths": [
+    "/_tree",
+    "/_full",
+    "/components/spinners/__PAGE__",
+    "/components/spinners",
+    "/components",
+    "/_index",
+    "/_head"
+  ]
+}

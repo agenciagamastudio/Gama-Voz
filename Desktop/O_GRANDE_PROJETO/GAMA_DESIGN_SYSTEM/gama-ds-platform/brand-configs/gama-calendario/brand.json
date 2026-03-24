@@ -1,0 +1,14 @@
+{
+  "id": "gama-calendario",
+  "name": "Gama Calendários",
+  "description": "Solução de gestão de calendários e agendamentos",
+  "logo": "/logos/gama-calendario.svg",
+  "website": "https://gama-calendario.com",
+  "active": true,
+  "order": 4,
+  "metadata": {
+    "department": "Software Solutions",
+    "year_founded": 2024,
+    "color_scheme": "productivity-purple"
+  }
+}

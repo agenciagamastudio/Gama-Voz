@@ -1,0 +1,17 @@
+{
+  "buildCommand": "npm run build",
+  "devCommand": "npm run dev",
+  "installCommand": "npm install",
+  "framework": "nextjs",
+  "nodejs": "18.x",
+  "env": {
+    "NEXT_PUBLIC_SITE_URL": {
+      "description": "The URL of the website",
+      "default": "https://gama-design-system.vercel.app"
+    }
+  },
+  "git": {
+    "deploymentEnabled": true
+  },
+  "ignoreCommand": "git diff --quiet HEAD^ HEAD -- ."
+}

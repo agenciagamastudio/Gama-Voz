@@ -1,0 +1,45 @@
+<svg viewBox="0 0 256 256" xmlns="http://www.w3.org/2000/svg">
+  <!-- Gama Studio Logo (Green Primary) -->
+  <defs>
+    <linearGradient id="studioGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#88CE11;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#6BA00F;stop-opacity:1" />
+    </linearGradient>
+  </defs>
+
+  <!-- Background circle -->
+  <circle cx="128" cy="128" r="120" fill="#88CE11" opacity="0.1"/>
+
+  <!-- Main icon container -->
+  <g transform="translate(128, 128)">
+    <!-- Outer ring -->
+    <circle cx="0" cy="0" r="110" fill="none" stroke="#88CE11" stroke-width="3"/>
+
+    <!-- Studio symbol: Film/Play icon -->
+    <g transform="translate(-30, -20)">
+      <!-- Film strip -->
+      <rect x="0" y="0" width="60" height="40" fill="none" stroke="#88CE11" stroke-width="2" rx="2"/>
+      <line x1="15" y1="0" x2="15" y2="40" stroke="#88CE11" stroke-width="2"/>
+      <line x1="30" y1="0" x2="30" y2="40" stroke="#88CE11" stroke-width="2"/>
+      <line x1="45" y1="0" x2="45" y2="40" stroke="#88CE11" stroke-width="2"/>
+
+      <!-- Play symbol inside -->
+      <polygon points="25,15 25,25 35,20" fill="#88CE11"/>
+    </g>
+
+    <!-- Bottom text: GAMA STUDIO -->
+    <text x="0" y="75"
+          font-size="18"
+          font-weight="700"
+          fill="#88CE11"
+          text-anchor="middle"
+          font-family="Poppins">GAMA</text>
+    <text x="0" y="98"
+          font-size="14"
+          font-weight="600"
+          fill="#88CE11"
+          text-anchor="middle"
+          font-family="Poppins"
+          opacity="0.9">STUDIO</text>
+  </g>
+</svg>
