@@ -6,8 +6,13 @@ Assistente de voz em Python que escuta "Jarvis" e responde via Claude API
 
 import logging
 import sys
+import io
 import time
 from pathlib import Path
+
+# Fix Unicode/emoji encoding for Windows terminal
+sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding='utf-8')
+sys.stderr = io.TextIOWrapper(sys.stderr.buffer, encoding='utf-8')
 
 # Configure logging
 logging.basicConfig(
