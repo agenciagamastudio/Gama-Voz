@@ -84,18 +84,19 @@ CORS(app)  # Permite requisições do front-end
 @app.route("/api/jarvis/state", methods=["GET"])
 def get_state():
     """Retorna estado atual do Jarvis"""
+    from config import MONITOR_PORTS, MONITOR_PORT_TIMEOUT
+
     state = shared_state.get()
 
     # Adiciona hora atual
     state["timestamp"] = datetime.now().isoformat()
 
-    # Tenta atualizar status do Monitor (tenta múltiplas portas)
-    monitor_ports = [3015, 3016, 3017]
+    # Tenta atualizar status do Monitor (tenta múltiplas portas em ordem)
     monitor_found = False
 
-    for port in monitor_ports:
+    for port in MONITOR_PORTS:
         try:
-            response = requests.get(f"http://localhost:{port}/api/status", timeout=1)
+            response = requests.get(f"http://localhost:{port}/api/status", timeout=MONITOR_PORT_TIMEOUT)
             if response.status_code == 200:
                 monitor = response.json()
                 state["monitor_status"] = {

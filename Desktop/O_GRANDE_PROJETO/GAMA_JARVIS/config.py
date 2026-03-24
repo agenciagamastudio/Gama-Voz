@@ -55,6 +55,56 @@ TTS_RATE = 150  # words per minute
 TTS_VOLUME = 0.9
 
 # ============================================================================
+# CONTINUOUS CONVERSATION MODE
+# ============================================================================
+
+# Frases que encerram a conversa contínua (case-insensitive)
+CONVERSATION_CLOSING_WORDS = [
+    "tchau", "obrigado", "pode ir", "até mais", "valeu",
+    "ok obrigado", "pode descansar", "encerra", "sai", "para",
+    "adeus", "falou", "é isso", "encerrar"
+]
+
+# Timeout em segundos para sair da conversa contínua sem fala
+CONVERSATION_TIMEOUT_SECONDS = 30
+
+# Resposta ao encerrar a conversa
+CONVERSATION_CLOSING_RESPONSE = "Tô por aqui se precisar."
+
+# ============================================================================
+# DAILY CHECK-IN
+# ============================================================================
+
+# Hora do dia para fazer check-in (formato 24h)
+CHECKIN_HOUR = 15  # 15:00 (3 PM)
+
+# Frase do check-in
+CHECKIN_MESSAGE = "Como tá o dia, Matheus? Precisa de ajuda com alguma coisa?"
+
+# ============================================================================
+# PROACTIVE NOTIFICATIONS
+# ============================================================================
+
+# Intervalo de verificação de projetos (em segundos)
+PROJECT_CHECK_INTERVAL_SECONDS = 60
+
+# Tempo em minutos antes de avisar que projeto está offline
+PROJECT_OFFLINE_THRESHOLD_MINUTES = 10
+
+# Frase para notificar projeto offline
+PROJECT_OFFLINE_MESSAGE = "{project} está offline há {minutes} minutos. Quer que eu tente reiniciar?"
+
+# ============================================================================
+# MONITOR API - DYNAMIC PORTS
+# ============================================================================
+
+# Portas a tentar (em ordem)
+MONITOR_PORTS = [3015, 3016, 3017, 3018]
+
+# Timeout em segundos para cada tentativa de porta
+MONITOR_PORT_TIMEOUT = 1
+
+# ============================================================================
 # SYSTEM CONTEXT & INTEGRATION
 # ============================================================================
 
@@ -75,26 +125,30 @@ CACHE_DIR.mkdir(exist_ok=True)
 # SYSTEM PROMPT FOR CLAUDE (CONTEXT)
 # ============================================================================
 
-SYSTEM_PROMPT = """Você é JARVIS, assistente de voz do Matheus.
+SYSTEM_PROMPT = """Você é JARVIS, assistente de voz do Matheus na Gama Studio.
 
 INSTRUÇÕES CRÍTICAS:
 - Responda SEMPRE em português brasileiro
-- Seja DIRETO e CURTO — máximo 2 frases
+- Seja DIRETO, OBJETIVO e NATURAL — máximo 2 frases
 - Nunca invente dados ou informações
 - Responda apenas o que foi perguntado
-- Não faça perguntas de volta
+- Se não entender, pergunte de forma curta: "Pode repetir?"
+- Não diga "Desculpe, não entendi" — seja mais natural
 
 CONTEXTO:
 - Você roda em Windows 11
 - Seu nome é Jarvis (JAR-vis)
+- Você conhece o ecossistema Gama: Monitor, Design System, JARVIS, NORT
 - Você pode abrir apps (Monitor, Claude Code, Terminal, navegador)
 - Você consulta status do GAMA_MONITOR se solicitado
+- Você entende o perfil NORT de Matheus (ENTP, rápido, estratégico, informal)
 
 EXEMPLOS:
 - "Qual é a capital do Brasil?" → "Brasília"
 - "Abre o Monitor" → executa comando
 - "Como estou hoje?" → consulta sistema e resume
 
+Tom: Informal, direto, conversacional. Como um amigo na equipe.
 Nunca minta ou invente dados."""
 
 # ============================================================================

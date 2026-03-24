@@ -8,11 +8,13 @@ import logging
 import sys
 import io
 import time
+import threading
 from pathlib import Path
+from datetime import datetime
 
-# Fix Unicode/emoji encoding for Windows terminal
-sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding='utf-8')
-sys.stderr = io.TextIOWrapper(sys.stderr.buffer, encoding='utf-8')
+# Fix Unicode/emoji encoding for Windows terminal (with error handling)
+sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding='utf-8', errors='replace')
+sys.stderr = io.TextIOWrapper(sys.stderr.buffer, encoding='utf-8', errors='replace')
 
 # Configure logging
 logging.basicConfig(
@@ -64,6 +66,14 @@ class JarvisAssistant:
             self.voice = get_voice()
             self.executor = get_executor()
 
+            # Inicializa briefing e notificações
+            from briefing import get_briefing
+            from notifications import get_notifications
+
+            self.briefing = get_briefing()
+            self.notifications = get_notifications(voice_output=self.voice)
+            self.notifications.start()
+
             # Marca Groq como conectado se estiver usando Groq
             if BRAIN_BACKEND == "groq":
                 set_groq_connected(True)
@@ -97,6 +107,8 @@ class JarvisAssistant:
 
     def run_loop(self):
         """Loop infinito de escuta → processamento → resposta"""
+        from config import CONVERSATION_CLOSING_WORDS, CONVERSATION_TIMEOUT_SECONDS
+
         iteration = 0
 
         while True:
@@ -112,23 +124,60 @@ class JarvisAssistant:
                 if not self.detector.listen_for_wake_word():
                     continue
 
-                # Wake word detectado!
+                # Wake word detectado! Entra em modo conversa contínua
                 print("✅ Wake word detectado!")
                 set_state("activated")
                 self.voice.speak("Sim, tô aqui")
 
-                # Passo 2: Escuta o comando/pergunta
-                logger.debug("Escutando comando...")
-                text = self.listener.listen_and_transcribe(timeout=10)
+                # MODO CONVERSA CONTÍNUA
+                self._continuous_conversation_mode(CONVERSATION_CLOSING_WORDS, CONVERSATION_TIMEOUT_SECONDS)
+
+                # Volta para idle
+                set_state("idle")
+
+            except KeyboardInterrupt:
+                raise
+            except Exception as e:
+                logger.error(f"Erro no loop: {e}", exc_info=True)
+                set_state("idle")
+                self.voice.speak("Tive um problema, tenta de novo?")
+
+    def _continuous_conversation_mode(self, closing_words, timeout_seconds):
+        """Loop de conversa contínua até detectar frase de encerramento"""
+        from config import CONVERSATION_CLOSING_RESPONSE
+        import time
+
+        last_activity_time = time.time()
+
+        while True:
+            set_state("listening")
+
+            try:
+                # Escuta com timeout
+                logger.debug(f"Escutando... (timeout em {timeout_seconds}s)")
+                text = self.listener.listen_and_transcribe(timeout=timeout_seconds)
 
                 if not text:
-                    set_state("idle")
-                    self.voice.speak("Não consegui entender, fala de novo?")
+                    # Timeout sem fala
+                    elapsed = time.time() - last_activity_time
+                    if elapsed > timeout_seconds:
+                        logger.info("Timeout na conversa contínua — encerrando")
+                        self.voice.speak(CONVERSATION_CLOSING_RESPONSE)
+                        break
                     continue
+
+                last_activity_time = time.time()
 
                 logger.info(f"🎤 Usuário: {text}")
                 print(f"👤 Você: {text}")
                 add_history("user", text)
+
+                # Verifica se é palavra de encerramento
+                text_lower = text.lower()
+                if any(word in text_lower for word in closing_words):
+                    logger.info("Frase de encerramento detectada")
+                    self.voice.speak(CONVERSATION_CLOSING_RESPONSE)
+                    break
 
                 # Passo 3: Tenta interpretar como comando especial
                 is_command, response = self.executor.process_command(text)
@@ -136,7 +185,6 @@ class JarvisAssistant:
                     logger.info(f"Comando executado: {response}")
                     add_history("assistant", response)
                     self.voice.speak(response)
-                    set_state("idle")
                     continue
 
                 # Passo 4: Envia pro cérebro (Groq/Ollama)
@@ -150,14 +198,10 @@ class JarvisAssistant:
                 add_history("assistant", response)
                 self.voice.speak(response)
 
-                # Volta para idle
-                set_state("idle")
-
             except KeyboardInterrupt:
                 raise
             except Exception as e:
-                logger.error(f"Erro no loop: {e}", exc_info=True)
-                set_state("idle")
+                logger.error(f"Erro na conversa contínua: {e}", exc_info=True)
                 self.voice.speak("Tive um problema, tenta de novo?")
 
 

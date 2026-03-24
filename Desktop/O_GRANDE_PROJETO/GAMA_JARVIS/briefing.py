@@ -119,6 +119,60 @@ class MorningBriefing:
         """Registra que o briefing foi dado"""
         self._save_briefing_date()
 
+    def should_give_checkin(self):
+        """
+        Verifica se deve dar check-in vespertino (15h por padrão)
+        Retorna True se é a primeira chamada no horário de check-in do dia
+        """
+        from config import CHECKIN_HOUR
+
+        now = datetime.now()
+        current_date = now.strftime("%Y-%m-%d")
+        last_date = self._get_last_briefing_date()
+
+        # Verifica se é primeira execução do dia
+        is_first_today = last_date != current_date
+
+        # Verifica se está no horário de check-in (CHECKIN_HOUR até CHECKIN_HOUR+1)
+        current_hour = now.hour
+        is_checkin_time = current_hour == CHECKIN_HOUR
+
+        should_checkin = is_first_today and is_checkin_time
+        logger.info(f"Check-in necessário: {should_checkin} (hora: {current_hour}, check-in: {CHECKIN_HOUR})")
+
+        return should_checkin
+
+    def generate_checkin_text(self):
+        """
+        Gera texto do check-in vespertino
+        Retorna string com pergunta de check-in
+        """
+        from config import CHECKIN_MESSAGE
+        return CHECKIN_MESSAGE
+
+    def record_checkin(self, response_text):
+        """Registra resposta do check-in em arquivo"""
+        checkin_file = Path(__file__).parent / "data" / "checkins.json"
+        checkin_file.parent.mkdir(parents=True, exist_ok=True)
+
+        try:
+            checkins = []
+            if checkin_file.exists():
+                with open(checkin_file, "r", encoding="utf-8") as f:
+                    checkins = json.load(f)
+
+            checkins.append({
+                "date": datetime.now().isoformat(),
+                "response": response_text
+            })
+
+            with open(checkin_file, "w", encoding="utf-8") as f:
+                json.dump(checkins, f, indent=2, ensure_ascii=False)
+
+            logger.info(f"Check-in registrado: {response_text}")
+        except Exception as e:
+            logger.error(f"Erro ao registrar check-in: {e}")
+
 
 # Instância global
 _briefing_instance = None
