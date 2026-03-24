@@ -145,6 +145,9 @@ class ProactiveNotifications:
                     continue
 
                 current_projects = monitor_status.get("projects", {})
+                # Se projects for uma lista, converter para dict (compatibilidade)
+                if isinstance(current_projects, list):
+                    current_projects = {}
                 last_status = self._load_project_status()
 
                 # Verifica offline
