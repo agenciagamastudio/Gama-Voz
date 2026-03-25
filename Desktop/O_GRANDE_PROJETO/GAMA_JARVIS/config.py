@@ -36,8 +36,12 @@ CHUNK_SIZE = 1024
 AUDIO_FORMAT = "int16"
 
 # Whisper configuration (for transcription)
-WHISPER_MODEL = "tiny"  # tiny, base, small, medium, large
+WHISPER_MODEL = "tiny"  # tiny, base, small, medium, large (fallback local)
 WHISPER_LANGUAGE = "pt"  # Portuguese
+
+# Groq Whisper configuration (melhor qualidade, suporta português com precisão)
+USE_GROQ_WHISPER = True  # Se True, tenta Groq primeiro (recomendado)
+GROQ_WHISPER_MODEL = "whisper-large-v3-turbo"  # Modelo Groq (excelente pra português)
 
 # Brain backend selection (groq or ollama)
 BRAIN_BACKEND = os.getenv("BRAIN_BACKEND", "groq")  # Use "groq" (rápido) or "ollama" (local)
