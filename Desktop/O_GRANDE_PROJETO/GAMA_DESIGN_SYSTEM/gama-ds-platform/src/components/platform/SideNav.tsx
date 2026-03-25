@@ -2,7 +2,7 @@
 
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
-import { ChevronDown, Layers, Box, Palette, Code, Menu } from 'lucide-react'
+import { ChevronDown, ChevronLeft, ChevronRight, Layers, Box, Palette, Code, Menu } from 'lucide-react'
 import { useState } from 'react'
 import { ThemeToggle } from './ThemeToggle'
 import { useSidenavContext } from './SidenavContext'
@@ -131,7 +131,8 @@ function NavGroup({ item, isCollapsed }: { item: NavItem; isCollapsed: boolean }
 
 export function SideNav() {
   const { isHovered, setIsHovered, setIsDrawerOpen } = useSidenavContext()
-  const isCollapsed = !isHovered
+  const [expanded, setExpanded] = useState(true)
+  const isCollapsed = !isHovered && !expanded
 
   return (
     <>
@@ -152,8 +153,8 @@ export function SideNav() {
           isCollapsed ? 'w-16' : 'w-64'
         }`}
       >
-      {/* Header - Logo */}
-      <div className="flex-shrink-0 px-3 py-5 border-b border-gama-surface flex items-center justify-center">
+      {/* Header - Logo + Toggle */}
+      <div className="flex-shrink-0 px-3 py-5 border-b border-gama-surface flex items-center justify-between">
         {isCollapsed ? (
           <div className="w-10 h-10 rounded-lg flex items-center justify-center hover:bg-gama-surface/70 motion-transition-default duration-200">
             <Logo size="md" />
@@ -161,6 +162,18 @@ export function SideNav() {
         ) : (
           <Logo size="lg" withText />
         )}
+        <button
+          onClick={() => setExpanded(!expanded)}
+          className="flex-shrink-0 p-2 hover:bg-gama-surface rounded transition-all ml-auto"
+          title={expanded ? 'Recolher' : 'Expandir'}
+          aria-label={expanded ? 'Collapse sidebar' : 'Expand sidebar'}
+        >
+          {expanded ? (
+            <ChevronLeft size={18} className="text-gama-primary" />
+          ) : (
+            <ChevronRight size={18} className="text-gama-primary" />
+          )}
+        </button>
       </div>
 
       {/* Navigation */}
