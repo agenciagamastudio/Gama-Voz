@@ -147,14 +147,20 @@ export function SideNav() {
 
       {/* Desktop Sidebar */}
       <aside
-        onMouseEnter={() => setIsHovered(true)}
-        onMouseLeave={() => setIsHovered(false)}
-        className={`hidden lg:block lg:fixed top-0 left-0 h-screen bg-gama-darker border-r border-gama-surface z-50 motion-transition-default duration-300 ease-in-out flex flex-col ${
-          isCollapsed ? 'w-16' : 'w-64'
-        }`}
+        onMouseEnter={() => {
+          if (!expanded) setIsHovered(true)
+        }}
+        onMouseLeave={() => {
+          if (!expanded) setIsHovered(false)
+        }}
+        className={`hidden lg:block lg:fixed top-0 left-0 h-screen bg-gama-darker border-r border-gama-surface z-50 flex flex-col ${
+          expanded ? 'w-64' : 'motion-transition-default duration-300 ease-in-out'
+        } ${isCollapsed ? 'w-16' : 'w-64'}`}
       >
       {/* Header - Logo + Toggle */}
-      <div className="flex-shrink-0 px-3 py-5 border-b border-gama-surface flex items-center justify-between">
+      <div className={`flex-shrink-0 px-3 py-5 border-b border-gama-surface flex items-center ${
+        isCollapsed ? 'justify-center' : 'justify-between'
+      }`}>
         {isCollapsed ? (
           <div className="w-10 h-10 rounded-lg flex items-center justify-center hover:bg-gama-surface/70 motion-transition-default duration-200">
             <Logo size="md" />
@@ -162,18 +168,20 @@ export function SideNav() {
         ) : (
           <Logo size="lg" withText />
         )}
-        <button
-          onClick={() => setExpanded(!expanded)}
-          className="flex-shrink-0 p-2 hover:bg-gama-surface rounded transition-all ml-auto"
-          title={expanded ? 'Recolher' : 'Expandir'}
-          aria-label={expanded ? 'Collapse sidebar' : 'Expand sidebar'}
-        >
-          {expanded ? (
-            <ChevronLeft size={18} className="text-gama-primary" />
-          ) : (
-            <ChevronRight size={18} className="text-gama-primary" />
-          )}
-        </button>
+        {!isCollapsed && (
+          <button
+            onClick={() => setExpanded(!expanded)}
+            className="flex-shrink-0 p-2 hover:bg-gama-surface rounded transition-all"
+            title={expanded ? 'Recolher' : 'Expandir'}
+            aria-label={expanded ? 'Collapse sidebar' : 'Expand sidebar'}
+          >
+            {expanded ? (
+              <ChevronLeft size={18} className="text-gama-primary" />
+            ) : (
+              <ChevronRight size={18} className="text-gama-primary" />
+            )}
+          </button>
+        )}
       </div>
 
       {/* Navigation */}
