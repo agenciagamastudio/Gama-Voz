@@ -1,0 +1,287 @@
+[
+  {
+    "timestamp": "2026-03-31T21:38:15.354955",
+    "text": " Eie, a som.",
+    "duration": 5.76275
+  },
+  {
+    "timestamp": "2026-03-31T21:38:18.287357",
+    "text": " E aí",
+    "duration": 0.12275
+  },
+  {
+    "timestamp": "2026-03-31T21:38:23.267735",
+    "text": " Tá conseguindo o meu vídeo certinho",
+    "duration": 5.40275
+  },
+  {
+    "timestamp": "2026-03-31T21:38:49.466875",
+    "text": " porque na verdade o maior problema que eu estou tendo agora com esse sistema de transcrição e tal é isso.",
+    "duration": 16.92275
+  },
+  {
+    "timestamp": "2026-03-31T21:39:24.645837",
+    "text": " Eu quero agora que simplesmente eu tenha isso rodando em back-end na minha máquina. Por exemplo, eu vou... Tipo, eu tô aqui no terminal, sério? Certo? Eu venho aqui, dou simplesmente o comando, ele vai... Eu começo a falar, dou o comando de novo, ele para e aí ele já digita, né? Como eu tô fazendo aqui manualmente, né? Clicando, interagindo aqui no front-end que você criou aqui pra mim no navegador.",
+    "duration": 59.64275
+  },
+  {
+    "timestamp": "2026-03-31T21:40:11.382793",
+    "text": " Quando eu digo rodando em back-end, não seria rodando em back-end, seria rodando em background, entendeu? Rodo no segundo plano aqui na minha máquina, entende? E eu simplesmente faço isso que eu te falei, dou comando, falo, dou comando, paro, ele vai transcrever, como ele tá fazendo lá, perfeitamente pra mim. E detalhe, uma novidade, já tô rodando ele usando, já tô digitando isso aqui que você tá vendo agora, utilizando ele.",
+    "duration": 51.84275
+  },
+  {
+    "timestamp": "2026-03-31T21:41:17.194306",
+    "text": " Ou seja, oficialmente a gente já está usando ele. Eu estou muito feliz, mesmo que aqui no navegador. Simplesmente agora ficou fácil, fácil, fácil fazer as coisas. Simplesmente só abrir ele, clicar aqui no botãozinho. Mostra até o meu waveform rodando aqui quando eu falo. Ele fica, sabe, vermelhinho, fica mexendo. Maravilhoso. E outra, ele está criando históricos. Cara, isso aqui é muito bom. Cara, aproveitando que a gente está também vendo esse front, Vou fazer algumas atualizações, né? Atualiza ele aí com o design assist da agência. Bonitão. E é isso. Entendeu? Que algumas coisas estão erradas. Fontes e tal. Esse histórico coloca um botãozinho de copiar, velho. Que seria muito bom também. E é isso, velho. Ficou muito bom.",
+    "duration": 107.28275
+  },
+  {
+    "timestamp": "2026-03-31T21:41:49.962731",
+    "text": " Ou seja, oficialmente a gente já está usando ele. Eu estou muito feliz, mesmo que aqui no navegador. Simplesmente agora ficou fácil, fácil, fácil fazer as coisas. Simplesmente só abrir ele, clicar aqui no botãozinho. Mostra até o meu waveform rodando aqui quando eu falo. Ele fica, sabe, vermelhinho, fica mexendo. Maravilhoso. E outra, ele está criando históricos. Cara, isso aqui é muito bom. Cara, aproveitando que a gente está também vendo esse front, Vou fazer algumas atualizações, né? Atualiza ele aí com o design assist da agência. Bonitão. E é isso. Entendeu? Que algumas coisas estão erradas. Fontes e tal. Esse histórico coloca um botãozinho de copiar, velho. Que seria muito bom também. E é isso, velho. Ficou muito bom.",
+    "duration": 107.28275
+  },
+  {
+    "timestamp": "2026-03-31T21:41:51.657988",
+    "text": " Ou seja, oficialmente a gente já está usando ele. Eu estou muito feliz, mesmo que aqui no navegador. Simplesmente agora ficou fácil, fácil, fácil fazer as coisas. Simplesmente só abrir ele, clicar aqui no botãozinho. Mostra até o meu waveform rodando aqui quando eu falo. Ele fica, sabe, vermelhinho, fica mexendo. Maravilhoso. E outra, ele está criando históricos. Cara, isso aqui é muito bom. Cara, aproveitando que a gente está também vendo esse front, Vou fazer algumas atualizações, né? Atualiza ele aí com o design assist da agência. Bonitão. E é isso. Entendeu? Que algumas coisas estão erradas. Fontes e tal. Esse histórico coloca um botãozinho de copiar, velho. Que seria muito bom também. E é isso, velho. Ficou muito bom.",
+    "duration": 107.28275
+  },
+  {
+    "timestamp": "2026-03-31T21:43:18.349835",
+    "text": " Cara, não seria bem isso, porque tipo assim, antes, como é que eu tava usando? Simplesmente abri o Cloud Code, pedi pra ele rodar o Gamma Voice, ele rodava, aparecia um íconezinho lá embaixo, no canto inferior direito, perto do horário do calendário, onde fica ali, onde tem a internet, a rede, o fone de ouvido e tal, essas coisas, aí ficava com um íconezinho verde ali. Quando eu clicava Quando eu dava o comando no teclado Ele ficava vermelho Aí eu falava, falava, falava Sabia que ele estava funcionando Ele ficava pulsando também Enquanto eu estava falando Aí quando eu dava o comando de novo Ele ficava verde E onde estava selecionado Onde eu estava digitando Simplesmente ele ia lá e digitava Entende?",
+    "duration": 84.36275
+  },
+  {
+    "timestamp": "2026-03-31T21:44:15.840836",
+    "text": " enquanto a gente está aqui, sei lá, enquanto eu clico aqui e estou falando em tal, depois clico em finalizar, tipo, pode dar algum erro em não transcrever. E aí poderia ter um botão do lado do... desse botão que eu clico para começar a falar. De transcrever, para simplesmente transcrever, né, que pode acontecer algum bug e tal, mas até então nada. Entende? e gostei muito da waveform que tá aparecendo e tal mas eu quero que coloque que deixe redondo, deixe uma bolota redonda, sei lá, fica mais com cara de, não sei de ar, alguma coisa assim e faz aquilo lá que eu te pedi no histórico e é isso, muda o design system aplica né",
+    "duration": 92.88275
+  },
+  {
+    "timestamp": "2026-03-31T21:44:37.237550",
+    "text": " E cara, eu vou te falar, a transcrição tá perfeita, simplesmente perfeita, maravilhoso.",
+    "duration": 13.32275
+  },
+  {
+    "timestamp": "2026-03-31T21:49:32.168999",
+    "text": " Na verdade eu quero um para cada segmento que a gente tem, né? Na verdade eu quero criar um de todos os projetos que a gente tem. E os nomes dos projetos que a gente tem são esses aqui.",
+    "duration": 26.76275
+  },
+  {
+    "timestamp": "2026-03-31T22:03:15.074946",
+    "text": " Interessante que eu posso Se me permite usar sozinho aqui, tá de boa, né, velho?",
+    "duration": 9.84275
+  },
+  {
+    "timestamp": "2026-03-31T22:04:48.870665",
+    "text": " Deixa eu terminar, o bicho ainda continua funcionando, né? Tá bom. Foda-se.",
+    "duration": 12.36275
+  },
+  {
+    "timestamp": "2026-04-01T00:26:18.922406",
+    "text": " Vamos voltar a trabalhar no projeto que está rodando isso.",
+    "duration": 23.40275
+  },
+  {
+    "timestamp": "2026-04-01T00:26:51.663586",
+    "text": " Vamos voltar a trabalhar no projeto que está rodando isso.",
+    "duration": 23.40275
+  },
+  {
+    "timestamp": "2026-04-01T00:26:55.156572",
+    "text": " Vamos voltar a trabalhar no projeto que está rodando isso.",
+    "duration": 23.40275
+  },
+  {
+    "timestamp": "2026-04-01T00:31:33.885037",
+    "text": " Cara, meu casamento é esse mês. Dia 23 de abril de 2026. Eu concluí três anos de casado. Eu fiz meu casamento. Tenho aqui todas as fotos. Só que a gente não fez algo das fotos. Não fez nada. Eu tenho tudo aqui em um link. Aqui no meu drive. e eu posso estar te passando e aí você vê faz alguma coisa aí é depois a gente subir no Vercel pra no dia eu simplesmente poder abrir na minha televisão e fazer uma surpresa pra ela, entendi? isso aí vai ser algo meio esquecível vê aí, vê o que você pode fazer pra gente",
+    "duration": 105.84275
+  },
+  {
+    "timestamp": "2026-04-01T00:31:51.405712",
+    "text": " Cara, meu casamento é esse mês. Dia 23 de abril de 2026. Eu concluí três anos de casado. Eu fiz meu casamento. Tenho aqui todas as fotos. Só que a gente não fez algo das fotos. Não fez nada. Eu tenho tudo aqui em um link. Aqui no meu drive. e eu posso estar te passando e aí você vê faz alguma coisa aí é depois a gente subir no Vercel pra no dia eu simplesmente poder abrir na minha televisão e fazer uma surpresa pra ela, entendi? isso aí vai ser algo meio esquecível vê aí, vê o que você pode fazer pra gente",
+    "duration": 105.84275
+  },
+  {
+    "timestamp": "2026-04-01T00:33:12.238301",
+    "text": " Cara, meu casamento é esse mês. Dia 23 de abril de 2026. Eu concluí três anos de casado. Eu fiz meu casamento. Tenho aqui todas as fotos. Só que a gente não fez algo das fotos. Não fez nada. Eu tenho tudo aqui em um link. Aqui no meu drive. e eu posso estar te passando e aí você vê faz alguma coisa aí é depois a gente subir no Vercel pra no dia eu simplesmente poder abrir na minha televisão e fazer uma surpresa pra ela, entendi? isso aí vai ser algo meio esquecível vê aí, vê o que você pode fazer pra gente",
+    "duration": 105.84275
+  },
+  {
+    "timestamp": "2026-04-01T00:37:06.248020",
+    "text": " acabei de mandar aí o link das fotos e é isso é o link do drive lá você vai encontrar fotos de toda a arrumação, todo buffet, as mesas, você vai encontrar o making of da noiva né no caso minha esposa atualmente, vai encontrar foto com a madrinha que foi feita junto com o make que também foi a maquiadora vai encontrar foto com a amiga dela que fez a trança a trancista vai encontrar mais algumas fotos do do making of vai encontrar as fotos do cerimonialista a entrada do noivo o noivo beijando a mãe beijando o pai, se abraçando vai encontrar foto dos noivos, vai encontrar as entradas dos padrinhos de todos os padrinhos vão encontrar o novo chorando vão encontrar os noivinhos entrando também vão encontrar vai ver a entrada da noiva a noiva cantando junto com O pai e a mãe Meus Sogros Vai encontrar a rea de alguns padrinhos Vai encontrar Eu abra a minha sogra abra o meu sogro Vai encontrar mais algumas pessoas chorando. São os padrinhos. Eu recebi na noiva. A gente notar a reação da gente, algumas fotos detalhadas. Porto ambiente. Vai encontrar O segurança das alianças entrando Eu dizendo sim Sorrindo Mais fotos da gente Eu assinando A noiva também Dizendo sim Alguns padrinhos assinando A troca da aliança A gente se beijando Vai encontrar uma outra pessoa Enfim, você vai encontrar muita coisa Quero que com isso daí você crie algo Que eu possa Depois de aprovado É claro, eu vou mandar para o Vercel E eu posso abrir de qualquer lugar Apenas com o link Eu quero algo muito mais do que simplesmente O fotos.google.com sabe e a gente mesmo com orçamento a gente não teria como fazer um álbum nesse turco do campeonato simplesmente eu quero poder fazer isso daqui",
+    "duration": 407.76275
+  },
+  {
+    "timestamp": "2026-04-01T00:37:14.653786",
+    "text": " acabei de mandar aí o link das fotos e é isso é o link do drive lá você vai encontrar fotos de toda a arrumação, todo buffet, as mesas, você vai encontrar o making of da noiva né no caso minha esposa atualmente, vai encontrar foto com a madrinha que foi feita junto com o make que também foi a maquiadora vai encontrar foto com a amiga dela que fez a trança a trancista vai encontrar mais algumas fotos do do making of vai encontrar as fotos do cerimonialista a entrada do noivo o noivo beijando a mãe beijando o pai, se abraçando vai encontrar foto dos noivos, vai encontrar as entradas dos padrinhos de todos os padrinhos vão encontrar o novo chorando vão encontrar os noivinhos entrando também vão encontrar vai ver a entrada da noiva a noiva cantando junto com O pai e a mãe Meus Sogros Vai encontrar a rea de alguns padrinhos Vai encontrar Eu abra a minha sogra abra o meu sogro Vai encontrar mais algumas pessoas chorando. São os padrinhos. Eu recebi na noiva. A gente notar a reação da gente, algumas fotos detalhadas. Porto ambiente. Vai encontrar O segurança das alianças entrando Eu dizendo sim Sorrindo Mais fotos da gente Eu assinando A noiva também Dizendo sim Alguns padrinhos assinando A troca da aliança A gente se beijando Vai encontrar uma outra pessoa Enfim, você vai encontrar muita coisa Quero que com isso daí você crie algo Que eu possa Depois de aprovado É claro, eu vou mandar para o Vercel E eu posso abrir de qualquer lugar Apenas com o link Eu quero algo muito mais do que simplesmente O fotos.google.com sabe e a gente mesmo com orçamento a gente não teria como fazer um álbum nesse turco do campeonato simplesmente eu quero poder fazer isso daqui",
+    "duration": 407.76275
+  },
+  {
+    "timestamp": "2026-04-01T00:50:05.508026",
+    "text": " Eu quero que quando eu aperte CTRL mais SHIFT direito do teclado, ele comece a me ouvir. Como eu estou gravando esse áudio aqui agora, ele está transcrevendo bonitinho. E quando eu clicar de novo CTRL SHIFT, ele parar. Simplesmente ele parar e aí já transcreve bonitinho. E tipo assim, eu quero que isso funcione no meu PC normal ou em qualquer lugar. Tipo se tiver o mouse selecionado em qualquer lugar No VC Para digitar Simplesmente eu dou esses comandos Falo, dou o comando de novo E já aparece o que eu falei Na onde eu quero escrever",
+    "duration": 77.16275
+  },
+  {
+    "timestamp": "2026-04-01T14:46:52.763464",
+    "text": " Eu só quero me certificar de que isso aqui realmente tá funcionando e tá transcrevendo essa porra.",
+    "duration": 11.88275
+  },
+  {
+    "timestamp": "2026-04-01T22:58:51.500155",
+    "text": " Amor? Tá ouvindo, amor? Graça? Ô, Graça.",
+    "duration": 27.24275
+  },
+  {
+    "timestamp": "2026-04-01T22:59:17.847862",
+    "text": " Muito boa.",
+    "duration": 43.56275
+  },
+  {
+    "timestamp": "2026-04-01T22:59:25.384834",
+    "text": " Muito ghosts?",
+    "duration": 43.56275
+  },
+  {
+    "timestamp": "2026-04-01T22:59:29.934953",
+    "text": " Muito bom.",
+    "duration": 43.56275
+  },
+  {
+    "timestamp": "2026-04-01T22:59:37.919292",
+    "text": " Muito, muito.",
+    "duration": 43.56275
+  },
+  {
+    "timestamp": "2026-04-01T23:57:33.866816",
+    "text": " Eu, na verdade, já estou querendo criar uma plataforma de educação há muito tempo, né? Que isso também seria o Gama Nord, que é um dos projetos que eu tenho aí, dos 26 projetos que eu tenho. Que hoje em dia, esse projeto em si, ele já é um projeto que simplesmente ele usa um outro projeto, que é o Gama Jarvis, pra, pela manhã, conversar comigo durante uma hora, e nessa uma hora, decidi fazer meio que uma análise diária minha, de como é que eu tô e criar uma trilha pra o meu dia entende? Porque lá ele vai ter vários pontos meus que estão encaminhando, e com base nessa uma hora de ouvindo o usuário ele vai dizer qual trilha é melhor e qual coisa é melhor para seguir por exemplo, financeiro emocional ou pessoal e não sei, algo desse sentido vamos botar aqui financeiro e emocional",
+    "duration": 136.32275
+  },
+  {
+    "timestamp": "2026-04-01T23:57:43.510796",
+    "text": " Eu, na verdade, já estou querendo criar uma plataforma de educação há muito tempo, né? Que isso também seria o Gama Nord, que é um dos projetos que eu tenho aí, dos 26 projetos que eu tenho. Que hoje em dia, esse projeto em si, ele já é um projeto que simplesmente ele usa um outro projeto, que é o Gama Jarvis, pra, pela manhã, conversar comigo durante uma hora, e nessa uma hora, decidi fazer meio que uma análise diária minha, de como é que eu tô e criar uma trilha pra o meu dia entende? Porque lá ele vai ter vários pontos meus que estão encaminhando, e com base nessa uma hora de ouvindo o usuário ele vai dizer qual trilha é melhor e qual coisa é melhor para seguir por exemplo, financeiro emocional ou pessoal e não sei, algo desse sentido vamos botar aqui financeiro e emocional",
+    "duration": 136.32275
+  },
+  {
+    "timestamp": "2026-04-02T00:00:06.308138",
+    "text": " Aí ele vai ver Cara, se eu estiver falando muito sobre o emocional Que eu não estou bem e tal, não sei o que Ele vai cuidar do emocional Ou se pela manhã eu estiver falando Que tem algumas ideias E que tem muita coisa para pagar E tal, não sei o que A gente vai ver o que? Parte financeira Que pode ser finanças Pode ser criar projetos Pode ser, ou seja Ele vai criar uma trilha Entende? Vai ser algo que tem armazenado todo meu perfil comportamental tem acesso ao meu dama financeiro, que tem lá as coisas e tal, vai ver qual é o melhor mês o mês que mais entra dinheiro e tal ele vai ver, todo está, ele vai ter muita informação sobre mim e aí com base nisso ele vai desenvolver aquilo que a gente precisa, né e aí ele vai dar a trilha lá, que eu falei e esse gama educação que eu estou querendo criar seria mais ou menos assim eu converso aqui com a I e ela tamb cria para mim como se fosse uma tipo um mapa mental algo assim Um mapa mental que simplesmente me mostra os pontos-chaves da conversa que eu tive. Por exemplo, agora aqui mesmo a gente está tendo uma conversa aqui sobre educação. E ela mostra sobre o que tem a ver com os quatro temas que eu falei no começo. E aí ele vai me falar, no tema que a gente está, ele vai criar um mapa e ele vai dizer em que lugar a gente está nesse mapa. E aí no mapa a gente vai ter uma clareza que, nossa, a gente está falando sobre o assunto. Mas olha o quanto tempo atrás, olha o quanto tempo à frente. Ou seja, eu estou quase no final, por exemplo. Olha o quanto tempo atrás ainda Pra aprender pra que isso aqui faça ainda mais sentido Entende? Ou se não eu tô no começo Olha o quanto eu tenho que aprender ainda Pra isso aqui fazer ainda mais sentido Mais pra frente, entende? Mais ou menos isso que eu quero criar",
+    "duration": 260.76275
+  },
+  {
+    "timestamp": "2026-04-02T00:00:12.208945",
+    "text": " Aí ele vai ver Cara, se eu estiver falando muito sobre o emocional Que eu não estou bem e tal, não sei o que Ele vai cuidar do emocional Ou se pela manhã eu estiver falando Que tem algumas ideias E que tem muita coisa para pagar E tal, não sei o que A gente vai ver o que? Parte financeira Que pode ser finanças Pode ser criar projetos Pode ser, ou seja Ele vai criar uma trilha Entende? Vai ser algo que tem armazenado todo meu perfil comportamental tem acesso ao meu dama financeiro, que tem lá as coisas e tal, vai ver qual é o melhor mês o mês que mais entra dinheiro e tal ele vai ver, todo está, ele vai ter muita informação sobre mim e aí com base nisso ele vai desenvolver aquilo que a gente precisa, né e aí ele vai dar a trilha lá, que eu falei e esse gama educação que eu estou querendo criar seria mais ou menos assim eu converso aqui com a I e ela tamb cria para mim como se fosse uma tipo um mapa mental algo assim Um mapa mental que simplesmente me mostra os pontos-chaves da conversa que eu tive. Por exemplo, agora aqui mesmo a gente está tendo uma conversa aqui sobre educação. E ela mostra sobre o que tem a ver com os quatro temas que eu falei no começo. E aí ele vai me falar, no tema que a gente está, ele vai criar um mapa e ele vai dizer em que lugar a gente está nesse mapa. E aí no mapa a gente vai ter uma clareza que, nossa, a gente está falando sobre o assunto. Mas olha o quanto tempo atrás, olha o quanto tempo à frente. Ou seja, eu estou quase no final, por exemplo. Olha o quanto tempo atrás ainda Pra aprender pra que isso aqui faça ainda mais sentido Entende? Ou se não eu tô no começo Olha o quanto eu tenho que aprender ainda Pra isso aqui fazer ainda mais sentido Mais pra frente, entende? Mais ou menos isso que eu quero criar",
+    "duration": 260.76275
+  },
+  {
+    "timestamp": "2026-04-02T00:05:47.186775",
+    "text": " Cara, você falou aqui, né, sobre criar o Gama Educação, que cria um mapa mental, visual da jornada do presenciado. Cara, isso aí pra mim é essencial, porque hoje em dia o jogo não me dá mais dopamina, fica parado não me dá mais dopamina. Tipo, não me dá empolga, cara, esse negócio de A, do Claudio Codio, entrou na minha vida de uma forma, que cara, eu preciso de um lugar. estudar é como se fosse uma me gera muita dopamina, estudar algo aprender aquilo ali explode a minha mente hoje em dia eu queria um lugar em que eu tô ali tranquilaço e cara eu vejo vários tópicos eu vejo, sei lá como se fosse um obsídia, como se fosse o segundo cérebro eu vejo ali coisas conectadas, nós, interconectadas aquela coisa, cara, eu quero tipo assim olhar aquilo ali e falar financeiro, pum clico ali, aí no financeiro me abre uma árvore gigante falando sobre financeiro, e ele fala em que lugar que eu tô e quais pontos eu já explorei e já tô, cara, vamos dizer assim com certificado sabe com a t com a conquista eu j consigo que j conseguiu emblema e que n t aquele emblema tipo porra fui level porra, vai até level 5, cara, eu tiro level 3, nossa, velho, vamos dar uma olhada aqui de novo, pá, ver se eu entendi, vamos tirar um level 5, vamos tirar um level 4, vamos melhorar esse ponto ação aqui, cara, algo que eu olho assim e falei, é, é, nossa, que top, que ao mesmo tempo, eu possa também ter outra visualização, tipo de lista, cara, lista também me dá muita dopamina, eu fico muito empolgado quando vejo as coisas organizadinhas, listinha, sabe, coisinhas tipo uma listinha, eu clico, aí ele expande, eu clico de novo e ele volta e fica arrumadinho, eu também gosto desse tipo de coisa, tipo listinha, sabe, coisa de programador, essas coisas de nerd, eu curto muito aquilo ali, cara, mas com o assunto que eu domino, cara, pra mim aquilo ali é, sabe, eu domino, eu fico domino, eu fico um cara dominador, Eu me sinto um cara foda fazendo isso, entendeu? Cara, mas, pô, só essa parte de, tipo assim, eu tenho visualização estilo obsídio, tipo, educação. Pá, abre ali, aí tem vários bloquinhos, vários bagulho voando que se conecta. Pô, abre estilo obsídio ali e tal. Você clica lá e já tem a árvore, já tem um mapa mental, cada um daquele ali já é um mapa mental e tal. Tipo, financeiro, pá. Tipo, pra mim isso aí seria surreal, velho. E aí",
+    "duration": 331.44275
+  },
+  {
+    "timestamp": "2026-04-02T00:05:52.009535",
+    "text": " Cara, você falou aqui, né, sobre criar o Gama Educação, que cria um mapa mental, visual da jornada do presenciado. Cara, isso aí pra mim é essencial, porque hoje em dia o jogo não me dá mais dopamina, fica parado não me dá mais dopamina. Tipo, não me dá empolga, cara, esse negócio de A, do Claudio Codio, entrou na minha vida de uma forma, que cara, eu preciso de um lugar. estudar é como se fosse uma me gera muita dopamina, estudar algo aprender aquilo ali explode a minha mente hoje em dia eu queria um lugar em que eu tô ali tranquilaço e cara eu vejo vários tópicos eu vejo, sei lá como se fosse um obsídia, como se fosse o segundo cérebro eu vejo ali coisas conectadas, nós, interconectadas aquela coisa, cara, eu quero tipo assim olhar aquilo ali e falar financeiro, pum clico ali, aí no financeiro me abre uma árvore gigante falando sobre financeiro, e ele fala em que lugar que eu tô e quais pontos eu já explorei e já tô, cara, vamos dizer assim com certificado sabe com a t com a conquista eu j consigo que j conseguiu emblema e que n t aquele emblema tipo porra fui level porra, vai até level 5, cara, eu tiro level 3, nossa, velho, vamos dar uma olhada aqui de novo, pá, ver se eu entendi, vamos tirar um level 5, vamos tirar um level 4, vamos melhorar esse ponto ação aqui, cara, algo que eu olho assim e falei, é, é, nossa, que top, que ao mesmo tempo, eu possa também ter outra visualização, tipo de lista, cara, lista também me dá muita dopamina, eu fico muito empolgado quando vejo as coisas organizadinhas, listinha, sabe, coisinhas tipo uma listinha, eu clico, aí ele expande, eu clico de novo e ele volta e fica arrumadinho, eu também gosto desse tipo de coisa, tipo listinha, sabe, coisa de programador, essas coisas de nerd, eu curto muito aquilo ali, cara, mas com o assunto que eu domino, cara, pra mim aquilo ali é, sabe, eu domino, eu fico domino, eu fico um cara dominador, Eu me sinto um cara foda fazendo isso, entendeu? Cara, mas, pô, só essa parte de, tipo assim, eu tenho visualização estilo obsídio, tipo, educação. Pá, abre ali, aí tem vários bloquinhos, vários bagulho voando que se conecta. Pô, abre estilo obsídio ali e tal. Você clica lá e já tem a árvore, já tem um mapa mental, cada um daquele ali já é um mapa mental e tal. Tipo, financeiro, pá. Tipo, pra mim isso aí seria surreal, velho. E aí",
+    "duration": 331.44275
+  },
+  {
+    "timestamp": "2026-04-02T00:05:58.656620",
+    "text": " Cara, você falou aqui, né, sobre criar o Gama Educação, que cria um mapa mental, visual da jornada do presenciado. Cara, isso aí pra mim é essencial, porque hoje em dia o jogo não me dá mais dopamina, fica parado não me dá mais dopamina. Tipo, não me dá empolga, cara, esse negócio de A, do Claudio Codio, entrou na minha vida de uma forma, que cara, eu preciso de um lugar. estudar é como se fosse uma me gera muita dopamina, estudar algo aprender aquilo ali explode a minha mente hoje em dia eu queria um lugar em que eu tô ali tranquilaço e cara eu vejo vários tópicos eu vejo, sei lá como se fosse um obsídia, como se fosse o segundo cérebro eu vejo ali coisas conectadas, nós, interconectadas aquela coisa, cara, eu quero tipo assim olhar aquilo ali e falar financeiro, pum clico ali, aí no financeiro me abre uma árvore gigante falando sobre financeiro, e ele fala em que lugar que eu tô e quais pontos eu já explorei e já tô, cara, vamos dizer assim com certificado sabe com a t com a conquista eu j consigo que j conseguiu emblema e que n t aquele emblema tipo porra fui level porra, vai até level 5, cara, eu tiro level 3, nossa, velho, vamos dar uma olhada aqui de novo, pá, ver se eu entendi, vamos tirar um level 5, vamos tirar um level 4, vamos melhorar esse ponto ação aqui, cara, algo que eu olho assim e falei, é, é, nossa, que top, que ao mesmo tempo, eu possa também ter outra visualização, tipo de lista, cara, lista também me dá muita dopamina, eu fico muito empolgado quando vejo as coisas organizadinhas, listinha, sabe, coisinhas tipo uma listinha, eu clico, aí ele expande, eu clico de novo e ele volta e fica arrumadinho, eu também gosto desse tipo de coisa, tipo listinha, sabe, coisa de programador, essas coisas de nerd, eu curto muito aquilo ali, cara, mas com o assunto que eu domino, cara, pra mim aquilo ali é, sabe, eu domino, eu fico domino, eu fico um cara dominador, Eu me sinto um cara foda fazendo isso, entendeu? Cara, mas, pô, só essa parte de, tipo assim, eu tenho visualização estilo obsídio, tipo, educação. Pá, abre ali, aí tem vários bloquinhos, vários bagulho voando que se conecta. Pô, abre estilo obsídio ali e tal. Você clica lá e já tem a árvore, já tem um mapa mental, cada um daquele ali já é um mapa mental e tal. Tipo, financeiro, pá. Tipo, pra mim isso aí seria surreal, velho. E aí",
+    "duration": 331.44275
+  },
+  {
+    "timestamp": "2026-04-02T00:22:15.917004",
+    "text": " prepara lá no Gama Educação só tudo que tem a ver com o financeiro tipo assim, deixa todo o resto tipo assim, ele tira não é que ele tira, mas meio que ele esconde só aparece na tela tudo que tem a ver com o financeiro pra eu não perder o foco naquele dia cara, excelente excelente, se for isso daí excelente, gostei o que eu tinha pensado seria o que? o gama de educação, tá beleza, tipo, conversei com o Javis e tal, não sei o que ele falou velho, eu vejo que você tem pouco conhecimento ou quer aprender mais sobre essa área pra poder desenvolver mais esses projetos aqui, nessas áreas vão desenvolver e tipo assim, você quer criar novos projetos, mas você, vamos dizer assim, se você fosse um projeto, você está faltando dependência. A dependência que você falta é esse tipo de educação que você tem que tomar ainda. Sei lá, é financeiro, uma educação financeira, tem que aprender sobre vendas, toma. Tem que aprender um pouquinho sobre alguma tecnologia nova, você entende? Tem que aprender a utilizar mais o sistema que a gente tem e aí a gente tem que, porra, sabe? Eu achei que era isso. voc foi muito mais al Voc vai criar todo um banco de dados onde l tem falando mais sobre educa sobre financeiro sobre emocional sobre pessoal sobre X t que eu estou estudando que eu estou avaliando E lá, só assim, por que me pareça, pelo meu perfil comportamental, para mim isso daí é esse caos todo que a gente está falando aqui, que é para a minha organização. Eu espero que você entenda e, claro, você tem total ciência disso. Mas voltando, cara, você tem todo esse banco de dados, onde tem educação financeira, emocional, pessoal, tem tudo lá. E são todos, tudo que eu estou estudando. E, cara, você, através do Gama Javes, vai descobrir qual a inclinação que eu estou tendo naquele dia e qual trilha a gente vai escolher para trabalhar. E você vai trazer só o que tem a ver com aquela trilha, cara. cara, e digo mais tipo assim, cara, isso aqui tá 90% financeiro tem 20% de educação, tem uns 10% de emocional, cara, tem 70% de pessoal e é isso aí você personalizou ali, pum, toma você precisa estudar essas trilhas aqui de tal hora até tal hora isso aqui de tal hora até tal hora isso aqui você sabe, pode personalizar cara, isso aí é fantástico e outra você tem que dizer que cada um dos levels é... tipo assim... é... você falou aqui, level 1, você ainda está no começo, clique aqui pra começar. Level 2 voc est aqui agora tipo tem as cores e tem os neg tipo l tamb vai ter o que em que level eu tô em cada tipo de conteúdo, cara. Tipo, lá eu vou ter uma trilha personalizada, e onde eu tô nessa trilha, em cada conteúdo. Nossa, muito foda, muito foda. Aprovadíssima essa parte aí de cada level, maravilhoso, assim, top. E a gente tem também a segunda visualização, né? Avisão 2, que seria em formato lista. Tipo, abre educação, contendendo financeiro e contendendo fundamentos, que tem lá intermediários, avançados, e cara, lá dentro tem bonitinho lá, level 1, level 2, e tem lá, level 3, 4, bloqueado, e eu tenho que ir pro level 2 pra bloquear o level 3. Nossa, gostei também. Achei diferenciado também essa parte. Aí a gente clicou em intermediário só pra ver como é que tá. Aí lá dentro, Eu tenho, você explorou set de... Nossa, isso aqui tá perfeito, velho. Você entendeu realmente o que eu tô querendo. Fazer. Porra. E fazer isso tudo com o design assist da gama. Isso aqui vai ser... Nossa, o projeto mais foda e mais realizador que eu tenho, velho. Gostei, gostei. Você falou aqui sobre o back-end, invisível, ok. Top. E é isso, velho. E cara, porque isso é revolucionário... Isso foge da educação genérica, sim, sim, sim. Porque a educação genérica, ela foca em você seguir uma trilha fixa, junto com todo mundo, né? Meio que escolarização. O que a gente quer educa cara seguir uma trilha personalizada pra cada aluno ali vamos dizer assim n E que porra isso a d total liberdade dele aprender e ter uma dopamina, tipo, cara, isso aí é muito energético, ainda mais pra gente que tem esse tipo de pensamento mais caos, sabe? É muito bom. E é isso. Próximo passo. Eu não tenho mais nada pra falar sobre o Gama Educação, cara. Pra mim isso aí já me empolgou. A gente já pode meter mão. Cara, ativa a mesa conselheira. Se você tiver alguma dúvida, a gente ativa a mesa conselheira. Prêmio criar um Epic Plane. Cara, se você não tiver nenhuma dúvida, crie o Epic. Ralph loop executa Cara Se a gente já tiver informação suficiente A gente pode já começar A criar esse app e executar Sabe? Em 12 a 6 horas a gente Tá criando e executando tudo Cara, nesse momento agora Eu tô com outra coisa aqui fazendo Eu quero simplesmente, velho Que você crie um app Se você tiver alguma dúvida, você pode criar sim a mesma conselheira. Mas se não, bicho, já vamos criar aí com o PM o Epic Play, que é toda aquela estrutura, né? E já executar com o Ralf.",
+    "duration": 797.76275
+  },
+  {
+    "timestamp": "2026-04-02T00:22:25.597284",
+    "text": " prepara lá no Gama Educação só tudo que tem a ver com o financeiro tipo assim, deixa todo o resto tipo assim, ele tira não é que ele tira, mas meio que ele esconde só aparece na tela tudo que tem a ver com o financeiro pra eu não perder o foco naquele dia cara, excelente excelente, se for isso daí excelente, gostei o que eu tinha pensado seria o que? o gama de educação, tá beleza, tipo, conversei com o Javis e tal, não sei o que ele falou velho, eu vejo que você tem pouco conhecimento ou quer aprender mais sobre essa área pra poder desenvolver mais esses projetos aqui, nessas áreas vão desenvolver e tipo assim, você quer criar novos projetos, mas você, vamos dizer assim, se você fosse um projeto, você está faltando dependência. A dependência que você falta é esse tipo de educação que você tem que tomar ainda. Sei lá, é financeiro, uma educação financeira, tem que aprender sobre vendas, toma. Tem que aprender um pouquinho sobre alguma tecnologia nova, você entende? Tem que aprender a utilizar mais o sistema que a gente tem e aí a gente tem que, porra, sabe? Eu achei que era isso. voc foi muito mais al Voc vai criar todo um banco de dados onde l tem falando mais sobre educa sobre financeiro sobre emocional sobre pessoal sobre X t que eu estou estudando que eu estou avaliando E lá, só assim, por que me pareça, pelo meu perfil comportamental, para mim isso daí é esse caos todo que a gente está falando aqui, que é para a minha organização. Eu espero que você entenda e, claro, você tem total ciência disso. Mas voltando, cara, você tem todo esse banco de dados, onde tem educação financeira, emocional, pessoal, tem tudo lá. E são todos, tudo que eu estou estudando. E, cara, você, através do Gama Javes, vai descobrir qual a inclinação que eu estou tendo naquele dia e qual trilha a gente vai escolher para trabalhar. E você vai trazer só o que tem a ver com aquela trilha, cara. cara, e digo mais tipo assim, cara, isso aqui tá 90% financeiro tem 20% de educação, tem uns 10% de emocional, cara, tem 70% de pessoal e é isso aí você personalizou ali, pum, toma você precisa estudar essas trilhas aqui de tal hora até tal hora isso aqui de tal hora até tal hora isso aqui você sabe, pode personalizar cara, isso aí é fantástico e outra você tem que dizer que cada um dos levels é... tipo assim... é... você falou aqui, level 1, você ainda está no começo, clique aqui pra começar. Level 2 voc est aqui agora tipo tem as cores e tem os neg tipo l tamb vai ter o que em que level eu tô em cada tipo de conteúdo, cara. Tipo, lá eu vou ter uma trilha personalizada, e onde eu tô nessa trilha, em cada conteúdo. Nossa, muito foda, muito foda. Aprovadíssima essa parte aí de cada level, maravilhoso, assim, top. E a gente tem também a segunda visualização, né? Avisão 2, que seria em formato lista. Tipo, abre educação, contendendo financeiro e contendendo fundamentos, que tem lá intermediários, avançados, e cara, lá dentro tem bonitinho lá, level 1, level 2, e tem lá, level 3, 4, bloqueado, e eu tenho que ir pro level 2 pra bloquear o level 3. Nossa, gostei também. Achei diferenciado também essa parte. Aí a gente clicou em intermediário só pra ver como é que tá. Aí lá dentro, Eu tenho, você explorou set de... Nossa, isso aqui tá perfeito, velho. Você entendeu realmente o que eu tô querendo. Fazer. Porra. E fazer isso tudo com o design assist da gama. Isso aqui vai ser... Nossa, o projeto mais foda e mais realizador que eu tenho, velho. Gostei, gostei. Você falou aqui sobre o back-end, invisível, ok. Top. E é isso, velho. E cara, porque isso é revolucionário... Isso foge da educação genérica, sim, sim, sim. Porque a educação genérica, ela foca em você seguir uma trilha fixa, junto com todo mundo, né? Meio que escolarização. O que a gente quer educa cara seguir uma trilha personalizada pra cada aluno ali vamos dizer assim n E que porra isso a d total liberdade dele aprender e ter uma dopamina, tipo, cara, isso aí é muito energético, ainda mais pra gente que tem esse tipo de pensamento mais caos, sabe? É muito bom. E é isso. Próximo passo. Eu não tenho mais nada pra falar sobre o Gama Educação, cara. Pra mim isso aí já me empolgou. A gente já pode meter mão. Cara, ativa a mesa conselheira. Se você tiver alguma dúvida, a gente ativa a mesa conselheira. Prêmio criar um Epic Plane. Cara, se você não tiver nenhuma dúvida, crie o Epic. Ralph loop executa Cara Se a gente já tiver informação suficiente A gente pode já começar A criar esse app e executar Sabe? Em 12 a 6 horas a gente Tá criando e executando tudo Cara, nesse momento agora Eu tô com outra coisa aqui fazendo Eu quero simplesmente, velho Que você crie um app Se você tiver alguma dúvida, você pode criar sim a mesma conselheira. Mas se não, bicho, já vamos criar aí com o PM o Epic Play, que é toda aquela estrutura, né? E já executar com o Ralf.",
+    "duration": 797.76275
+  },
+  {
+    "timestamp": "2026-04-02T00:26:31.751583",
+    "text": " Você me falou Que é O PM queria E o Ralf executa tudo",
+    "duration": 41.52275
+  },
+  {
+    "timestamp": "2026-04-02T00:26:36.862605",
+    "text": " E aí",
+    "duration": 1.56275
+  },
+  {
+    "timestamp": "2026-04-02T00:27:07.843955",
+    "text": " Agora dentro dessa pasta que eu indiquei aí em cima E tudo que você for criar você já cria lá dentro também E depois você segue com o plano PM cria épicos No caso estrutura tudo e Ralf executa tudo, né?",
+    "duration": 41.64275
+  },
+  {
+    "timestamp": "2026-04-02T00:27:21.957478",
+    "text": " Agora dentro dessa pasta que eu indiquei aí em cima E tudo que você for criar você já cria lá dentro também E depois você segue com o plano PM cria épicos No caso estrutura tudo e Ralf executa tudo, né?",
+    "duration": 41.64275
+  },
+  {
+    "timestamp": "2026-04-02T00:28:08.279895",
+    "text": " E aí você depois segue com o plano. PM cria o Zepco Plan no caso estrutura tudo e o Ralf executa tudo",
+    "duration": 66.60275
+  },
+  {
+    "timestamp": "2026-04-02T00:28:15.023841",
+    "text": " E aí",
+    "duration": 0.48275
+  },
+  {
+    "timestamp": "2026-04-02T00:29:35.870283",
+    "text": " E aí",
+    "duration": 24.48275
+  },
+  {
+    "timestamp": "2026-04-02T00:29:43.425555",
+    "text": " .",
+    "duration": 1.20275
+  },
+  {
+    "timestamp": "2026-04-02T00:29:54.827100",
+    "text": " E aí",
+    "duration": 9.00275
+  },
+  {
+    "timestamp": "2026-04-02T00:31:26.879573",
+    "text": " Ah, Ah",
+    "duration": 18.12275
+  },
+  {
+    "timestamp": "2026-04-02T14:05:07.531025",
+    "text": " digamos que eu esteja na construção e agora eu estou na parte de rebocar as paredes e vamos dizer que essa aí seja a parte que eu te perguntei acima depois vem várias outras coisas da gramaçada e tal toda aquela coisa, pintar só que antes dessa etapa de rebocar a parede eu queria saber as etapas que vêm antes eu sei, eu tenho consciência que é o que? levantar bloco, fazer toda a parte estrutural fazer a fundação, limpar o terreno tem, sei lá, 4 ou 5 etapas por cima para trás, e se for pegar bem detalhado tem umas 10 etapas, vamos dizer assim várias micro etapas que formam essas 4 etapas E pra frente ainda tem qualquer Por cima, dez etapas Entendeu? Se for detalhar ali, dá umas vinte pra formar essas dez Entendeu? Porque daí pra frente agora tem toda a parte da massa na parede Puntar Vim com a parte elétrica, com a parte hidráulica Vim com os móveis Aí tem a parte de móvel planejado Aí Cara, vem a primeira lavagem de tudo Pra deixar tudo belezinha Vim com Um cheiro pra deixar a casa cheirosa, sabe? Vem com... Vem abastecendo as coisas, né? Tipo, na sala vem colocando as suas coisas, na cozinha vai colocando os mantimentos, quarto vai colocando o corpo, essas coisas, a maioria é a mesma coisa. O cara disse, tem toda essa parte pra, tipo assim, o negócio ficar funcional, entende? E até quando tá pronto, ainda tem que montar, ou seja, tem muita coisa. Aí eu queria saber com base nisso daí, que a gente tá criando, como é que funcionaria, velho?",
+    "duration": 227.88275
+  },
+  {
+    "timestamp": "2026-04-02T14:05:15.776102",
+    "text": " digamos que eu esteja na construção e agora eu estou na parte de rebocar as paredes e vamos dizer que essa aí seja a parte que eu te perguntei acima depois vem várias outras coisas da gramaçada e tal toda aquela coisa, pintar só que antes dessa etapa de rebocar a parede eu queria saber as etapas que vêm antes eu sei, eu tenho consciência que é o que? levantar bloco, fazer toda a parte estrutural fazer a fundação, limpar o terreno tem, sei lá, 4 ou 5 etapas por cima para trás, e se for pegar bem detalhado tem umas 10 etapas, vamos dizer assim várias micro etapas que formam essas 4 etapas E pra frente ainda tem qualquer Por cima, dez etapas Entendeu? Se for detalhar ali, dá umas vinte pra formar essas dez Entendeu? Porque daí pra frente agora tem toda a parte da massa na parede Puntar Vim com a parte elétrica, com a parte hidráulica Vim com os móveis Aí tem a parte de móvel planejado Aí Cara, vem a primeira lavagem de tudo Pra deixar tudo belezinha Vim com Um cheiro pra deixar a casa cheirosa, sabe? Vem com... Vem abastecendo as coisas, né? Tipo, na sala vem colocando as suas coisas, na cozinha vai colocando os mantimentos, quarto vai colocando o corpo, essas coisas, a maioria é a mesma coisa. O cara disse, tem toda essa parte pra, tipo assim, o negócio ficar funcional, entende? E até quando tá pronto, ainda tem que montar, ou seja, tem muita coisa. Aí eu queria saber com base nisso daí, que a gente tá criando, como é que funcionaria, velho?",
+    "duration": 227.88275
+  },
+  {
+    "timestamp": "2026-04-02T19:49:53.350256",
+    "text": " O áudio gravando para a Multimulti ver que o negócio funciona mesmo.",
+    "duration": 12.48275
+  },
+  {
+    "timestamp": "2026-04-03T11:20:00.564176",
+    "text": " Cara, eu tô aqui pensando que em questões de orquestração de agentes, eu acredito que eu tô bem no meu começo, entende? E eu tô ainda aprendendo, só que eu não posso ficar parado. Eu tenho muitos projetos, eu já acumulei mais de 6 projetos, eu tenho muitas coisas pra fazer, eu tenho agência pra cuidar. E meio que eu parei nos últimos 3, 4 meses da minha vida, eu parei para me voltar a isso. Aprender a estalar tudo certinho, aprender a projetar, aprender a, no mínimo, armazenar ideias do jeito que tem que ser. Porém, eu ainda estou preso muito na parte técnica. Meio que, como eu estou aprendendo, todo o meu sistema se personalizou como se eu tivesse mais conhecimento técnico do que na verdade eu tenho. Então eu quero ajustar aqui. Tanto no...",
+    "duration": 124.80275
+  },
+  {
+    "timestamp": "2026-04-03T11:20:08.005198",
+    "text": " Cara, eu tô aqui pensando que em questões de orquestração de agentes, eu acredito que eu tô bem no meu começo, entende? E eu tô ainda aprendendo, só que eu não posso ficar parado. Eu tenho muitos projetos, eu já acumulei mais de 6 projetos, eu tenho muitas coisas pra fazer, eu tenho agência pra cuidar. E meio que eu parei nos últimos 3, 4 meses da minha vida, eu parei para me voltar a isso. Aprender a estalar tudo certinho, aprender a projetar, aprender a, no mínimo, armazenar ideias do jeito que tem que ser. Porém, eu ainda estou preso muito na parte técnica. Meio que, como eu estou aprendendo, todo o meu sistema se personalizou como se eu tivesse mais conhecimento técnico do que na verdade eu tenho. Então eu quero ajustar aqui. Tanto no...",
+    "duration": 124.80275
+  },
+  {
+    "timestamp": "2026-04-03T11:21:49.018828",
+    "text": " Eu quero deixar definido para sempre quando a gente for fazer algo que exija uma decisão, que exija muito conhecimento técnico, tipo, a gente vai usar esse agente ou esse de cá para fazer, a gente vai usar esse skill ou essa outra? a gente vai usar esse processo para fazer isso daqui ou esse de cá, tipo, tudo que envolva algo que não seja visual que realmente, tipo assim que seja algo que vai dar o mesmo resultado, porém é um jeito de fazer, tipo CSS ou JavaScript tipo, essas perguntas que são realmente técnicas tipo assim no final das contas vão ser só apenas uma tecnologia que a gente vai usar eu prefiro que ela escolha com o mais recomendado, que foi o que na verdade eu fiz durante esse tempo todo. Tipo, ela me perguntava, você prefere que eu faça utilizando esse agente e essa tecnologia ou esse outro agente utilizando essa skill aqui? E eu falava, qual é o mais recomendado? Ah, ele me recomendava, eu vamos fazer desse jeito com o que você recomendou. E a gente fazia e dava certo, ou seja, eu estou o tempo todo dizendo para fazer o recomendado. Então vamos deixar já setado para simplesmente ele sempre fazer o recomendado.",
+    "duration": 159.12275
+  },
+  {
+    "timestamp": "2026-04-03T11:21:58.930348",
+    "text": " Eu quero deixar definido para sempre quando a gente for fazer algo que exija uma decisão, que exija muito conhecimento técnico, tipo, a gente vai usar esse agente ou esse de cá para fazer, a gente vai usar esse skill ou essa outra? a gente vai usar esse processo para fazer isso daqui ou esse de cá, tipo, tudo que envolva algo que não seja visual que realmente, tipo assim que seja algo que vai dar o mesmo resultado, porém é um jeito de fazer, tipo CSS ou JavaScript tipo, essas perguntas que são realmente técnicas tipo assim no final das contas vão ser só apenas uma tecnologia que a gente vai usar eu prefiro que ela escolha com o mais recomendado, que foi o que na verdade eu fiz durante esse tempo todo. Tipo, ela me perguntava, você prefere que eu faça utilizando esse agente e essa tecnologia ou esse outro agente utilizando essa skill aqui? E eu falava, qual é o mais recomendado? Ah, ele me recomendava, eu vamos fazer desse jeito com o que você recomendou. E a gente fazia e dava certo, ou seja, eu estou o tempo todo dizendo para fazer o recomendado. Então vamos deixar já setado para simplesmente ele sempre fazer o recomendado.",
+    "duration": 159.12275
+  },
+  {
+    "timestamp": "2026-04-03T17:20:21.128785",
+    "text": " E aí",
+    "duration": 1.80275
+  }
+]

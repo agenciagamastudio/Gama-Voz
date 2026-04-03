@@ -1,0 +1,423 @@
+---
+# 🎯 EXECUTION PLAN - GAMA CALCULADORA FASE 3
+# Generated: 2026-02-27
+# Phase: 2 (Consolidation) → 3 (Resolution)
+# Status: Ready for Kickoff
+
+metadata:
+  project: "Gama Calculadora"
+  auditId: "20260227-AUDIT-001"
+  totalTasks: 12
+  estimatedHours: "9-13h"
+  mode: "Parallel (6 agents)"
+  priority: "CRITICAL > HIGH > MEDIUM"
+
+# ============================================================================
+# PHASE 3 TASKS — ASSIGNED TO AGENTS
+# ============================================================================
+
+tasks:
+  # ──────────────────────────────────────────────────────────────────────
+  # AGENT: @dev (Dex)
+  # ──────────────────────────────────────────────────────────────────────
+
+  - taskId: "dev-01"
+    title: "Lint Cleanup & Console.logs Removal"
+    agent: "@dev"
+    severity: "CRITICAL"
+    files:
+      - "src/**/*.jsx"
+      - "src/**/*.js"
+    subtasks:
+      - "Run: npm run lint -- --fix (auto-fix 23/25)"
+      - "Manually fix remaining 2 errors"
+      - "Remove all 20+ console.logs"
+      - "Verify: npm run lint returns 0 errors"
+    expectedOutput:
+      - "Clean lint report"
+      - "0 console.logs in production code"
+    timeline: "45 min"
+    depends_on: []
+    blocks: ["dev-02", "dev-03"]
+
+  - taskId: "dev-02"
+    title: "Error Handling & Try-Catch"
+    agent: "@dev"
+    severity: "CRITICAL"
+    files:
+      - "src/components/UserProfile.jsx"
+      - "src/components/Layout.jsx"
+      - "src/context/AuthContext.jsx"
+    subtasks:
+      - "Add try-catch to updateUserProfile()"
+      - "Add try-catch to getProfile()"
+      - "Add error boundaries/fallbacks"
+      - "Test error scenarios"
+    expectedOutput:
+      - "All promises have error handling"
+      - "No unhandled rejections"
+    timeline: "45 min"
+    depends_on: ["dev-01"]
+    blocks: ["dev-03"]
+
+  - taskId: "dev-03"
+    title: "Implement AccentColorContext"
+    agent: "@dev"
+    severity: "CRITICAL"
+    files:
+      - "src/context/AccentColorContext.jsx" # NEW
+      - "src/components/UserProfile.jsx"
+      - "src/components/Layout.jsx"
+      - "src/main.jsx"
+    subtasks:
+      - "Create: AccentColorContext.jsx (single source of truth)"
+      - "Replace: UserProfile color logic (remove localStorage, events)"
+      - "Replace: Layout color logic (use context instead of CSS injection)"
+      - "Replace: CSS dynamic injection with CSS variable only"
+      - "Wrap app in AccentColorProvider"
+      - "Test: Color changes sync across pages"
+    expectedOutput:
+      - "AccentColorContext implemented"
+      - "Color syncs across /profile → /pricing → /diagnostic"
+      - "No localStorage/event listener hacks"
+      - "No CSS dynamic injection"
+    timeline: "2h"
+    depends_on: ["dev-01", "dev-02"]
+    blocks: ["qa-01"]
+
+  - taskId: "dev-04"
+    title: "Error Boundaries & Suspense Fallbacks"
+    agent: "@dev"
+    severity: "HIGH"
+    files:
+      - "src/components/ErrorBoundary.jsx" # NEW
+      - "src/Layout.jsx"
+      - "src/main.jsx"
+    subtasks:
+      - "Create: ErrorBoundary.jsx class component"
+      - "Wrap: <ErrorBoundary> around App in main.jsx"
+      - "Add: <Suspense fallback={<LoadingSpinner />}> to all 21 lazy routes"
+      - "Create: LoadingSpinner component"
+      - "Test: Error scenarios + lazy load timing"
+    expectedOutput:
+      - "No white screen on errors"
+      - "Loading state visible while components load"
+      - "Graceful error UI"
+    timeline: "1.5h"
+    depends_on: ["dev-03"]
+    blocks: ["qa-01"]
+
+  - taskId: "dev-05"
+    title: "Unused Variables & Props Drilling Cleanup"
+    agent: "@dev"
+    severity: "HIGH"
+    files:
+      - "src/components/UserProfile.jsx"
+      - "src/components/Layout.jsx"
+    subtasks:
+      - "Remove: unused variables (addBonusPoints, localRole, etc.)"
+      - "Remove: unused imports"
+      - "Refactor: props drilling via context where possible"
+      - "Verify: no errors or warnings"
+    expectedOutput:
+      - "Clean imports"
+      - "No unused variables"
+      - "Reduced prop chains"
+    timeline: "30 min"
+    depends_on: ["dev-01"]
+    blocks: ["qa-01"]
+
+  # ──────────────────────────────────────────────────────────────────────
+  # AGENT: @architect (Aria)
+  # ──────────────────────────────────────────────────────────────────────
+
+  - taskId: "arch-01"
+    title: "Architecture Review & Documentation"
+    agent: "@architect"
+    severity: "HIGH"
+    files:
+      - "src/context/" # Review all contexts
+      - "src/components/" # Review component structure
+      - "ARCHITECTURE.md" # Create/update
+    subtasks:
+      - "Review: Color sync architecture (post-AccentColorContext)"
+      - "Review: Error boundary placement"
+      - "Review: Props drilling patterns"
+      - "Document: Updated architecture in ARCHITECTURE.md"
+      - "Document: Context usage patterns"
+      - "Identify: Additional refactoring opportunities (for backlog)"
+    expectedOutput:
+      - "ARCHITECTURE.md updated"
+      - "Clean separation of concerns"
+      - "Documented patterns"
+    timeline: "2h"
+    depends_on: ["dev-03", "dev-04"]
+    blocks: ["qa-01"]
+
+  # ──────────────────────────────────────────────────────────────────────
+  # AGENT: @data-engineer (Dara)
+  # ──────────────────────────────────────────────────────────────────────
+
+  - taskId: "db-01"
+    title: "RLS Policies Final Validation"
+    agent: "@data-engineer"
+    severity: "CRITICAL"
+    files:
+      - "supabase/migrations/" # RLS policies
+    subtasks:
+      - "Validate: 5 optimized RLS policies are working"
+      - "Test: SELECT, INSERT, UPDATE permissions"
+      - "Verify: No recursion, no timeouts"
+      - "Test: getProfile() returns data on first load"
+      - "Fix: If any SELECT issues remain"
+    expectedOutput:
+      - "5 RLS policies validated"
+      - "getProfile() works on first load"
+      - "No RLS errors in production"
+    timeline: "1h"
+    depends_on: []
+    blocks: ["db-02"]
+
+  - taskId: "db-02"
+    title: "Schema Migration: Missing Columns"
+    agent: "@data-engineer"
+    severity: "HIGH"
+    files:
+      - "supabase/migrations/" # NEW migration file
+    subtasks:
+      - "Create: Migration file for missing columns"
+      - "Add: company, phone, location columns to profiles table"
+      - "Add: NOT NULL constraints if needed"
+      - "Add: trigger for auto-updating updated_at"
+      - "Test: Migration applies cleanly"
+      - "Create: Rollback migration"
+    expectedOutput:
+      - "Migration file created"
+      - "Columns added to schema"
+      - "Trigger for updated_at working"
+      - "Rollback script available"
+    timeline: "1h"
+    depends_on: ["db-01"]
+    blocks: ["qa-01"]
+
+  # ──────────────────────────────────────────────────────────────────────
+  # AGENT: @qa (Quinn)
+  # ──────────────────────────────────────────────────────────────────────
+
+  - taskId: "qa-01"
+    title: "Unit Tests for Critical Components"
+    agent: "@qa"
+    severity: "HIGH"
+    files:
+      - "src/__tests__/" # NEW
+      - "src/context/AuthContext.jsx"
+      - "src/context/AccentColorContext.jsx"
+      - "src/components/UserProfile.jsx"
+    subtasks:
+      - "Create: AuthContext.test.js (getProfile, updateUserProfile)"
+      - "Create: AccentColorContext.test.js (color sync, updates)"
+      - "Create: UserProfile.test.js (form submission, color change)"
+      - "Create: Layout.test.js (color context consumption)"
+      - "Run: npm test (100% pass)"
+      - "Generate: Coverage report"
+    expectedOutput:
+      - "4-5 test files created"
+      - "All tests passing"
+      - "Coverage report generated"
+    timeline: "2-3h"
+    depends_on: ["dev-03", "dev-04"]
+    blocks: ["qa-02"]
+
+  - taskId: "qa-02"
+    title: "Full Regression Testing"
+    agent: "@qa"
+    severity: "HIGH"
+    testcases:
+      - "Login flow (signup → login → redirect)"
+      - "Diagnostic form submission (all fields required)"
+      - "Color picker in /profile"
+      - "Color sync to /pricing"
+      - "Color sync to /diagnostic"
+      - "Color persists after reload"
+      - "Profile page loads without errors"
+      - "Pricing page loads without errors"
+      - "All internal links work"
+      - "Form validations work"
+    subtasks:
+      - "Execute: All 10+ test cases manually"
+      - "Verify: Color changes sync across pages (PRIORITY)"
+      - "Verify: No console errors"
+      - "Verify: No white screens"
+      - "Verify: All forms submit successfully"
+      - "Generate: QA report with verdicts"
+    expectedOutput:
+      - "All test cases PASS"
+      - "Color sync verified across pages"
+      - "No regressions"
+      - "QA_GATE_REPORT.md generated"
+    timeline: "2h"
+    depends_on: ["qa-01", "db-02"]
+    blocks: ["devops-01"]
+
+  # ──────────────────────────────────────────────────────────────────────
+  # AGENT: @github-devops (Gage)
+  # ──────────────────────────────────────────────────────────────────────
+
+  - taskId: "devops-01"
+    title: "Quality Gates & Deployment Validation"
+    agent: "@github-devops"
+    severity: "HIGH"
+    checks:
+      - "npm run lint → 0 errors"
+      - "npm run typecheck → 0 errors"
+      - "npm run build → Success"
+      - "npm test → 100% pass"
+      - "CodeRabbit review → 0 CRITICAL"
+      - "Vercel deployment → Success"
+      - "Production smoke test → All pages load"
+    subtasks:
+      - "Run: npm run lint (verify 0 errors)"
+      - "Run: npm run typecheck (verify 0 errors)"
+      - "Run: npm run build (verify Success)"
+      - "Run: npm test (verify 100% pass)"
+      - "Run: CodeRabbit review (verify no CRITICAL)"
+      - "Deploy: to Vercel production"
+      - "Verify: All URLs accessible in production"
+      - "Test: Color sync works in production"
+    expectedOutput:
+      - "All quality gates PASS"
+      - "Deployed to Vercel production"
+      - "No blocking issues"
+    timeline: "1-1.5h"
+    depends_on: ["qa-02"]
+    blocks: ["phase-5-approval"]
+
+# ============================================================================
+# PHASE 4: VALIDATION CHECKLIST
+# ============================================================================
+
+validation_checklist:
+  before_phase_5:
+    - [ ] npm run lint: 0 errors
+    - [ ] npm run typecheck: 0 errors
+    - [ ] npm run build: Success
+    - [ ] npm test: 100% pass
+    - [ ] Color sync verified across pages
+    - [ ] No console errors in production
+    - [ ] No white screens on errors
+    - [ ] All forms working
+    - [ ] Vercel production: All pages accessible
+    - [ ] CodeRabbit: 0 CRITICAL issues
+
+# ============================================================================
+# SUCCESS CRITERIA
+# ============================================================================
+
+success_criteria:
+  lint: "npm run lint returns 0 errors"
+  typecheck: "npm run typecheck returns 0 errors"
+  build: "npm run build succeeds"
+  tests: "npm test: 100% pass rate"
+  functionality: "Color sync works across all pages"
+  production: "Vercel production: all pages load"
+  code_quality: "CodeRabbit: 0 CRITICAL issues"
+
+# ============================================================================
+# TIMELINE SUMMARY
+# ============================================================================
+
+timeline:
+  phase_2_consolidation: "1-2h"
+  phase_3_resolution:
+    dev_parallel: "5.5h"
+    architect_parallel: "2h"
+    data_engineer_sequential: "2h (db-01 → db-02)"
+    qa_sequential: "4-5h (qa-01 → qa-02)"
+    total_parallel: "6-7h (actual wall clock)"
+  phase_4_validation: "1-1.5h"
+  total_estimated: "9-13 hours"
+
+# ============================================================================
+# WAVE BREAKDOWN FOR PARALLEL EXECUTION
+# ============================================================================
+
+execution_waves:
+  wave_1:
+    start: "immediately"
+    duration: "45 min"
+    tasks:
+      - "dev-01: Lint cleanup"
+    note: "Fast wins to unlock other tasks"
+
+  wave_2:
+    start: "after wave_1"
+    duration: "2-3h (parallel)"
+    tasks:
+      - "dev-02: Error handling"
+      - "dev-03: AccentColorContext (long, unblocked after dev-01)"
+      - "dev-04: Error boundaries (parallel with dev-03)"
+      - "db-01: RLS validation (independent)"
+    note: "Multiple parallel streams"
+
+  wave_3:
+    start: "after dev-03, dev-04, db-01"
+    duration: "1h"
+    tasks:
+      - "db-02: Schema migration"
+      - "dev-05: Cleanup"
+      - "arch-01: Architecture review"
+    note: "Consolidation tasks after main work"
+
+  wave_4:
+    start: "after wave_3"
+    duration: "2-3h"
+    tasks:
+      - "qa-01: Unit tests"
+    note: "Tests require working code"
+
+  wave_5:
+    start: "after qa-01"
+    duration: "2h"
+    tasks:
+      - "qa-02: Regression testing"
+    note: "Full testing after all code complete"
+
+  wave_6:
+    start: "after qa-02"
+    duration: "1-1.5h"
+    tasks:
+      - "devops-01: Quality gates + deployment"
+    note: "Final validation and production deploy"
+
+# ============================================================================
+# NOTES & CRITICAL PATH
+# ============================================================================
+
+critical_path:
+  - "dev-01 (45 min) → dev-03 (2h) → qa-01 (2-3h) → qa-02 (2h) → devops-01 (1-1.5h)"
+  - "Total critical path: ~8-9.5h"
+  - "Other tasks (dev-02, dev-04, dev-05, arch-01, db-01, db-02) run in parallel"
+
+notes:
+  - "All tasks execute with YOLO (autonomous) mode"
+  - "CodeRabbit integration runs automatically in dev phase"
+  - "No manual confirmations needed between tasks"
+  - "Logging captured in each agent's decision-log"
+  - "Worktree isolation recommended (automatic in phase 2)"
+  - "User will be notified at checkpoint milestones"
+
+# ============================================================================
+# PHASE 5: FINAL APPROVAL (after devops-01 passes)
+# ============================================================================
+
+phase_5:
+  title: "Final Approval & Celebration"
+  requirements:
+    - "All quality gates PASS"
+    - "Deployed to Vercel production"
+    - "User confirms color sync works"
+    - "User confirms all flows work"
+  action: "Mark project as 100% PRONTO ✅"
+  user_confirmation: "required"
+
+---

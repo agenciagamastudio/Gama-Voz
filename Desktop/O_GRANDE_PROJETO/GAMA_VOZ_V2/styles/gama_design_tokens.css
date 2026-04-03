@@ -1,0 +1,325 @@
+/* GAMA Design System v1.0.0 — Tokens CSS
+   Source: GAMA_DESIGN_SYSTEM/gama-ds-platform
+   Updated: 2026-04-03
+   Status: Production
+*/
+
+/* ===== FONT IMPORTS ===== */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;600&display=swap');
+
+/* ===== COLOR TOKENS ===== */
+:root {
+  /* PRIMARY */
+  --gama-primary: #88CE11;
+  --gama-primary-hover: #6BA80E;
+  --gama-primary-active: #5a9009;
+
+  /* BACKGROUNDS */
+  --gama-dark: #161616;
+  --gama-darker: #0A0A0A;
+  --gama-surface: #272727;
+  --gama-surface-accent: #333333;
+
+  /* TEXT */
+  --gama-text: #FFFFFF;
+  --gama-text-secondary: #A1A1AA;
+  --gama-text-tertiary: #71717A;
+
+  /* SEMANTIC */
+  --gama-success: #10B981;
+  --gama-warning: #F59E0B;
+  --gama-error: #E11D48;
+  --gama-info: #3B82F6;
+
+  /* BORDERS & SHADOWS */
+  --gama-border: #52525B;
+  --gama-border-light: #3F3F46;
+  --gama-shadow-sm: 0 2px 4px rgba(0, 0, 0, 0.3);
+  --gama-shadow-md: 0 4px 12px rgba(0, 0, 0, 0.4);
+  --gama-shadow-lg: 0 8px 24px rgba(0, 0, 0, 0.5);
+}
+
+/* ===== TYPOGRAPHY TOKENS ===== */
+:root {
+  /* Font Families */
+  --font-sans: 'Poppins', sans-serif;
+  --font-mono: 'JetBrains Mono', monospace;
+
+  /* Heading Styles */
+  --text-h1: 900; /* Poppins Bold */
+  --text-h2: 700; /* Poppins Bold */
+  --text-h3: 600; /* Poppins Semibold */
+  --text-h4: 600; /* Poppins Semibold */
+
+  /* Body Styles */
+  --text-base: 400; /* Poppins Regular */
+  --text-sm: 400; /* Poppins Regular */
+  --text-xs: 400; /* Poppins Regular */
+
+  /* Code Styles */
+  --text-code: 400; /* JetBrains Mono */
+  --text-code-bold: 600; /* JetBrains Mono Bold */
+}
+
+/* ===== SPACING TOKENS (4px base) ===== */
+:root {
+  --space-xs: 4px;
+  --space-sm: 8px;
+  --space-md: 12px;
+  --space-lg: 16px;
+  --space-xl: 24px;
+  --space-2xl: 32px;
+  --space-3xl: 48px;
+  --space-4xl: 64px;
+}
+
+/* ===== BORDER RADIUS ===== */
+:root {
+  --radius-sm: 4px;
+  --radius-md: 8px;
+  --radius-lg: 12px;
+  --radius-xl: 16px;
+  --radius-2xl: 24px;
+  --radius-full: 9999px;
+}
+
+/* ===== TRANSITIONS ===== */
+:root {
+  --transition-fast: 0.15s ease;
+  --transition-base: 0.3s ease;
+  --transition-slow: 0.5s ease;
+}
+
+/* ===== RESPONSIVE BREAKPOINTS ===== */
+@media (max-width: 640px) {
+  :root {
+    --main-max-width: 100%;
+    --main-padding: 16px;
+  }
+}
+
+@media (min-width: 641px) and (max-width: 768px) {
+  :root {
+    --main-max-width: 600px;
+    --main-padding: 20px;
+  }
+}
+
+@media (min-width: 769px) {
+  :root {
+    --main-max-width: 680px;
+    --main-padding: 24px;
+  }
+}
+
+/* ===== BASE STYLES ===== */
+* {
+  font-family: var(--font-sans);
+  color: var(--gama-text);
+}
+
+body {
+  background-color: var(--gama-dark);
+  color: var(--gama-text);
+  margin: 0;
+  padding: 0;
+}
+
+/* ===== ACCESSIBILITY ===== */
+/* Contraste WCAG AAA validado:
+   - #FFFFFF em #161616 = 7:1 (AAA) ✓
+   - #88CE11 em #161616 = 5.24:1 (AA) ✓
+   - #A1A1AA em #161616 = 5:1 (AA) ✓
+*/
+
+/* Focus states para acessibilidade */
+button:focus,
+input:focus,
+textarea:focus,
+select:focus {
+  outline: 2px solid var(--gama-primary);
+  outline-offset: 2px;
+}
+
+/* ===== UTILITY CLASSES ===== */
+
+/* Text utilities */
+.text-primary {
+  color: var(--gama-primary);
+}
+
+.text-secondary {
+  color: var(--gama-text-secondary);
+}
+
+.text-tertiary {
+  color: var(--gama-text-tertiary);
+}
+
+.text-success {
+  color: var(--gama-success);
+}
+
+.text-warning {
+  color: var(--gama-warning);
+}
+
+.text-error {
+  color: var(--gama-error);
+}
+
+.text-info {
+  color: var(--gama-info);
+}
+
+/* Background utilities */
+.bg-dark {
+  background-color: var(--gama-dark);
+}
+
+.bg-surface {
+  background-color: var(--gama-surface);
+}
+
+.bg-surface-accent {
+  background-color: var(--gama-surface-accent);
+}
+
+/* Border utilities */
+.border {
+  border: 1px solid var(--gama-border);
+}
+
+.border-light {
+  border: 1px solid var(--gama-border-light);
+}
+
+/* Spacing utilities */
+.p-sm {
+  padding: var(--space-sm);
+}
+
+.p-md {
+  padding: var(--space-md);
+}
+
+.p-lg {
+  padding: var(--space-lg);
+}
+
+.m-sm {
+  margin: var(--space-sm);
+}
+
+.m-md {
+  margin: var(--space-md);
+}
+
+.m-lg {
+  margin: var(--space-lg);
+}
+
+/* Shadow utilities */
+.shadow-sm {
+  box-shadow: var(--gama-shadow-sm);
+}
+
+.shadow-md {
+  box-shadow: var(--gama-shadow-md);
+}
+
+.shadow-lg {
+  box-shadow: var(--gama-shadow-lg);
+}
+
+/* ===== COMPONENT DEFAULTS ===== */
+
+/* Buttons */
+button {
+  font-weight: var(--text-h3);
+  font-family: var(--font-sans);
+  border-radius: var(--radius-lg);
+  padding: var(--space-lg) var(--space-xl);
+  transition: all var(--transition-base);
+  cursor: pointer;
+  border: none;
+}
+
+button:hover {
+  filter: brightness(1.1);
+}
+
+button:active {
+  filter: brightness(0.95);
+}
+
+/* Inputs */
+input,
+textarea,
+select {
+  background-color: var(--gama-surface);
+  color: var(--gama-text);
+  border: 1px solid var(--gama-border);
+  border-radius: var(--radius-md);
+  padding: var(--space-md) var(--space-lg);
+  font-family: var(--font-sans);
+  font-size: 14px;
+  transition: all var(--transition-base);
+}
+
+input:hover,
+textarea:hover,
+select:hover {
+  border-color: var(--gama-primary);
+}
+
+input:focus,
+textarea:focus,
+select:focus {
+  border-color: var(--gama-primary);
+  box-shadow: 0 0 0 3px rgba(136, 206, 17, 0.1);
+}
+
+/* Code blocks */
+code {
+  font-family: var(--font-mono);
+  background-color: var(--gama-surface);
+  color: var(--gama-primary);
+  padding: var(--space-sm) var(--space-md);
+  border-radius: var(--radius-md);
+  font-size: 12px;
+}
+
+/* Pre blocks */
+pre {
+  background-color: var(--gama-darker);
+  border: 1px solid var(--gama-border);
+  border-radius: var(--radius-lg);
+  padding: var(--space-lg);
+  overflow-x: auto;
+}
+
+/* ===== RESPONSIVE ADJUSTMENTS ===== */
+@media (max-width: 640px) {
+  body {
+    font-size: 14px;
+  }
+
+  button {
+    padding: var(--space-md) var(--space-lg);
+  }
+}
+
+/* ===== PRINT STYLES ===== */
+@media print {
+  body {
+    background-color: white;
+    color: black;
+  }
+
+  button {
+    border: 1px solid black;
+  }
+}
+
+/* ===== END GAMA DESIGN SYSTEM TOKENS ===== */

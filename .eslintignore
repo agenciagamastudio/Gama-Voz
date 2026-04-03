@@ -1,0 +1,18 @@
+node_modules/
+dist/
+build/
+coverage/
+.git/
+.env*
+
+# Build and setup scripts
+create-icons.js
+create-admin.js
+vite.config.js
+
+# Backup directories
+src_backup*/
+
+# Temporary files
+*.tmp
+*.log

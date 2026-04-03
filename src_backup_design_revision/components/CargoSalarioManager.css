@@ -1,0 +1,63 @@
+/* src/components/CargoSalarioManager.css */
+.cargo-salario-manager {
+    padding: 15px;
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+    background-color: #fcfcfc;
+    margin-top: 20px;
+}
+
+.cargo-salario-manager h3 {
+    color: #007bff;
+    margin-top: 0;
+    margin-bottom: 15px;
+    border-bottom: 1px solid #e0e0e0;
+    padding-bottom: 10px;
+}
+
+.add-role-form {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    align-items: flex-end; /* Aligns items to the bottom, useful for different input heights */
+    margin-bottom: 20px;
+}
+
+.add-role-form > div { /* Target input groups */
+    flex: 1;
+    min-width: 150px; /* Ensure inputs don't get too small, adjust as needed */
+}
+
+.add-role-form button {
+    flex-shrink: 0; /* Prevent button from shrinking */
+    min-width: 120px;
+}
+
+.roles-list ul {
+    list-style: none;
+    padding: 0;
+}
+
+.roles-list li {
+    display: flex;
+    flex-wrap: wrap; /* Allow content to wrap on smaller screens */
+    justify-content: space-between;
+    align-items: center;
+    background-color: #f0f0f0;
+    border: 1px solid #e9ecef;
+    border-radius: 4px;
+    padding: 8px 12px;
+    margin-bottom: 8px;
+    font-size: 0.95em;
+}
+
+.roles-list li span {
+    flex-grow: 1;
+    color: #343a40;
+    margin-right: 10px; /* Space between text and button */
+}
+
+.roles-list li button {
+    margin-left: auto; /* Push button to the right */
+    flex-shrink: 0; /* Prevent button from shrinking */
+}

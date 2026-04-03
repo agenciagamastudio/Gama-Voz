@@ -1,0 +1,15 @@
+{
+  "id": "gama-financeiro",
+  "name": "Gama Financeiro",
+  "description": "Plataforma de gestão financeira e investimentos",
+  "logo": "/logos/gama-financeiro.svg",
+  "website": "https://gama-financeiro.com",
+  "active": true,
+  "order": 5,
+  "metadata": {
+    "department": "Financial Services",
+    "year_founded": 2026,
+    "color_scheme": "finance-gold",
+    "primary_use_case": "Financial planning and wealth management"
+  }
+}

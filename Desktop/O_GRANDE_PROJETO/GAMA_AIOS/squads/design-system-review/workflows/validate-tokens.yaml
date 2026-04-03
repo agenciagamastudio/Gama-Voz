@@ -1,0 +1,181 @@
+---
+# Validate Design Tokens Workflow
+# Purpose: Validate design tokens against WCAG and Gama standards
+# Duration: 1-2 hours
+# Primary: Token Validator
+
+name: Validate Design Tokens
+id: validate-tokens
+version: 1.0.0
+
+phases:
+  - phase: 1
+    name: Intake & Diagnosis
+    duration: 15-30 min
+    owner: design-system-chief
+
+    steps:
+      - name: Receive token set
+        action: Clarify what tokens to validate (colors, spacing, typography, shadows?)
+        inputs: ["token-file-path"]
+
+      - name: Route to specialist
+        action: Send to Token Validator
+        checkpoint: "Token set clearly defined"
+
+    outputs:
+      - token_set_defined: true
+      - specialist_assigned: design-system-chief → token-validator
+
+  - phase: 2
+    name: Validation
+    duration: 30-60 min
+    owner: token-validator
+
+    steps:
+      - name: Load token set
+        action: Parse tokens (CSS vars, JSON, or YAML)
+
+      - name: Color validation
+        action: |
+          For each color token:
+          - Calculate contrast ratio vs all backgrounds
+          - Check WCAG AA minimum (4.5:1)
+          - Test semantic pairs (text + background)
+
+      - name: Naming audit
+        action: |
+          Validate naming convention:
+          - Global tokens (raw values, no context)
+          - Alias tokens (semantic, context-aware)
+          - Component tokens (specific to component)
+
+      - name: Completeness check
+        action: |
+          Verify all categories present:
+          - Typography (font, weight, size, line-height)
+          - Spacing (4px scale: 4, 8, 12, 16, 24, 32, 48, 64...)
+          - Shadows (elevation levels)
+          - Colors (semantic + brand)
+
+      - name: Brand alignment
+        action: |
+          Validate against Gama brand:
+          - Primary color = #88CE11 ✓
+          - Dark background = #161616 ✓
+          - Spacing multiples of 4px ✓
+          - Typography = Poppins ✓
+
+      - name: Produce score
+        action: |
+          Score on 0-10 scale:
+          - Semantic clarity (0-10)
+          - Accessibility (0-10)
+          - Completeness (0-10)
+          - Consistency (0-10)
+          Average = Overall Score
+
+    veto_conditions:
+      - "Color contrast < 4.5:1 for text (WCAG AA)" → FAIL
+      - "Token naming inconsistent with standard" → RETURN for fix
+      - "Required token categories missing" → FAIL
+
+    outputs:
+      - validation_report: "Token Validator → Design System Chief"
+      - quality_score: 0-10
+      - recommendations: list
+
+  - phase: 3
+    name: Quality Gate
+    duration: 15-30 min
+    owner: design-system-chief
+
+    steps:
+      - name: Review specialist report
+        action: Analyze validation report + score
+        checkpoint: "Score >= 7/10"
+
+      - name: Veto conditions check
+        action: |
+          Verify:
+          - All WCAG compliance passed ✓
+          - No naming violations ✓
+          - All categories present ✓
+        checkpoint: "All veto conditions pass"
+
+      - name: Decision
+        action: |
+          IF score >= 7 AND all vetoes passed:
+            → APPROVED (proceed to Phase 4)
+          ELSE:
+            → REJECTED (return to Token Validator with feedback)
+
+    outputs:
+      - decision: APPROVED | REJECTED
+      - feedback: (if rejected)
+
+  - phase: 4
+    name: Governance
+    duration: 15-30 min
+    owner: governance-keeper
+
+    steps:
+      - name: Create ADR
+        action: |
+          ADR format:
+          - Problem: What token issues existed?
+          - Decision: How are tokens now structured/validated?
+          - Consequences: Impact on projects
+          - Status: Accepted
+
+      - name: Update CHANGELOG
+        action: |
+          Add entry under "Changed":
+          - Date, what changed, why, who approved
+
+      - name: Bump version
+        action: |
+          Determine version bump:
+          - Major: Breaking token changes
+          - Minor: New tokens or changes
+          - Patch: Documentation only
+
+      - name: Notify stakeholders
+        action: |
+          Send Slack notification to #design-system
+          Include: Summary + recommendations
+
+    outputs:
+      - adr_entry_created: true
+      - changelog_updated: true
+      - version_bumped: true
+      - stakeholders_notified: true
+
+---
+# Checkpoints & Handoffs
+checkpoints:
+  - after_phase_1: "Token set clearly defined, specialist ready"
+  - after_phase_2: "Validation complete, score calculated"
+  - after_phase_3: "Decision made (approve/reject)"
+  - after_phase_4: "Decision documented, stakeholders notified"
+
+handoffs:
+  phase_1_to_2: "Chief → Token Validator"
+  phase_2_to_3: "Token Validator → Chief (with report)"
+  phase_3_to_4: "Chief → Governance Keeper (if approved)"
+
+success_criteria:
+  - "Score >= 7.0"
+  - "All veto conditions passed"
+  - "Decision documented in ADR"
+  - "CHANGELOG updated"
+  - "Stakeholders notified"
+
+---
+# Configuration
+config:
+  duration_minutes: 60-120
+  primary_agent: token-validator
+  orchestrator: design-system-chief
+  governance: governance-keeper
+  parallelization: none (sequential workflow)

@@ -1,0 +1,112 @@
+/* src/components/DiagnosticoDeValorCalculator.css */
+.diagnostico-valor-calculator {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    padding: 20px;
+    max-width: 900px;
+    margin: 20px auto;
+    background-color: #f8f9fa;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.section-card {
+    background-color: #ffffff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+    border: 1px solid #e0e0e0;
+}
+
+.section-card h2 {
+    color: #007bff;
+    margin-top: 0;
+    margin-bottom: 20px;
+    border-bottom: 2px solid #007bff;
+    padding-bottom: 10px;
+}
+
+.result-display {
+    background-color: #e9ecef;
+    padding: 10px 15px;
+    border-radius: 4px;
+    margin-top: 15px;
+    font-size: 1.1em;
+    color: #343a40;
+    border: 1px solid #dee2e6;
+}
+
+.total-annual-loss {
+    background-color: #fff3cd; /* Light yellow for emphasis */
+    color: #856404;
+    border-color: #ffeeba;
+    font-size: 1.2em;
+    font-weight: bold;
+}
+
+/* Scenario specific styles */
+.scenario-card {
+    border: 1px dashed #ced4da;
+    padding: 15px;
+    margin-top: 15px;
+    border-radius: 6px;
+    background-color: #f0f0f0;
+    position: relative;
+}
+
+.scenario-card h3 {
+    margin-top: 0;
+    color: #495057;
+    border-bottom: 1px solid #ced4da;
+    padding-bottom: 10px;
+    margin-bottom: 15px;
+}
+
+.scenario-results p {
+    font-size: 0.95em;
+    margin: 5px 0;
+    color: #343a40;
+}
+
+/* Actions and Export section */
+.actions-export {
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+    padding-top: 20px;
+    border-top: 1px solid #e0e0e0;
+}
+
+/* General layout adjustments */
+.input-group-inline {
+    display: flex;
+    gap: 15px;
+    align-items: flex-end;
+    margin-bottom: 15px;
+}
+
+.input-group-inline > div {
+    flex: 1;
+}
+
+.select-container {
+    flex: 1;
+}
+
+.select-container label {
+    margin-bottom: 5px;
+    display: block;
+    font-weight: bold;
+    color: #333;
+}
+
+.select-container select {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    background-color: #fff;
+    font-size: 1em;
+    cursor: pointer;
+}

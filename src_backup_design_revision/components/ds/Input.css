@@ -1,0 +1,64 @@
+/* src/components/ds/Input.css */
+.ds-input-group {
+    margin-bottom: 15px;
+}
+
+.ds-label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold;
+    color: #333;
+}
+
+.ds-input {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box; /* Include padding and border in the element's total width and height */
+    font-size: 1em;
+}
+
+.ds-input--error {
+    border-color: #e74c3c; /* Red color for errors */
+}
+
+.ds-input-error-message {
+    color: #e74c3c;
+    font-size: 0.85em;
+    margin-top: 5px;
+}
+
+/* Specific styling for input groups with inline elements */
+.input-group-inline {
+    display: flex;
+    gap: 10px; /* Space between inline elements */
+    align-items: flex-end; /* Align inputs/selects at the bottom */
+}
+
+.input-group-inline .ds-input-group {
+    flex: 1; /* Distribute space evenly */
+    margin-bottom: 0; /* Remove bottom margin from inner groups */
+}
+
+.input-group-inline .select-container {
+    flex-shrink: 0; /* Don't shrink the select container */
+    margin-bottom: 15px; /* Adjust as needed */
+}
+
+.select-container label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold;
+    color: #333;
+}
+
+.select-container select {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    background-color: #fff;
+    font-size: 1em;
+    cursor: pointer;
+}

@@ -1,0 +1,891 @@
+openapi: 3.0.0
+info:
+  title: GAMA Financeiro API
+  description: Sistema de controle financeiro com autenticação JWT e cálculos automáticos
+  version: 1.0.0
+  contact:
+    name: @architect
+    email: architect@gama-financeiro.local
+  license:
+    name: MIT
+
+servers:
+  - url: http://localhost:3000/api/v1
+    description: Local development
+  - url: http://{hostname}:3000/api/v1
+    description: Network deployment
+    variables:
+      hostname:
+        default: gama-financeiro
+
+securityDefinitions:
+  BearerAuth:
+    type: apiKey
+    name: Authorization
+    in: header
+    scheme: bearer
+    bearerFormat: JWT
+
+tags:
+  - name: Authentication
+    description: Login, logout, token verification
+  - name: Periods
+    description: Períodos financeiros (mês/ano)
+  - name: Entries
+    description: Lançamentos (line items da DRE)
+  - name: Calculations
+    description: Cálculos automáticos (margens, lucro, etc)
+  - name: Reports
+    description: Exportação de relatórios (PDF, Excel)
+  - name: Audit
+    description: Histórico de mudanças (auditoria)
+
+paths:
+  /auth/login:
+    post:
+      tags: [Authentication]
+      summary: Login com username/password
+      description: Retorna JWT token válido por 7 dias
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                username:
+                  type: string
+                  minLength: 3
+                  maxLength: 50
+                  example: "usuário1"
+                password:
+                  type: string
+                  minLength: 6
+                  example: "senha123"
+              required: [username, password]
+      responses:
+        200:
+          description: Autenticação bem-sucedida
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    example: true
+                  user:
+                    $ref: '#/components/schemas/UserResponse'
+                  token:
+                    type: string
+                    example: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."
+                  expiresIn:
+                    type: integer
+                    description: Segundos até expiração
+                    example: 604800
+        401:
+          $ref: '#/components/responses/UnauthorizedError'
+        400:
+          $ref: '#/components/responses/BadRequestError'
+        429:
+          description: Rate limited (máx 100 req/min)
+
+  /auth/logout:
+    post:
+      tags: [Authentication]
+      summary: Logout
+      security:
+        - BearerAuth: []
+      responses:
+        200:
+          description: Logout bem-sucedido
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    example: true
+                  message:
+                    type: string
+                    example: "Logged out successfully"
+        401:
+          $ref: '#/components/responses/UnauthorizedError'
+
+  /auth/me:
+    get:
+      tags: [Authentication]
+      summary: Verificar token válido
+      description: Retorna dados do usuário autenticado
+      security:
+        - BearerAuth: []
+      responses:
+        200:
+          description: Token válido
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    example: true
+                  user:
+                    $ref: '#/components/schemas/UserResponse'
+        401:
+          $ref: '#/components/responses/UnauthorizedError'
+
+  /periods:
+    get:
+      tags: [Periods]
+      summary: Listar períodos
+      description: Retorna lista de períodos (mês/ano) com paginação
+      security:
+        - BearerAuth: []
+      parameters:
+        - name: page
+          in: query
+          schema:
+            type: integer
+            default: 1
+        - name: limit
+          in: query
+          schema:
+            type: integer
+            default: 20
+            maximum: 100
+        - name: sort
+          in: query
+          schema:
+            type: string
+            enum: [newest, oldest]
+            default: newest
+      responses:
+        200:
+          description: Lista de períodos
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Period'
+                  pagination:
+                    $ref: '#/components/schemas/Pagination'
+        401:
+          $ref: '#/components/responses/UnauthorizedError'
+
+    post:
+      tags: [Periods]
+      summary: Criar novo período
+      security:
+        - BearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                month:
+                  type: integer
+                  minimum: 1
+                  maximum: 12
+                  example: 2
+                year:
+                  type: integer
+                  example: 2026
+              required: [month, year]
+      responses:
+        201:
+          description: Período criado
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                  data:
+                    $ref: '#/components/schemas/Period'
+        400:
+          $ref: '#/components/responses/BadRequestError'
+        401:
+          $ref: '#/components/responses/UnauthorizedError'
+        409:
+          description: Período já existe
+
+  /periods/{periodId}:
+    get:
+      tags: [Periods]
+      summary: Obter período específico
+      security:
+        - BearerAuth: []
+      parameters:
+        - name: periodId
+          in: path
+          required: true
+          schema:
+            type: string
+            example: "1"
+      responses:
+        200:
+          description: Período encontrado
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                  data:
+                    $ref: '#/components/schemas/Period'
+        401:
+          $ref: '#/components/responses/UnauthorizedError'
+        404:
+          $ref: '#/components/responses/NotFoundError'
+
+    put:
+      tags: [Periods]
+      summary: Atualizar período
+      security:
+        - BearerAuth: []
+      parameters:
+        - name: periodId
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                status:
+                  type: string
+                  enum: [open, closed]
+      responses:
+        200:
+          description: Período atualizado
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                  data:
+                    $ref: '#/components/schemas/Period'
+        401:
+          $ref: '#/components/responses/UnauthorizedError'
+        404:
+          $ref: '#/components/responses/NotFoundError'
+
+  /entries:
+    get:
+      tags: [Entries]
+      summary: Listar lançamentos com filtros
+      description: Retorna lançamentos filtrados por período, categoria, tipo
+      security:
+        - BearerAuth: []
+      parameters:
+        - name: periodId
+          in: query
+          required: true
+          schema:
+            type: string
+        - name: category
+          in: query
+          schema:
+            type: string
+            enum: [VENDAS, CUSTOS_VARIAVEIS, CUSTOS_FIXOS, INVESTIMENTOS]
+        - name: type
+          in: query
+          schema:
+            type: string
+            enum: [planned, actual]
+        - name: page
+          in: query
+          schema:
+            type: integer
+            default: 1
+        - name: limit
+          in: query
+          schema:
+            type: integer
+            default: 50
+      responses:
+        200:
+          description: Lista de lançamentos
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Entry'
+                  pagination:
+                    $ref: '#/components/schemas/Pagination'
+        401:
+          $ref: '#/components/responses/UnauthorizedError'
+
+    post:
+      tags: [Entries]
+      summary: Criar novo lançamento
+      description: Cria entrada de planejado ou realizado
+      security:
+        - BearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                periodId:
+                  type: string
+                  example: "1"
+                category:
+                  type: string
+                  enum: [VENDAS, CUSTOS_VARIAVEIS, CUSTOS_FIXOS, INVESTIMENTOS]
+                  example: "VENDAS"
+                lineItem:
+                  type: string
+                  minLength: 3
+                  maxLength: 100
+                  example: "Vendas Produto A"
+                type:
+                  type: string
+                  enum: [planned, actual]
+                  example: "planned"
+                value:
+                  type: number
+                  minimum: 0
+                  example: 13000.00
+                parentId:
+                  type: string
+                  nullable: true
+                  description: ID do lançamento pai (para subitens)
+              required: [periodId, category, lineItem, type, value]
+      responses:
+        201:
+          description: Lançamento criado
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                  data:
+                    $ref: '#/components/schemas/Entry'
+        400:
+          $ref: '#/components/responses/BadRequestError'
+        401:
+          $ref: '#/components/responses/UnauthorizedError'
+
+  /entries/{entryId}:
+    get:
+      tags: [Entries]
+      summary: Obter lançamento específico
+      security:
+        - BearerAuth: []
+      parameters:
+        - name: entryId
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        200:
+          description: Lançamento encontrado
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                  data:
+                    $ref: '#/components/schemas/Entry'
+        401:
+          $ref: '#/components/responses/UnauthorizedError'
+        404:
+          $ref: '#/components/responses/NotFoundError'
+
+    put:
+      tags: [Entries]
+      summary: Atualizar lançamento
+      security:
+        - BearerAuth: []
+      parameters:
+        - name: entryId
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                lineItem:
+                  type: string
+                value:
+                  type: number
+                  minimum: 0
+      responses:
+        200:
+          description: Lançamento atualizado
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                  data:
+                    $ref: '#/components/schemas/Entry'
+                  calculations:
+                    $ref: '#/components/schemas/Calculations'
+        401:
+          $ref: '#/components/responses/UnauthorizedError'
+        404:
+          $ref: '#/components/responses/NotFoundError'
+
+    delete:
+      tags: [Entries]
+      summary: Deletar lançamento
+      security:
+        - BearerAuth: []
+      parameters:
+        - name: entryId
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        200:
+          description: Lançamento deletado
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                  message:
+                    type: string
+                  calculations:
+                    $ref: '#/components/schemas/Calculations'
+        401:
+          $ref: '#/components/responses/UnauthorizedError'
+        404:
+          $ref: '#/components/responses/NotFoundError'
+
+  /calculations/{periodId}:
+    get:
+      tags: [Calculations]
+      summary: Obter cálculos automáticos do período
+      description: Retorna margens, lucro, ponto de equilíbrio, variações
+      security:
+        - BearerAuth: []
+      parameters:
+        - name: periodId
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        200:
+          description: Cálculos do período
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                  data:
+                    $ref: '#/components/schemas/Calculations'
+        401:
+          $ref: '#/components/responses/UnauthorizedError'
+        404:
+          $ref: '#/components/responses/NotFoundError'
+
+  /exports/pdf:
+    post:
+      tags: [Reports]
+      summary: Exportar período em PDF
+      description: Gera PDF com DRE completa, gráficos e análises
+      security:
+        - BearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                periodId:
+                  type: string
+                includeCharts:
+                  type: boolean
+                  default: true
+                includeAnalysis:
+                  type: boolean
+                  default: true
+              required: [periodId]
+      responses:
+        200:
+          description: PDF gerado
+          content:
+            application/pdf:
+              schema:
+                type: string
+                format: binary
+        401:
+          $ref: '#/components/responses/UnauthorizedError'
+        404:
+          $ref: '#/components/responses/NotFoundError'
+
+  /exports/excel:
+    post:
+      tags: [Reports]
+      summary: Exportar período em Excel
+      description: Gera planilha com dados brutos e fórmulas
+      security:
+        - BearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                periodId:
+                  type: string
+                includePrevious:
+                  type: boolean
+                  default: false
+                  description: Incluir período anterior para comparação
+              required: [periodId]
+      responses:
+        200:
+          description: Excel gerado
+          content:
+            application/vnd.openxmlformats-officedocument.spreadsheetml.sheet:
+              schema:
+                type: string
+                format: binary
+        401:
+          $ref: '#/components/responses/UnauthorizedError'
+        404:
+          $ref: '#/components/responses/NotFoundError'
+
+  /audit:
+    get:
+      tags: [Audit]
+      summary: Listar histórico de mudanças
+      description: Retorna audit logs com filtros
+      security:
+        - BearerAuth: []
+      parameters:
+        - name: periodId
+          in: query
+          schema:
+            type: string
+        - name: userId
+          in: query
+          schema:
+            type: string
+        - name: action
+          in: query
+          schema:
+            type: string
+            enum: [create, update, delete]
+        - name: startDate
+          in: query
+          schema:
+            type: string
+            format: date
+        - name: endDate
+          in: query
+          schema:
+            type: string
+            format: date
+        - name: page
+          in: query
+          schema:
+            type: integer
+            default: 1
+        - name: limit
+          in: query
+          schema:
+            type: integer
+            default: 50
+      responses:
+        200:
+          description: Histórico de mudanças
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/AuditLog'
+                  pagination:
+                    $ref: '#/components/schemas/Pagination'
+        401:
+          $ref: '#/components/responses/UnauthorizedError'
+
+components:
+  schemas:
+    UserResponse:
+      type: object
+      properties:
+        id:
+          type: string
+          example: "1"
+        username:
+          type: string
+          example: "usuário1"
+        createdAt:
+          type: string
+          format: date-time
+        updatedAt:
+          type: string
+          format: date-time
+        isActive:
+          type: boolean
+
+    Period:
+      type: object
+      properties:
+        id:
+          type: string
+          example: "1"
+        month:
+          type: integer
+          minimum: 1
+          maximum: 12
+        year:
+          type: integer
+        status:
+          type: string
+          enum: [open, closed]
+          default: open
+        createdBy:
+          $ref: '#/components/schemas/UserResponse'
+        createdAt:
+          type: string
+          format: date-time
+        updatedAt:
+          type: string
+          format: date-time
+
+    Entry:
+      type: object
+      properties:
+        id:
+          type: string
+          example: "1"
+        periodId:
+          type: string
+        category:
+          type: string
+          enum: [VENDAS, CUSTOS_VARIAVEIS, CUSTOS_FIXOS, INVESTIMENTOS]
+        lineItem:
+          type: string
+        type:
+          type: string
+          enum: [planned, actual]
+        value:
+          type: number
+        percentage:
+          type: number
+          description: Percentual em relação a vendas totais
+        parentId:
+          type: string
+          nullable: true
+        children:
+          type: array
+          items:
+            $ref: '#/components/schemas/Entry'
+          description: Subitens hierárquicos
+        createdBy:
+          $ref: '#/components/schemas/UserResponse'
+        createdAt:
+          type: string
+          format: date-time
+        updatedAt:
+          type: string
+          format: date-time
+
+    Calculations:
+      type: object
+      properties:
+        periodId:
+          type: string
+        vendas:
+          type: number
+          description: Total de vendas
+        custosVariaveis:
+          type: number
+          description: Total custos variáveis
+        margemContribuicao:
+          type: number
+          description: Vendas - Custos Variáveis
+        margemContribuicaoPercentual:
+          type: number
+          format: float
+          description: Margem / Vendas
+        custosFixos:
+          type: number
+          description: Total custos fixos
+        lucroOperacional:
+          type: number
+          description: Margem - Custos Fixos
+        lucroOperacionalPercentual:
+          type: number
+        investimentos:
+          type: number
+        lucroLiquido:
+          type: number
+          description: Lucro Operacional - Investimentos
+        pontoEquilibrio:
+          type: number
+          description: Custos Fixos / Margem Percentual
+        variacao:
+          type: object
+          properties:
+            vendas:
+              type: number
+              format: float
+              description: Variação % (Realizado vs Planejado)
+            custos:
+              type: number
+            margem:
+              type: number
+            lucro:
+              type: number
+
+    AuditLog:
+      type: object
+      properties:
+        id:
+          type: string
+        userId:
+          type: string
+        userName:
+          type: string
+        tableName:
+          type: string
+        recordId:
+          type: string
+        action:
+          type: string
+          enum: [create, update, delete]
+        before:
+          type: object
+          nullable: true
+        after:
+          type: object
+          nullable: true
+        timestamp:
+          type: string
+          format: date-time
+        ipAddress:
+          type: string
+
+    Pagination:
+      type: object
+      properties:
+        page:
+          type: integer
+        limit:
+          type: integer
+        total:
+          type: integer
+        totalPages:
+          type: integer
+        hasNextPage:
+          type: boolean
+        hasPrevPage:
+          type: boolean
+
+    ErrorResponse:
+      type: object
+      properties:
+        success:
+          type: boolean
+          example: false
+        error:
+          type: object
+          properties:
+            code:
+              type: string
+              example: "INVALID_INPUT"
+            message:
+              type: string
+            details:
+              type: array
+              items:
+                type: object
+
+  responses:
+    UnauthorizedError:
+      description: Autenticação falhou ou token inválido
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+          example:
+            success: false
+            error:
+              code: "UNAUTHORIZED"
+              message: "Token inválido ou expirado"
+
+    BadRequestError:
+      description: Requisição inválida
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+          example:
+            success: false
+            error:
+              code: "INVALID_INPUT"
+              message: "Validação falhou"
+              details:
+                - field: "value"
+                  message: "Deve ser um número positivo"
+
+    NotFoundError:
+      description: Recurso não encontrado
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+          example:
+            success: false
+            error:
+              code: "NOT_FOUND"
+              message: "Recurso não encontrado"

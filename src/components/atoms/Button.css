@@ -1,0 +1,189 @@
+/**
+ * Button Atom Styles
+ * ═══════════════════════════════════════════════════════════════════
+ *
+ * GAMA Design Tokens Integration
+ * Source: GAMA_DESIGN_SYSTEM/tokens/tokens.css
+ *
+ * Color System:
+ * - Primary: #88CE11 (brand green)
+ * - Text Primary: #FFFFFF
+ * - Surface: #272727
+ * - Border: rgba(255, 255, 255, 0.1)
+ *
+ * Spacing (4px grid):
+ * - SM: 8px | MD: 12px | LG: 16px | XL: 24px
+ *
+ * Border Radius:
+ * - SM: 8px | MD: 12px
+ */
+
+@import '../../../tokens/tokens.css';
+
+/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+/* BASE BUTTON STYLES */
+/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+
+.btn {
+  /* Layout */
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  cursor: pointer;
+
+  /* Typography */
+  font-family: var(--font-family-primary);
+  font-weight: var(--font-weight-bold);
+  text-align: center;
+  text-decoration: none;
+
+  /* Transitions */
+  transition: var(--transition-standard);
+
+  /* Accessibility */
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+/* VARIANT: PRIMARY (Brand Green) */
+/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+
+.btn--primary {
+  background-color: var(--color-primary);
+  color: #000000;
+  border-radius: var(--border-radius-md);
+}
+
+.btn--primary:hover:not(:disabled) {
+  filter: brightness(1.1);
+  box-shadow: var(--shadow-md);
+}
+
+.btn--primary:active:not(:disabled) {
+  filter: brightness(0.95);
+  box-shadow: var(--shadow-sm);
+}
+
+.btn--primary:focus-visible {
+  outline: 2px solid var(--color-primary);
+  outline-offset: 2px;
+}
+
+/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+/* VARIANT: SECONDARY (Outline) */
+/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+
+.btn--secondary {
+  background-color: transparent;
+  color: var(--color-primary);
+  border: 2px solid var(--color-primary);
+  border-radius: var(--border-radius-md);
+}
+
+.btn--secondary:hover:not(:disabled) {
+  background-color: rgba(136, 206, 17, 0.1);
+  box-shadow: var(--shadow-sm);
+}
+
+.btn--secondary:active:not(:disabled) {
+  background-color: rgba(136, 206, 17, 0.2);
+}
+
+.btn--secondary:focus-visible {
+  outline: 2px solid var(--color-primary);
+  outline-offset: 2px;
+}
+
+/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+/* VARIANT: TERTIARY (Ghost) */
+/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+
+.btn--tertiary {
+  background-color: transparent;
+  color: var(--color-text-secondary);
+  border: none;
+  border-radius: var(--border-radius-md);
+}
+
+.btn--tertiary:hover:not(:disabled) {
+  color: var(--color-text-primary);
+  background-color: rgba(255, 255, 255, 0.05);
+}
+
+.btn--tertiary:active:not(:disabled) {
+  color: var(--color-text-primary);
+  background-color: rgba(255, 255, 255, 0.1);
+}
+
+.btn--tertiary:focus-visible {
+  outline: 2px solid var(--color-text-secondary);
+  outline-offset: 2px;
+}
+
+/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+/* SIZES */
+/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+
+.btn--sm {
+  padding: var(--spacing-sm) var(--spacing-md);
+  font-size: var(--font-size-sm);
+  gap: var(--spacing-sm);
+}
+
+.btn--md {
+  padding: var(--spacing-md) var(--spacing-lg);
+  font-size: var(--font-size-base);
+  gap: var(--spacing-md);
+}
+
+.btn--lg {
+  padding: var(--spacing-lg) var(--spacing-xl);
+  font-size: var(--font-size-xl);
+  gap: var(--spacing-lg);
+}
+
+/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+/* DISABLED STATE */
+/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+
+.btn--disabled,
+.btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
+/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+/* ACCESSIBILITY */
+/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+
+/* High contrast mode support */
+@media (prefers-contrast: more) {
+  .btn--primary {
+    border: 2px solid #000000;
+  }
+
+  .btn--secondary {
+    border-width: 2px;
+  }
+}
+
+/* Reduced motion support */
+@media (prefers-reduced-motion: reduce) {
+  .btn {
+    transition: none;
+  }
+}
+
+/* Dark mode (already dark mode first, but for clarity) */
+@media (prefers-color-scheme: dark) {
+  .btn--primary {
+    color: #000000;
+  }
+
+  .btn--secondary {
+    color: var(--color-primary);
+  }
+}
