@@ -9,19 +9,46 @@ import os
 st.set_page_config(page_title="Gama Voz", layout="centered", initial_sidebar_state="collapsed")
 
 # CSS customizado - Design System Gama v1.0.0
+# Reference: GAMA_DESIGN_SYSTEM/gama-ds-platform v1.0.0
 st.markdown("""
 <style>
-    @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;900&family=JetBrains+Mono:wght@400;500;600;700&display=swap');
+    @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;600&display=swap');
+
+    /* Design System Tokens (CSS Variables) */
+    :root {
+        /* PRIMARY */
+        --gama-primary: #88CE11;
+        --gama-primary-hover: #6BA80E;
+
+        /* BACKGROUNDS */
+        --gama-dark: #161616;
+        --gama-surface: #272727;
+        --gama-border: #52525B;
+
+        /* TEXT */
+        --gama-text: #FFFFFF;
+        --gama-text-secondary: #A1A1AA;
+
+        /* SEMANTIC */
+        --gama-success: #10B981;
+        --gama-warning: #F59E0B;
+        --gama-error: #E11D48;
+        --gama-info: #3B82F6;
+
+        /* FONTS */
+        --font-sans: 'Poppins', sans-serif;
+        --font-mono: 'JetBrains Mono', monospace;
+    }
 
     /* Design System Colors & Typography */
     * {
-        font-family: 'Poppins', sans-serif;
-        color: #FFFFFF;
+        font-family: var(--font-sans);
+        color: var(--gama-text);
     }
 
     body {
-        background-color: #161616 !important;
-        color: #FFFFFF;
+        background-color: var(--gama-dark) !important;
+        color: var(--gama-text);
     }
 
     .main {
@@ -36,9 +63,9 @@ st.markdown("""
         height: 60px;
         font-size: 16px;
         font-weight: 900;
-        font-family: 'Poppins', sans-serif;
-        background: linear-gradient(135deg, #88CE11 0%, #6BA80E 100%) !important;
-        color: #161616 !important;
+        font-family: var(--font-sans);
+        background: linear-gradient(135deg, var(--gama-primary) 0%, var(--gama-primary-hover) 100%) !important;
+        color: var(--gama-dark) !important;
         border: none !important;
         border-radius: 12px !important;
         transition: all 0.3s ease !important;
@@ -52,22 +79,22 @@ st.markdown("""
 
     /* Headings - Using Design System */
     h1 {
-        color: #88CE11 !important;
+        color: var(--gama-primary) !important;
         text-align: center;
         font-weight: 900 !important;
-        font-family: 'Poppins', sans-serif;
+        font-family: var(--font-sans);
         letter-spacing: -0.5px;
     }
 
     h2 {
-        color: #88CE11 !important;
-        font-family: 'Poppins', sans-serif;
+        color: var(--gama-primary) !important;
+        font-family: var(--font-sans);
         font-weight: 700 !important;
     }
 
     h3 {
-        color: #FFFFFF !important;
-        font-family: 'Poppins', sans-serif;
+        color: var(--gama-text) !important;
+        font-family: var(--font-sans);
         font-weight: 600 !important;
     }
 
@@ -75,36 +102,36 @@ st.markdown("""
     .stTabs [data-baseweb="tab"] {
         background-color: transparent !important;
         border: none !important;
-        color: #A1A1AA !important;
+        color: var(--gama-text-secondary) !important;
         font-weight: 600 !important;
     }
 
     .stTabs [aria-selected="true"] {
-        border-bottom: 3px solid #88CE11 !important;
-        color: #88CE11 !important;
+        border-bottom: 3px solid var(--gama-primary) !important;
+        color: var(--gama-primary) !important;
     }
 
     /* Text Areas & Inputs */
     .stTextArea textarea {
-        background-color: #272727 !important;
-        color: #FFFFFF !important;
-        border: 1px solid #52525B !important;
+        background-color: var(--gama-surface) !important;
+        color: var(--gama-text) !important;
+        border: 1px solid var(--gama-border) !important;
         border-radius: 8px !important;
-        font-family: 'JetBrains Mono', monospace !important;
+        font-family: var(--font-mono) !important;
         font-size: 14px !important;
     }
 
     .stTextInput input {
-        background-color: #272727 !important;
-        color: #FFFFFF !important;
-        border: 1px solid #52525B !important;
+        background-color: var(--gama-surface) !important;
+        color: var(--gama-text) !important;
+        border: 1px solid var(--gama-border) !important;
         border-radius: 8px !important;
     }
 
     /* Containers & Cards */
     .stContainer {
-        background-color: #272727 !important;
-        border: 1px solid #52525B !important;
+        background-color: var(--gama-surface) !important;
+        border: 1px solid var(--gama-border) !important;
         border-radius: 12px !important;
         padding: 20px !important;
         margin: 12px 0 !important;
@@ -112,13 +139,13 @@ st.markdown("""
 
     /* Text Secondary */
     .stCaption {
-        color: #A1A1AA !important;
+        color: var(--gama-text-secondary) !important;
         font-size: 13px !important;
     }
 
     /* Divider */
     hr {
-        background-color: #52525B !important;
+        background-color: var(--gama-border) !important;
         border: none !important;
         height: 1px !important;
     }
@@ -126,23 +153,28 @@ st.markdown("""
     /* Success/Error Messages */
     .stSuccess {
         background-color: rgba(16, 185, 129, 0.1) !important;
-        border: 1px solid #10B981 !important;
+        border: 1px solid var(--gama-success) !important;
         border-radius: 8px !important;
-        color: #10B981 !important;
+        color: var(--gama-success) !important;
     }
 
     .stError {
         background-color: rgba(225, 29, 72, 0.1) !important;
-        border: 1px solid #E11D48 !important;
+        border: 1px solid var(--gama-error) !important;
         border-radius: 8px !important;
-        color: #E11D48 !important;
+        color: var(--gama-error) !important;
     }
 
     .stWarning {
         background-color: rgba(245, 158, 11, 0.1) !important;
-        border: 1px solid #F59E0B !important;
+        border: 1px solid var(--gama-warning) !important;
         border-radius: 8px !important;
-        color: #F59E0B !important;
+        color: var(--gama-warning) !important;
+    }
+
+    /* Footer - Design System compliant */
+    footer {
+        color: var(--gama-text-secondary);
     }
 </style>
 """, unsafe_allow_html=True)
@@ -272,4 +304,4 @@ else:
 # ===== FOOTER =====
 st.divider()
 st.markdown("---")
-st.markdown("<p style='text-align: center; color: #888;'>Gama Voz v2.0 — Simples. Rápido. Funciona.</p>", unsafe_allow_html=True)
+st.markdown("<p style='text-align: center; color: var(--gama-text-secondary);'>Gama Voz v2.0 — Simples. Rápido. Funciona. | Design System Gama v1.0.0</p>", unsafe_allow_html=True)
