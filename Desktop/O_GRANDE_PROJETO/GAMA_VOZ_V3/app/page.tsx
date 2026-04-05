@@ -514,25 +514,34 @@ export default function GamaVozFathom() {
 
   return (
     <div className="flex h-screen" style={{ backgroundColor: '#161616' }} suppressHydrationWarning>
-      {/* SIDEBAR */}
-      <aside
-        className={`border-r flex flex-col transition-all duration-300 relative ${
-          sidebarAutoMode
-            ? (mouseOverSidebar ? 'w-64' : 'w-20')
-            : sidebarOpen ? 'w-64' : 'w-20'
-        }`}
-        style={{
-          backgroundColor: '#1a1a1a',
-          borderColor: 'rgba(82, 82, 91, 0.3)',
-          overflow: 'visible',
-        }}
+      {/* SIDEBAR WRAPPER - Larger hitbox for mouse detection */}
+      <div
+        className="relative"
         onMouseEnter={() => {
-          setMouseOverSidebar(true);
+          if (sidebarAutoMode) {
+            setMouseOverSidebar(true);
+          }
         }}
         onMouseLeave={() => {
-          setMouseOverSidebar(false);
+          if (sidebarAutoMode) {
+            setMouseOverSidebar(false);
+          }
         }}
       >
+        {/* SIDEBAR */}
+        <aside
+          className={`border-r flex flex-col transition-all duration-300 relative ${
+            sidebarAutoMode
+              ? (mouseOverSidebar ? 'w-64' : 'w-20')
+              : sidebarOpen ? 'w-64' : 'w-20'
+          }`}
+          style={{
+            backgroundColor: '#1a1a1a',
+            borderColor: 'rgba(82, 82, 91, 0.3)',
+            overflow: 'visible',
+            height: '100vh',
+          }}
+        >
         {/* Logo + Toggle Button */}
         <div
           className={`border-b relative transition-all duration-300 ${
@@ -748,7 +757,8 @@ export default function GamaVozFathom() {
         )}
           </>
         )}
-      </aside>
+        </aside>
+      </div>
 
       {/* MAIN CONTENT */}
       <main className="flex-1 flex flex-col">
