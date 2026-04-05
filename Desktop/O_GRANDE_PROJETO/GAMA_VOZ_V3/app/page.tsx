@@ -517,7 +517,7 @@ export default function GamaVozFathom() {
       {/* SIDEBAR */}
       <aside
         className={`border-r flex flex-col transition-all duration-300 relative ${
-          sidebarAutoMode ? (mouseOverSidebar ? 'w-64' : 'w-0') : sidebarOpen ? 'w-64' : 'w-0'
+          sidebarAutoMode ? (mouseOverSidebar ? 'w-64' : 'w-20') : sidebarOpen ? 'w-64' : 'w-0'
         }`}
         style={{
           backgroundColor: '#1a1a1a',
@@ -529,56 +529,60 @@ export default function GamaVozFathom() {
       >
         {/* Logo + Toggle Button */}
         <div className="p-6 border-b relative" style={{ borderColor: 'rgba(82, 82, 91, 0.3)' }}>
-          <div className="flex items-center gap-3">
-            <div
-              className="w-10 h-10 rounded-lg flex items-center justify-center font-black text-xl"
-              style={{ backgroundColor: '#88CE11', color: '#161616' }}
-            >
-              🎙️
+          {/* Full Logo - Visible when sidebar is open */}
+          {(sidebarAutoMode ? mouseOverSidebar : sidebarOpen) && (
+            <div className="flex items-center gap-3">
+              <div
+                className="w-10 h-10 rounded-lg flex items-center justify-center font-black text-xl"
+                style={{ backgroundColor: '#88CE11', color: '#161616' }}
+              >
+                🎙️
+              </div>
+              <h1 className="text-lg font-black" style={{ color: '#88CE11' }}>
+                GAMA Voz
+              </h1>
             </div>
-            <h1 className="text-lg font-black" style={{ color: '#88CE11' }}>
-              GAMA Voz
-            </h1>
-          </div>
+          )}
 
-          {/* Toggle Button - Top Right of Sidebar */}
-          <button
-            onClick={() => {
-              if (sidebarAutoMode) {
-                setSidebarAutoMode(false);
-                setSidebarOpen(true);
-              } else {
-                setSidebarOpen(!sidebarOpen);
-              }
-            }}
-            className="absolute top-6 right-4 z-10 p-2 rounded-lg transition-all"
-            style={{
-              backgroundColor: 'rgba(136, 206, 17, 0.2)',
-              color: '#88CE11',
-              cursor: 'pointer',
-            }}
-            title={sidebarAutoMode ? 'Modo Fixo' : 'Modo Automático'}
-          >
-            {sidebarAutoMode ? '🔗' : '📌'}
-          </button>
+          {/* Icon Only - Visible when sidebar is minimized (auto mode) */}
+          {sidebarAutoMode && !mouseOverSidebar && (
+            <div className="flex justify-center">
+              <div
+                className="w-10 h-10 rounded-lg flex items-center justify-center font-black text-xl"
+                style={{ backgroundColor: '#88CE11', color: '#161616' }}
+              >
+                🎙️
+              </div>
+            </div>
+          )}
 
-          {/* Auto Mode Toggle - Below Sidebar when minimized */}
-          {!sidebarOpen && !sidebarAutoMode && (
+          {/* Toggle Button - Top Right of Sidebar (when expanded) */}
+          {(sidebarAutoMode ? mouseOverSidebar : sidebarOpen) && (
             <button
-              onClick={() => setSidebarAutoMode(true)}
-              className="absolute top-20 left-2 z-10 p-2 rounded-lg transition-all"
+              onClick={() => {
+                if (sidebarAutoMode) {
+                  setSidebarAutoMode(false);
+                  setSidebarOpen(true);
+                } else {
+                  setSidebarOpen(!sidebarOpen);
+                }
+              }}
+              className="absolute top-6 right-4 z-10 p-2 rounded-lg transition-all"
               style={{
                 backgroundColor: 'rgba(136, 206, 17, 0.2)',
                 color: '#88CE11',
-                fontSize: '10px',
+                cursor: 'pointer',
               }}
-              title="Modo Automático (passe o mouse)"
+              title={sidebarAutoMode ? 'Modo Fixo' : 'Modo Automático'}
             >
-              🔗
+              {sidebarAutoMode ? '🔗' : '📌'}
             </button>
           )}
         </div>
 
+        {/* Conteúdo - Visível apenas quando expandido */}
+        {(sidebarAutoMode ? mouseOverSidebar : sidebarOpen) && (
+          <>
         {/* Add New Button */}
         <div className="p-4 border-b" style={{ borderColor: 'rgba(82, 82, 91, 0.3)' }}>
           <button
@@ -710,6 +714,8 @@ export default function GamaVozFathom() {
               ))
             )}
           </div>
+        )}
+          </>
         )}
       </aside>
 
