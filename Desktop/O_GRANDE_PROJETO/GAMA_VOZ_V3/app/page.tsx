@@ -886,20 +886,29 @@ export default function GamaVozFathom() {
                 <div>
                   {transcriptionMode === 'sentences' ? (
                     (() => {
-                      const sentences = call.fullText!.split(/(?<=[.!?])\s+/);
+                      const sentences = call.fullText!.split(/(?<=[.!?])\s+/).filter(s => s.trim());
                       const audioDuration = audioRef.current?.duration || call.duration * 60;
                       const currentTime = audioRef.current?.currentTime || 0;
 
-                      // Calculate total words to distribute time proportionally
-                      const totalWords = sentences.reduce((sum, sent) => sum + sent.trim().split(/\s+/).length, 0);
-                      let cumulativeWords = 0;
+                      // Calcular duração esperada de cada frase baseado em velocidade de fala
+                      // Velocidade média em português: ~2.5 palavras por segundo
+                      const WORDS_PER_SECOND = 2.5;
 
-                      return sentences.map((sentence, idx) => {
-                        const sentenceWords = sentence.trim().split(/\s+/).length;
-                        const sentenceStartTime = (cumulativeWords / totalWords) * audioDuration;
-                        const sentenceEndTime = ((cumulativeWords + sentenceWords) / totalWords) * audioDuration;
+                      const sentenceTimings = sentences.map(sent => {
+                        const wordCount = sent.trim().split(/\s+/).length;
+                        const estimatedDuration = wordCount / WORDS_PER_SECOND;
+                        return { sentence: sent, wordCount, estimatedDuration };
+                      });
+
+                      // Calcular timing proporcional à duração estimada
+                      const totalEstimatedDuration = sentenceTimings.reduce((sum, s) => sum + s.estimatedDuration, 0);
+                      let cumulativeTime = 0;
+
+                      return sentenceTimings.map((item, idx) => {
+                        const sentenceStartTime = (cumulativeTime / totalEstimatedDuration) * audioDuration;
+                        const sentenceEndTime = ((cumulativeTime + item.estimatedDuration) / totalEstimatedDuration) * audioDuration;
                         const isCurrentItem = currentTime >= sentenceStartTime && currentTime < sentenceEndTime;
-                        cumulativeWords += sentenceWords;
+                        cumulativeTime += item.estimatedDuration;
 
                         return (
                           <div
@@ -922,7 +931,7 @@ export default function GamaVozFathom() {
                                 {formatTime(sentenceStartTime * 1000)} - {formatTime(sentenceEndTime * 1000)}
                               </span>
                               <p style={{ color: isCurrentItem ? '#88CE11' : '#FFFFFF', fontSize: '13px', flex: 1 }}>
-                                {sentence}
+                                {item.sentence}
                               </p>
                             </div>
                           </div>
@@ -931,18 +940,26 @@ export default function GamaVozFathom() {
                     })()
                   ) : (
                     (() => {
-                      const sentences = call.fullText!.split(/(?<=[.!?])\s+/);
+                      const sentences = call.fullText!.split(/(?<=[.!?])\s+/).filter(s => s.trim());
                       const audioDuration = audioRef.current?.duration || call.duration * 60;
                       const currentTime = audioRef.current?.currentTime || 0;
 
-                      // Calculate total words for time distribution
-                      const totalWords = sentences.reduce((sum, sent) => sum + sent.trim().split(/\s+/).length, 0);
-                      let cumulativeWords = 0;
+                      // Mesmo cálculo de duração estimada
+                      const WORDS_PER_SECOND = 2.5;
 
-                      return sentences.map((sentence, sentenceIdx) => {
-                        const words = sentence.trim().split(/\s+/);
-                        const sentenceStartTime = (cumulativeWords / totalWords) * audioDuration;
-                        const sentenceEndTime = ((cumulativeWords + words.length) / totalWords) * audioDuration;
+                      const sentenceTimings = sentences.map(sent => {
+                        const wordCount = sent.trim().split(/\s+/).length;
+                        const estimatedDuration = wordCount / WORDS_PER_SECOND;
+                        return { sentence: sent, wordCount, estimatedDuration };
+                      });
+
+                      const totalEstimatedDuration = sentenceTimings.reduce((sum, s) => sum + s.estimatedDuration, 0);
+                      let cumulativeTime = 0;
+
+                      return sentenceTimings.map((item, sentenceIdx) => {
+                        const sentenceStartTime = (cumulativeTime / totalEstimatedDuration) * audioDuration;
+                        const sentenceEndTime = ((cumulativeTime + item.estimatedDuration) / totalEstimatedDuration) * audioDuration;
+                        const words = item.sentence.trim().split(/\s+/);
 
                         const wordElements = words.map((word, wordIdx) => {
                           const wordStartTime = sentenceStartTime + (wordIdx / words.length) * (sentenceEndTime - sentenceStartTime);
@@ -970,7 +987,7 @@ export default function GamaVozFathom() {
                           );
                         });
 
-                        cumulativeWords += words.length;
+                        cumulativeTime += item.estimatedDuration;
 
                         return (
                           <div key={`words-${sentenceIdx}`} className="px-4 py-3 border-b" style={{ borderColor: 'rgba(82, 82, 91, 0.2)' }}>
