@@ -923,7 +923,7 @@ export default function GamaVozFathom() {
                                 {formatTime(sentenceStartTime * 1000)} - {formatTime(sentenceEndTime * 1000)}
                               </span>
                               <p style={{ color: isCurrentItem ? '#88CE11' : '#FFFFFF', fontSize: '13px', flex: 1 }}>
-                                {item.sentence}
+                                {sentence}
                               </p>
                             </div>
                           </div>
