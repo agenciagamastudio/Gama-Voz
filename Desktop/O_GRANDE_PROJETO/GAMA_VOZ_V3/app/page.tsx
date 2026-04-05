@@ -517,7 +517,9 @@ export default function GamaVozFathom() {
       {/* SIDEBAR */}
       <aside
         className={`border-r flex flex-col transition-all duration-300 relative ${
-          sidebarAutoMode ? (mouseOverSidebar ? 'w-64' : 'w-20') : sidebarOpen ? 'w-64' : 'w-0'
+          sidebarAutoMode
+            ? (mouseOverSidebar ? 'w-64' : 'w-20')
+            : sidebarOpen ? 'w-64' : 'w-20'
         }`}
         style={{
           backgroundColor: '#1a1a1a',
@@ -528,7 +530,12 @@ export default function GamaVozFathom() {
         onMouseLeave={() => setMouseOverSidebar(false)}
       >
         {/* Logo + Toggle Button */}
-        <div className="p-6 border-b relative" style={{ borderColor: 'rgba(82, 82, 91, 0.3)' }}>
+        <div
+          className={`border-b relative transition-all duration-300 ${
+            (sidebarAutoMode ? mouseOverSidebar : sidebarOpen) ? 'p-6' : 'p-4'
+          }`}
+          style={{ borderColor: 'rgba(82, 82, 91, 0.3)' }}
+        >
           {/* Full Logo - Visible when sidebar is open */}
           {(sidebarAutoMode ? mouseOverSidebar : sidebarOpen) && (
             <div className="flex items-center gap-3">
@@ -544,8 +551,8 @@ export default function GamaVozFathom() {
             </div>
           )}
 
-          {/* Icon Only - Visible when sidebar is minimized (auto mode) */}
-          {sidebarAutoMode && !mouseOverSidebar && (
+          {/* Icon Only - Visible when sidebar is minimized */}
+          {!(sidebarAutoMode ? mouseOverSidebar : sidebarOpen) && (
             <div className="flex justify-center">
               <div
                 className="w-10 h-10 rounded-lg flex items-center justify-center font-black text-xl"
