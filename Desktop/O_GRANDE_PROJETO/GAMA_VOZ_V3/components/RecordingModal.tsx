@@ -37,27 +37,15 @@ export default function RecordingModal({
         style={{ maxWidth: '700px' }}
         onClick={(e) => e.stopPropagation()}
       >
-        {/* Botão fechar - desativado enquanto grava se focusOnRecord está ON */}
+        {/* Botão fechar - invisível (click fora funciona) */}
         <button
           onClick={onClose}
           disabled={isRecording && focusOnRecord}
           className="absolute top-4 right-4 z-10 p-2 rounded-lg transition-all"
           style={{
-            backgroundColor:
-              isRecording && focusOnRecord
-                ? 'rgba(82, 82, 91, 0.2)'
-                : 'rgba(136, 206, 17, 0.2)',
-            color:
-              isRecording && focusOnRecord ? '#525259' : '#88CE11',
-            cursor:
-              isRecording && focusOnRecord ? 'not-allowed' : 'pointer',
-            opacity: isRecording && focusOnRecord ? 0.5 : 1,
+            display: 'none',
           }}
-          title={
-            isRecording && focusOnRecord
-              ? 'Termine a gravação para fechar (ou desative "Focar ao gravar" nas configurações)'
-              : 'Fechar'
-          }
+          title="Fechar"
         >
           ✕
         </button>
