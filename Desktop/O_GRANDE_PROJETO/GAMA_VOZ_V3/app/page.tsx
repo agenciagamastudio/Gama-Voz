@@ -524,10 +524,14 @@ export default function GamaVozFathom() {
         style={{
           backgroundColor: '#1a1a1a',
           borderColor: 'rgba(82, 82, 91, 0.3)',
-          overflow: 'hidden',
+          overflow: 'visible',
         }}
-        onMouseEnter={() => setMouseOverSidebar(true)}
-        onMouseLeave={() => setMouseOverSidebar(false)}
+        onMouseEnter={() => {
+          setMouseOverSidebar(true);
+        }}
+        onMouseLeave={() => {
+          setMouseOverSidebar(false);
+        }}
       >
         {/* Logo + Toggle Button */}
         <div
@@ -586,6 +590,26 @@ export default function GamaVozFathom() {
             </button>
           )}
         </div>
+
+        {/* Ícones das Calls - Visível quando minimizado */}
+        {!(sidebarAutoMode ? mouseOverSidebar : sidebarOpen) && calls.length > 0 && (
+          <div className="flex-1 overflow-y-auto p-2 flex flex-col gap-1">
+            {calls.map((item, idx) => (
+              <button
+                key={item.id}
+                onClick={() => setSelectedCall(idx)}
+                className="w-12 h-12 rounded-lg flex items-center justify-center font-black text-xs transition-all mx-auto"
+                style={{
+                  backgroundColor: selectedCall === idx ? '#88CE11' : 'rgba(136, 206, 17, 0.2)',
+                  color: selectedCall === idx ? '#161616' : '#88CE11',
+                }}
+                title={item.title}
+              >
+                {idx + 1}
+              </button>
+            ))}
+          </div>
+        )}
 
         {/* Conteúdo - Visível apenas quando expandido */}
         {(sidebarAutoMode ? mouseOverSidebar : sidebarOpen) && (
