@@ -44,6 +44,8 @@ export default function GamaVozFathom() {
   const [recordingTime, setRecordingTime] = useState(0);
   const [error, setError] = useState<string | null>(null);
   const [sidebarOpen, setSidebarOpen] = useState(true);
+  const [sidebarAutoMode, setSidebarAutoMode] = useState(false);
+  const [mouseOverSidebar, setMouseOverSidebar] = useState(false);
   const [recordingModalOpen, setRecordingModalOpen] = useState(false);
   const [currentTab, setCurrentTab] = useState<Tab>('calls');
   const [waveformData, setWaveformData] = useState<number[]>([]);
@@ -514,15 +516,19 @@ export default function GamaVozFathom() {
     <div className="flex h-screen" style={{ backgroundColor: '#161616' }} suppressHydrationWarning>
       {/* SIDEBAR */}
       <aside
-        className={`border-r flex flex-col transition-all duration-300 ${sidebarOpen ? 'w-64' : 'w-0'}`}
+        className={`border-r flex flex-col transition-all duration-300 relative ${
+          sidebarAutoMode ? (mouseOverSidebar ? 'w-64' : 'w-0') : sidebarOpen ? 'w-64' : 'w-0'
+        }`}
         style={{
           backgroundColor: '#1a1a1a',
           borderColor: 'rgba(82, 82, 91, 0.3)',
           overflow: 'hidden',
         }}
+        onMouseEnter={() => setMouseOverSidebar(true)}
+        onMouseLeave={() => setMouseOverSidebar(false)}
       >
-        {/* Logo */}
-        <div className="p-6 border-b" style={{ borderColor: 'rgba(82, 82, 91, 0.3)' }}>
+        {/* Logo + Toggle Button */}
+        <div className="p-6 border-b relative" style={{ borderColor: 'rgba(82, 82, 91, 0.3)' }}>
           <div className="flex items-center gap-3">
             <div
               className="w-10 h-10 rounded-lg flex items-center justify-center font-black text-xl"
@@ -534,6 +540,43 @@ export default function GamaVozFathom() {
               GAMA Voz
             </h1>
           </div>
+
+          {/* Toggle Button - Top Right of Sidebar */}
+          <button
+            onClick={() => {
+              if (sidebarAutoMode) {
+                setSidebarAutoMode(false);
+                setSidebarOpen(true);
+              } else {
+                setSidebarOpen(!sidebarOpen);
+              }
+            }}
+            className="absolute top-6 right-4 z-10 p-2 rounded-lg transition-all"
+            style={{
+              backgroundColor: 'rgba(136, 206, 17, 0.2)',
+              color: '#88CE11',
+              cursor: 'pointer',
+            }}
+            title={sidebarAutoMode ? 'Modo Fixo' : 'Modo Automático'}
+          >
+            {sidebarAutoMode ? '🔗' : '📌'}
+          </button>
+
+          {/* Auto Mode Toggle - Below Sidebar when minimized */}
+          {!sidebarOpen && !sidebarAutoMode && (
+            <button
+              onClick={() => setSidebarAutoMode(true)}
+              className="absolute top-20 left-2 z-10 p-2 rounded-lg transition-all"
+              style={{
+                backgroundColor: 'rgba(136, 206, 17, 0.2)',
+                color: '#88CE11',
+                fontSize: '10px',
+              }}
+              title="Modo Automático (passe o mouse)"
+            >
+              🔗
+            </button>
+          )}
         </div>
 
         {/* Add New Button */}
@@ -672,25 +715,13 @@ export default function GamaVozFathom() {
 
       {/* MAIN CONTENT */}
       <main className="flex-1 flex flex-col">
-        {/* Toggle Sidebar Button */}
-        <button
-          onClick={() => setSidebarOpen(!sidebarOpen)}
-          className="absolute top-4 left-4 z-40 p-2 rounded-lg transition-all"
-          style={{
-            backgroundColor: 'rgba(136, 206, 17, 0.2)',
-            color: '#88CE11',
-          }}
-        >
-          {sidebarOpen ? '◀' : '▶'}
-        </button>
-
         {/* Settings Button */}
         <button
           onClick={() => {
             console.log('⚙️ Settings button clicked');
             setSettingsOpen(true);
           }}
-          className="absolute top-4 right-4 z-40 p-2 rounded-lg transition-all hover:brightness-110"
+          className="absolute top-6 right-6 z-40 p-2 rounded-lg transition-all hover:brightness-110"
           style={{
             backgroundColor: 'rgba(136, 206, 17, 0.2)',
             color: '#88CE11',
