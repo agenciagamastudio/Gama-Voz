@@ -11,7 +11,7 @@ interface PulsingCircleProps {
 
 export default function PulsingCircle({ isRecording, audioLevel = 0, waveformIntensity = 3.0, audioStream }: PulsingCircleProps) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
-  const animationRef = useRef<number>();
+  const animationRef = useRef<number | null>(null);
   const audioContextRef = useRef<AudioContext | null>(null);
   const analyserRef = useRef<AnalyserNode | null>(null);
   const dataArrayRef = useRef<Uint8Array | null>(null);
@@ -76,7 +76,7 @@ export default function PulsingCircle({ isRecording, audioLevel = 0, waveformInt
       // Calcular nível de áudio (usar audioLevel prop como fallback)
       let audioLevel_ = audioLevel;
       if (analyserRef.current && dataArrayRef.current) {
-        analyserRef.current.getByteFrequencyData(dataArrayRef.current);
+        analyserRef.current.getByteFrequencyData(dataArrayRef.current as any);
         const average = dataArrayRef.current.reduce((a, b) => a + b) / dataArrayRef.current.length;
         audioLevel_ = average / 255;
       }

@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 
 export default function Home() {
   const [isRecording, setIsRecording] = useState(false);
@@ -11,6 +11,8 @@ export default function Home() {
   const [apiKey, setApiKey] = useState('');
   const [showApiForm, setShowApiForm] = useState(false);
   const [tempApiKey, setTempApiKey] = useState('');
+  const mediaRecorderRef = useRef<MediaRecorder | null>(null);
+  const audioChunksRef = useRef<Blob[]>([]);
 
   useEffect(() => {
     const saved = localStorage.getItem('gama-voz-api-key');
@@ -28,6 +30,90 @@ export default function Home() {
     localStorage.setItem('gama-voz-api-key', tempApiKey);
     setApiKey(tempApiKey);
     setShowApiForm(false);
+  };
+
+  const handleRecording = async () => {
+    if (!apiKey) {
+      alert('Configure a chave API primeiro!');
+      return;
+    }
+
+    if (isRecording) {
+      // Parar gravação
+      setIsRecording(false);
+      if (mediaRecorderRef.current) {
+        mediaRecorderRef.current.stop();
+      }
+    } else {
+      // Iniciar gravação
+      setCurrentText('🎤 Gravando...');
+      audioChunksRef.current = [];
+
+      try {
+        const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+        const mediaRecorder = new MediaRecorder(stream);
+        mediaRecorderRef.current = mediaRecorder;
+
+        mediaRecorder.ondataavailable = (event) => {
+          audioChunksRef.current.push(event.data);
+        };
+
+        mediaRecorder.onstop = async () => {
+          setCurrentText('⏳ Transcrevendo...');
+
+          // Parar o stream
+          stream.getTracks().forEach(track => track.stop());
+
+          const audioBlob = new Blob(audioChunksRef.current, { type: 'audio/webm' });
+
+          try {
+            // Enviar pro Groq
+            const formData = new FormData();
+            formData.append('file', audioBlob, 'audio.webm');
+            formData.append('model', 'whisper-large-v3-turbo');
+            formData.append('language', 'pt');
+
+            const response = await fetch('https://api.groq.com/openai/v1/audio/transcriptions', {
+              method: 'POST',
+              headers: {
+                'Authorization': `Bearer ${apiKey}`,
+              },
+              body: formData,
+            });
+
+            if (!response.ok) {
+              const error = await response.json();
+              setCurrentText('❌ Erro na transcrição: ' + (error.error?.message || 'Erro desconhecido'));
+              return;
+            }
+
+            const result = await response.json();
+            const transcribedText = result.text || 'Nenhum áudio detectado';
+
+            setCurrentText(transcribedText);
+
+            // Adicionar ao histórico
+            const newTranscription = {
+              id: Date.now().toString(),
+              text: transcribedText,
+              timestamp: new Date().toISOString(),
+            };
+
+            setTranscriptions([newTranscription, ...transcriptions]);
+            setSelectedId(newTranscription.id);
+          } catch (error) {
+            console.error('Erro:', error);
+            setCurrentText('❌ Erro ao enviar áudio: ' + (error instanceof Error ? error.message : 'Desconhecido'));
+          }
+        };
+
+        setIsRecording(true);
+        mediaRecorder.start();
+      } catch (error) {
+        console.error('Erro ao acessar microfone:', error);
+        setCurrentText('❌ Não consegui acessar o microfone');
+      }
+    }
   };
 
   return (
@@ -141,14 +227,7 @@ export default function Home() {
         )}
 
         <button
-          onClick={() => {
-            if (!apiKey) {
-              alert('Configure a chave API primeiro!');
-              return;
-            }
-            setIsRecording(!isRecording);
-            setCurrentText(isRecording ? '' : '🎤 Gravando...');
-          }}
+          onClick={handleRecording}
           style={{
             background: isRecording ? '#E11D48' : '#88CE11',
             color: isRecording ? '#fff' : '#000',
