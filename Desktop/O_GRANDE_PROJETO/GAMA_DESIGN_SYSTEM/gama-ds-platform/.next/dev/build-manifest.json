@@ -1,0 +1,25 @@
+{
+  "pages": {
+    "/_app": []
+  },
+  "devFiles": [],
+  "polyfillFiles": [
+    "static/chunks/75f85_next_dist_build_polyfills_polyfill-nomodule.js"
+  ],
+  "lowPriorityFiles": [
+    "static/development/_ssgManifest.js",
+    "static/development/_buildManifest.js"
+  ],
+  "rootMainFiles": [
+    "static/chunks/[turbopack]_browser_dev_hmr-client_hmr-client_ts_8685e9b4._.js",
+    "static/chunks/75f85_next_dist_compiled_react-dom_0bb2dc8e._.js",
+    "static/chunks/75f85_next_dist_compiled_react-server-dom-turbopack_24bf858c._.js",
+    "static/chunks/75f85_next_dist_compiled_next-devtools_index_f0569bfe.js",
+    "static/chunks/75f85_next_dist_compiled_3a4d3aa9._.js",
+    "static/chunks/75f85_next_dist_client_09d9b2d8._.js",
+    "static/chunks/75f85_next_dist_67122133._.js",
+    "static/chunks/75f85_@swc_helpers_cjs_38f2d67b._.js",
+    "static/chunks/Desktop_O_GRANDE_PROJETO_GAMA_DESIGN_SYSTEM_gama-ds-platform_a0ff3932._.js",
+    "static/chunks/turbopack-Desktop_O_GRANDE_PROJETO_GAMA_DESIGN_SYSTEM_gama-ds-platform_d74f8b89._.js"
+  ]
+}

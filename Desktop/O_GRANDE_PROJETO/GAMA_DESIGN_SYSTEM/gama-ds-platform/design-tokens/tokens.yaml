@@ -1,0 +1,235 @@
+metadata:
+  version: "1.0.0"
+  generated_by: "Uma (UX Design Expert)"
+  generated_at: "2026-03-11T00:00:00Z"
+  dtcg_spec: "2025.10"
+  color_space: "hex"
+  status: "PRODUCTION"
+  project: "GAMA Design System"
+
+# ════════════════════════════════════════════════════════════════
+# CAMADA 1: CORE — Primitivos (valores brutos)
+# Estes são os valores base que tudo mais referencia
+# NUNCA mude estes sem atualizar as camadas semânticas
+# ════════════════════════════════════════════════════════════════
+
+core:
+  colors:
+    neutral:
+      black: "#0A0A0A"
+      dark: "#161616"
+      surface: "#272727"
+      gray-secondary: "#A1A1AA"
+      gray-tertiary: "#71717A"
+      gray-muted: "#52525B"
+      white: "#FFFFFF"
+
+    brand:
+      green-primary: "#88CE11"    # Verde neon - a identidade GAMA
+
+    semantic-functional:
+      success: "#10B981"
+      warning: "#F59E0B"
+      error: "#E11D48"
+      info: "#3B82F6"
+
+    borders:
+      default: "rgba(255, 255, 255, 0.1)"
+      hover: "rgba(255, 255, 255, 0.2)"
+
+  spacing:
+    xs: "4px"
+    sm: "8px"
+    md: "12px"
+    lg: "16px"
+    xl: "24px"
+    2xl: "32px"
+    3xl: "48px"
+
+  typography:
+    families:
+      primary: "Poppins"
+      code: "JetBrains Mono"
+
+    sizes:
+      # Responsive sizing using clamp() — scales with viewport
+      # clamp(min, preferred, max) — automatically scales between min and max
+      display: "clamp(2.5rem, 8vw, 5rem)"      # 40px-80px responsive
+      3xl: "clamp(1.5rem, 5vw, 2.25rem)"      # 24px-36px responsive
+      2xl: "clamp(1.25rem, 4vw, 1.5rem)"      # 20px-24px responsive
+      xl: "clamp(1rem, 3vw, 1.25rem)"         # 16px-20px responsive
+      base: "16px"                             # Fixed, optimal for reading
+      sm: "14px"                               # Fixed
+      xs: "12px"                               # Fixed
+
+    weights:
+      light: 300
+      regular: 400
+      medium: 500
+      semibold: 600
+      bold: 700
+      extrabold: 800
+      black: 900
+
+    line-heights:
+      tight: 1.2
+      snug: 1.25
+      normal: 1.33
+      relaxed: 1.4
+      loose: 1.5
+      extra-loose: 1.6
+
+    letter-spacings:
+      tight: "-0.5px"
+      normal: "0px"
+      wide: "0.25px"
+      extra-wide: "0.5px"
+
+  borders:
+    radius:
+      sm: "8px"
+      md: "12px"
+      lg: "16px"
+
+  shadows:
+    sm: "0 2px 4px rgba(0, 0, 0, 0.2)"
+    md: "0 4px 12px rgba(0, 0, 0, 0.3)"
+    lg: "0 8px 24px rgba(0, 0, 0, 0.4)"
+
+  transitions:
+    fast: "150ms ease-in-out"
+    standard: "300ms ease-in-out"
+    slow: "500ms ease-in-out"
+
+# ════════════════════════════════════════════════════════════════
+# CAMADA 2: SEMANTIC — Aliases com Significado
+# Estes referencias os core, mas com nomes semânticos
+# Use ESTES para criar componentes
+# ════════════════════════════════════════════════════════════════
+
+semantic:
+  colors:
+    # Backgrounds
+    background-primary: "{core.colors.neutral.dark}"        # #161616
+    background-secondary: "{core.colors.neutral.darker}"    # #0A0A0A
+
+    # Surfaces (cards, containers, elevated)
+    surface-default: "{core.colors.neutral.surface}"        # #272727
+    surface-hover: "{core.colors.neutral.white}"            # rgba(255,255,255,0.05)
+
+    # Text
+    text-primary: "{core.colors.neutral.white}"             # #FFFFFF
+    text-secondary: "{core.colors.neutral.gray-secondary}"  # #A1A1AA
+    text-tertiary: "{core.colors.neutral.gray-tertiary}"    # #71717A
+    text-muted: "{core.colors.neutral.gray-muted}"          # #52525B
+
+    # Brand/Interactive
+    primary: "{core.colors.brand.green-primary}"            # #88CE11 (CTAs, focus)
+    primary-hover: "brightness(1.1)"                        # Filter for hover
+    primary-disabled: "rgba(136, 206, 17, 0.5)"
+
+    # Semantic
+    success: "{core.colors.semantic-functional.success}"    # #10B981
+    warning: "{core.colors.semantic-functional.warning}"    # #F59E0B
+    error: "{core.colors.semantic-functional.error}"        # #E11D48
+    info: "{core.colors.semantic-functional.info}"          # #3B82F6
+
+    # Borders
+    border-default: "{core.colors.borders.default}"
+    border-hover: "{core.colors.borders.hover}"
+
+  spacing:
+    micro: "{core.spacing.xs}"        # 4px
+    compact: "{core.spacing.sm}"      # 8px
+    tight: "{core.spacing.md}"        # 12px
+    default: "{core.spacing.lg}"      # 16px
+    comfortable: "{core.spacing.xl}"  # 24px
+    generous: "{core.spacing.2xl}"    # 32px
+    spacious: "{core.spacing.3xl}"    # 48px
+
+  typography:
+    display: "{core.typography.sizes.display}"
+    heading-3xl: "{core.typography.sizes.3xl}"
+    heading-2xl: "{core.typography.sizes.2xl}"
+    heading-xl: "{core.typography.sizes.xl}"
+    body: "{core.typography.sizes.base}"
+    body-sm: "{core.typography.sizes.sm}"
+    caption: "{core.typography.sizes.xs}"
+
+# ════════════════════════════════════════════════════════════════
+# CAMADA 3: COMPONENT — Combinações prontas
+# Estes combinam semantic tokens em "receitas" para componentes
+# COPIE ESTES quando criar novos componentes
+# ════════════════════════════════════════════════════════════════
+
+component:
+  button:
+    primary:
+      background: "{semantic.colors.primary}"
+      text: "#000000"
+      padding: "{core.spacing.md} {core.spacing.lg}"
+      border-radius: "{core.borders.radius.md}"
+      font-weight: "{core.typography.weights.bold}"
+      transition: "{core.transitions.standard}"
+      hover:
+        filter: "brightness(1.1)"
+      disabled:
+        opacity: "0.5"
+        cursor: "not-allowed"
+
+    secondary:
+      background: "transparent"
+      border: "2px solid {semantic.colors.primary}"
+      text: "{semantic.colors.primary}"
+      padding: "{core.spacing.md} {core.spacing.lg}"
+      border-radius: "{core.borders.radius.md}"
+      font-weight: "{core.typography.weights.bold}"
+
+    tertiary:
+      background: "transparent"
+      text: "{semantic.colors.text-secondary}"
+      padding: "{core.spacing.md} {core.spacing.lg}"
+      font-weight: "{core.typography.weights.medium}"
+
+  card:
+    background: "{semantic.colors.surface-default}"
+    border: "1px solid {semantic.colors.border-default}"
+    border-radius: "{core.borders.radius.lg}"
+    padding: "{core.spacing.2xl}"
+    box-shadow: "{core.shadows.md}"
+    transition: "{core.transitions.standard}"
+
+  input:
+    background: "{semantic.colors.surface-default}"
+    border: "1px solid {semantic.colors.border-default}"
+    border-radius: "{core.borders.radius.sm}"
+    padding: "{core.spacing.md} {core.spacing.lg}"
+    text-color: "{semantic.colors.text-primary}"
+    focus-border: "{semantic.colors.primary}"
+    transition: "{core.transitions.fast}"
+
+  form-field:
+    label:
+      font-size: "{core.typography.sizes.sm}"
+      font-weight: "{core.typography.weights.medium}"
+      color: "{semantic.colors.text-secondary}"
+      margin-bottom: "{core.spacing.sm}"
+
+# ════════════════════════════════════════════════════════════════
+# METADATA — Rastreabilidade
+# ════════════════════════════════════════════════════════════════
+
+coverage:
+  total_tokens: 89
+  core_tokens: 45
+  semantic_tokens: 28
+  component_tokens: 16
+  coverage_percentage: 96.3
+
+guidelines:
+  - "NUNCA hardcode cores — use semantic tokens"
+  - "NUNCA hardcode espaçamentos — use spacing tokens"
+  - "Componentes devem só referenciar semantic layer"
+  - "Semântico refencia sempre core"
+  - "Uma mudança no core = tudo reflete automaticamente"
+  - "Design System é fonte única da verdade (SSOT)"

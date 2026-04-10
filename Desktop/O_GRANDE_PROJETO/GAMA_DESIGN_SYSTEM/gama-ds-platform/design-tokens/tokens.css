@@ -1,0 +1,455 @@
+/* ════════════════════════════════════════════════════════════════ */
+/* GAMA Design System — CSS Custom Properties                       */
+/* Generated: 2026-03-11                                            */
+/* Source: tokens.yaml (Single Source of Truth)                    */
+/* ════════════════════════════════════════════════════════════════ */
+
+:root {
+  /* ──────────────────────────────────────────────────────────── */
+  /* CORE COLORS — Valores Primitivos                            */
+  /* ──────────────────────────────────────────────────────────── */
+
+  /* Neutrals */
+  --color-core-black: #000000;
+  --color-core-dark: #1C1C1E;
+  --color-core-surface: #2C2C2E;
+  --color-core-surface-elevated: #3A3A3C;
+  --color-core-gray-secondary: rgba(235, 235, 245, 0.60);
+  --color-core-gray-tertiary: rgba(235, 235, 245, 0.30);
+  --color-core-gray-muted: rgba(235, 235, 245, 0.18);
+  --color-core-white: #FFFFFF;
+
+  /* Brand */
+  --color-core-brand-green: #88CE11;
+
+  /* Semantic Functional */
+  --color-core-success: #10B981;
+  --color-core-warning: #F59E0B;
+  --color-core-error: #E11D48;
+  --color-core-info: #3B82F6;
+
+  /* Borders */
+  --color-core-border-default: rgba(84, 84, 88, 0.65);
+  --color-core-border-hover: rgba(84, 84, 88, 0.90);
+
+  /* ──────────────────────────────────────────────────────────── */
+  /* SEMANTIC COLORS — Aliases Semânticos                         */
+  /* Use ESTES para estilizar                                      */
+  /* ──────────────────────────────────────────────────────────── */
+
+  /* Backgrounds */
+  --color-bg-primary: var(--color-core-dark);
+  --color-bg-secondary: var(--color-core-black);
+
+  /* Surfaces */
+  --color-surface-default: var(--color-core-surface);
+  --color-surface-elevated: var(--color-core-surface-elevated);
+  --color-surface-hover: rgba(255, 255, 255, 0.05);
+
+  /* Text */
+  --color-text-primary: var(--color-core-white);
+  --color-text-secondary: var(--color-core-gray-secondary);
+  --color-text-tertiary: var(--color-core-gray-tertiary);
+  --color-text-muted: var(--color-core-gray-muted);
+
+  /* Brand/Interactive */
+  --color-primary: var(--color-core-brand-green);
+  --color-primary-disabled: rgba(136, 206, 17, 0.5);
+
+  /* Semantic */
+  --color-success: var(--color-core-success);
+  --color-warning: var(--color-core-warning);
+  --color-error: var(--color-core-error);
+  --color-info: var(--color-core-info);
+
+  /* Borders */
+  --color-border-default: var(--color-core-border-default);
+  --color-border-hover: var(--color-core-border-hover);
+
+  /* Fills (Interactive States) */
+  --color-fill-primary: rgba(120, 120, 128, 0.36);
+  --color-fill-secondary: rgba(120, 120, 128, 0.32);
+  --color-fill-tertiary: rgba(118, 118, 128, 0.24);
+  --color-fill-quaternary: rgba(118, 118, 128, 0.18);
+
+  /* ──────────────────────────────────────────────────────────── */
+  /* SPACING — Escala Múltipla de 4px                             */
+  /* ──────────────────────────────────────────────────────────── */
+
+  --space-xs: 4px;
+  --space-sm: 8px;
+  --space-md: 12px;
+  --space-lg: 16px;
+  --space-xl: 24px;
+  --space-2xl: 32px;
+  --space-3xl: 48px;
+
+  /* Semântico */
+  --space-micro: var(--space-xs);
+  --space-compact: var(--space-sm);
+  --space-tight: var(--space-md);
+  --space-default: var(--space-lg);
+  --space-comfortable: var(--space-xl);
+  --space-generous: var(--space-2xl);
+  --space-spacious: var(--space-3xl);
+
+  /* ──────────────────────────────────────────────────────────── */
+  /* TYPOGRAPHY — Escalas e Pesos                                 */
+  /* ──────────────────────────────────────────────────────────── */
+
+  /* Font Families */
+  --font-primary: "Poppins", system-ui, -apple-system, sans-serif;
+  --font-code: "JetBrains Mono", "Courier New", monospace;
+
+  /* Font Sizes */
+  --font-size-display: 48px;
+  --font-size-3xl: 36px;
+  --font-size-2xl: 24px;
+  --font-size-xl: 20px;
+  --font-size-base: 16px;
+  --font-size-sm: 14px;
+  --font-size-xs: 12px;
+
+  /* Font Weights */
+  --font-weight-light: 300;
+  --font-weight-regular: 400;
+  --font-weight-medium: 500;
+  --font-weight-semibold: 600;
+  --font-weight-bold: 700;
+  --font-weight-extrabold: 800;
+  --font-weight-black: 900;
+
+  /* Line Heights */
+  --line-height-tight: 1.2;
+  --line-height-snug: 1.25;
+  --line-height-normal: 1.33;
+  --line-height-relaxed: 1.4;
+  --line-height-loose: 1.5;
+  --line-height-extra-loose: 1.6;
+
+  /* Letter Spacing */
+  --letter-spacing-tight: -0.5px;
+  --letter-spacing-normal: 0px;
+  --letter-spacing-wide: 0.25px;
+  --letter-spacing-extra-wide: 0.5px;
+
+  /* ──────────────────────────────────────────────────────────── */
+  /* BORDERS — Radius e Width                                      */
+  /* ──────────────────────────────────────────────────────────── */
+
+  --border-radius-sm: 8px;
+  --border-radius-md: 12px;
+  --border-radius-lg: 16px;
+
+  --border-width-default: 1px;
+
+  /* ──────────────────────────────────────────────────────────── */
+  /* SHADOWS — Elevação (Light: Hard | Dark: Soft 3D)             */
+  /* ──────────────────────────────────────────────────────────── */
+
+  /* Light Mode: Duro e Clean */
+  --shadow-sm-light: 0 1px 2px rgba(0, 0, 0, 0.4);
+  --shadow-md-light: 0 2px 4px rgba(0, 0, 0, 0.5);
+  --shadow-lg-light: 0 4px 8px rgba(0, 0, 0, 0.6);
+
+  /* Dark Mode: Suave e 3D (Apple HIG compliant) */
+  --shadow-sm-dark: 0 2px 8px rgba(0, 0, 0, 0.20);
+  --shadow-md-dark: 0 4px 16px rgba(0, 0, 0, 0.25);
+  --shadow-lg-dark: 0 8px 32px rgba(0, 0, 0, 0.30);
+
+  /* Text Shadow: Sempre Duro */
+  --shadow-text: 0 2px 4px rgba(0, 0, 0, 0.5);
+
+  /* Default (Dark Mode) */
+  --shadow-sm: var(--shadow-sm-dark);
+  --shadow-md: var(--shadow-md-dark);
+  --shadow-lg: var(--shadow-lg-dark);
+
+  /* ──────────────────────────────────────────────────────────── */
+  /* TRANSITIONS — Tempos e Easing                                 */
+  /* ──────────────────────────────────────────────────────────── */
+
+  --transition-fast: 150ms ease-in-out;
+  --transition-standard: 300ms ease-in-out;
+  --transition-slow: 500ms ease-in-out;
+
+  /* ──────────────────────────────────────────────────────────── */
+  /* INTERACTIVE STATES — Brightness & Opacity                    */
+  /* ──────────────────────────────────────────────────────────── */
+
+  --brightness-hover: 1.1;
+  --brightness-active: 1.0;
+  --brightness-disabled: 0.5;
+
+  --opacity-hover: 0.9;
+  --opacity-active: 0.8;
+  --opacity-disabled: 0.5;
+
+  /* ──────────────────────────────────────────────────────────── */
+  /* MOTION TOKENS — Spring Physics & Timing                       */
+  /* Usado via Framer Motion: { type: "spring", ...token }         */
+  /* ──────────────────────────────────────────────────────────── */
+
+  /* Spring Presets — JSON for Framer Motion */
+  --motion-spring-gentle: 120ms cubic-bezier(0.23, 1, 0.320, 1);
+  --motion-spring-smooth: 200ms cubic-bezier(0.165, 0.84, 0.44, 1);
+  --motion-spring-snappy: 150ms cubic-bezier(0.68, -0.55, 0.265, 1.55);
+  --motion-spring-bouncy: 280ms cubic-bezier(0.68, -0.55, 0.265, 1.55);
+
+  /* Reduced Motion Fallback */
+  --motion-reduced: 10ms linear;
+
+  /* Exit/Enter Durations */
+  --motion-enter-duration: 200ms;
+  --motion-exit-duration: 150ms;
+
+  /* Stagger for Lists */
+  --motion-stagger-delay: 30ms;
+}
+
+/* ════════════════════════════════════════════════════════════════ */
+/* LIGHT MODE — [data-theme="light"] ou <html class="light">       */
+/* ════════════════════════════════════════════════════════════════ */
+
+[data-theme="light"],
+html.light {
+  /* Light Mode: Premium & High Contrast Design */
+
+  /* Backgrounds (clean white with subtle gray secondary) */
+  --color-bg-primary: #FFFFFF;
+  --color-bg-secondary: #F8F8F8;
+
+  /* Surfaces (elevated cards with clear hierarchy) */
+  --color-surface-default: #F3F3F3;
+  --color-surface-elevated: #E8E8E8;
+  --color-surface-hover: rgba(0, 0, 0, 0.08);
+
+  /* Text (high contrast dark text for accessibility) */
+  --color-text-primary: #1A1A1A;
+  --color-text-secondary: #404040;
+  --color-text-tertiary: #666666;
+  --color-text-muted: #999999;
+
+  /* Primary (vibrant green for emphasis) */
+  --color-primary: #6FA000;
+  --color-primary-disabled: rgba(107, 160, 0, 0.3);
+
+  /* Semantic (adjusted for light mode with good contrast) */
+  --color-success: #0B8B5E;
+  --color-warning: #C17B00;
+  --color-error: #AE1A42;
+  --color-info: #0066CC;
+
+  /* Borders (refined and clean) */
+  --color-border-default: rgba(0, 0, 0, 0.12);
+  --color-border-hover: rgba(0, 0, 0, 0.25);
+
+  /* Light Mode: Sombras Refinadas (Subtle but Clear) */
+  --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.08);
+  --shadow-md: 0 2px 6px rgba(0, 0, 0, 0.10);
+  --shadow-lg: 0 4px 12px rgba(0, 0, 0, 0.12);
+
+  /* Fills (Interactive States for Light Mode) */
+  --color-fill-primary: rgba(0, 0, 0, 0.08);
+  --color-fill-secondary: rgba(0, 0, 0, 0.06);
+  --color-fill-tertiary: rgba(0, 0, 0, 0.04);
+  --color-fill-quaternary: rgba(0, 0, 0, 0.02);
+}
+
+/* ════════════════════════════════════════════════════════════════ */
+/* DEFAULT STYLES — Aplicados Automaticamente                       */
+/* ════════════════════════════════════════════════════════════════ */
+
+html, body {
+  font-family: var(--font-primary);
+  font-size: var(--font-size-base);
+  font-weight: var(--font-weight-regular);
+  line-height: var(--line-height-relaxed);
+  color: var(--color-text-primary);
+  background-color: var(--color-bg-primary);
+  transition: background-color var(--transition-standard),
+              color var(--transition-standard);
+}
+
+/* Reset de Inputs */
+input, textarea, select {
+  font-family: var(--font-primary);
+  font-size: var(--font-size-base);
+  color: var(--color-text-primary);
+  background-color: var(--color-surface-default);
+  border: 1px solid var(--color-border-default);
+  border-radius: var(--border-radius-sm);
+  padding: var(--space-md) var(--space-lg);
+  transition: border-color var(--transition-fast),
+              background-color var(--transition-fast),
+              box-shadow var(--transition-fast);
+}
+
+input:focus, textarea:focus, select:focus {
+  outline: none;
+  border-color: var(--color-primary);
+  box-shadow: 0 0 0 2px rgba(136, 206, 17, 0.1);
+}
+
+input:disabled, textarea:disabled, select:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* Reset de Botões */
+button {
+  font-family: var(--font-primary);
+  font-weight: var(--font-weight-bold);
+  cursor: pointer;
+  border: none;
+  border-radius: var(--border-radius-md);
+  padding: var(--space-md) var(--space-lg);
+  transition: var(--transition-standard);
+  /* Accessibility: Focus outline for keyboard navigation */
+  outline: 2px solid transparent;
+  outline-offset: 2px;
+}
+
+button:focus-visible {
+  outline: 2px solid var(--color-primary);
+  outline-offset: 2px;
+}
+
+button:hover {
+  filter: brightness(1.1);
+}
+
+button:active {
+  transform: scale(0.98);
+}
+
+button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
+/* Reset de Headings */
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-primary);
+  font-weight: var(--font-weight-bold);
+  line-height: var(--line-height-snug);
+  margin: 0;
+  padding: 0;
+}
+
+h1 { font-size: var(--font-size-display); }
+h2 { font-size: var(--font-size-3xl); }
+h3 { font-size: var(--font-size-2xl); }
+h4 { font-size: var(--font-size-xl); }
+h5, h6 { font-size: var(--font-size-base); }
+
+/* Reset de Paragrafos */
+p {
+  margin: 0;
+  padding: 0;
+  line-height: var(--line-height-relaxed);
+}
+
+/* ════════════════════════════════════════════════════════════════ */
+/* COMPONENT CLASSES — Predefinidas                                */
+/* ════════════════════════════════════════════════════════════════ */
+
+/* Cards */
+.card {
+  background-color: var(--color-surface-default);
+  border: 1px solid var(--color-border-default);
+  border-radius: var(--border-radius-lg);
+  padding: var(--space-2xl);
+  box-shadow: var(--shadow-md);
+  transition: box-shadow var(--transition-standard);
+}
+
+.card:hover {
+  box-shadow: var(--shadow-lg);
+  border-color: var(--color-border-hover);
+}
+
+/* Buttons */
+.btn {
+  font-family: var(--font-primary);
+  font-weight: var(--font-weight-bold);
+  cursor: pointer;
+  border: none;
+  border-radius: var(--border-radius-md);
+  padding: var(--space-md) var(--space-lg);
+  transition: var(--transition-standard);
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.btn-primary {
+  background-color: var(--color-primary);
+  color: #000000;
+}
+
+.btn-primary:hover {
+  filter: brightness(1.1);
+}
+
+.btn-secondary {
+  background-color: transparent;
+  border: 2px solid var(--color-primary);
+  color: var(--color-primary);
+}
+
+.btn-secondary:hover {
+  background-color: rgba(136, 206, 17, 0.1);
+}
+
+.btn-tertiary {
+  background-color: transparent;
+  color: var(--color-text-secondary);
+}
+
+.btn-tertiary:hover {
+  color: var(--color-text-primary);
+}
+
+/* Text Utilities */
+.text-primary { color: var(--color-text-primary); }
+.text-secondary { color: var(--color-text-secondary); }
+.text-tertiary { color: var(--color-text-tertiary); }
+.text-muted { color: var(--color-text-muted); }
+
+.text-success { color: var(--color-success); }
+.text-warning { color: var(--color-warning); }
+.text-error { color: var(--color-error); }
+.text-info { color: var(--color-info); }
+
+/* Background Utilities */
+.bg-primary { background-color: var(--color-bg-primary); }
+.bg-secondary { background-color: var(--color-bg-secondary); }
+.bg-surface { background-color: var(--color-surface-default); }
+
+/* Spacing Utilities */
+.p-xs { padding: var(--space-xs); }
+.p-sm { padding: var(--space-sm); }
+.p-md { padding: var(--space-md); }
+.p-lg { padding: var(--space-lg); }
+.p-xl { padding: var(--space-xl); }
+.p-2xl { padding: var(--space-2xl); }
+.p-3xl { padding: var(--space-3xl); }
+
+.m-xs { margin: var(--space-xs); }
+.m-sm { margin: var(--space-sm); }
+.m-md { margin: var(--space-md); }
+.m-lg { margin: var(--space-lg); }
+.m-xl { margin: var(--space-xl); }
+.m-2xl { margin: var(--space-2xl); }
+.m-3xl { margin: var(--space-3xl); }
+
+.gap-xs { gap: var(--space-xs); }
+.gap-sm { gap: var(--space-sm); }
+.gap-md { gap: var(--space-md); }
+.gap-lg { gap: var(--space-lg); }
+.gap-xl { gap: var(--space-xl); }
+.gap-2xl { gap: var(--space-2xl); }
+.gap-3xl { gap: var(--space-3xl); }

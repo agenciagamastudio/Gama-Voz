@@ -1,0 +1,14 @@
+{
+  "id": "gama-radio",
+  "name": "Gama Rádio",
+  "description": "Publicidade corporativa via rádio e áudio",
+  "logo": "/logos/gama-radio.svg",
+  "website": "https://gama-radio.com",
+  "active": true,
+  "order": 3,
+  "metadata": {
+    "department": "Audio & Broadcast",
+    "year_founded": 2024,
+    "color_scheme": "broadcast-red"
+  }
+}

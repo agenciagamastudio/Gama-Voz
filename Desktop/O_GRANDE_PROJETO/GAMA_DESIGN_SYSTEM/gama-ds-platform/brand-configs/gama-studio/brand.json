@@ -1,0 +1,14 @@
+{
+  "id": "gama-studio",
+  "name": "Gama Studio",
+  "description": "Agência de marketing e criação de marcas",
+  "logo": "/logos/gama-studio.svg",
+  "website": "https://gama-studio.com",
+  "active": true,
+  "order": 1,
+  "metadata": {
+    "department": "Marketing & Design",
+    "year_founded": 2024,
+    "color_scheme": "modern-neon"
+  }
+}

@@ -1,0 +1,16 @@
+{
+  "headers": {
+    "x-nextjs-stale-time": "300",
+    "x-nextjs-prerender": "1",
+    "x-next-cache-tags": "_N_T_/layout,_N_T_/foundations/layout,_N_T_/foundations/icons/layout,_N_T_/foundations/icons/page,_N_T_/foundations/icons"
+  },
+  "segmentPaths": [
+    "/_tree",
+    "/_full",
+    "/foundations/icons/__PAGE__",
+    "/foundations/icons",
+    "/foundations",
+    "/_index",
+    "/_head"
+  ]
+}

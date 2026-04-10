@@ -1,0 +1,3 @@
+module.exports=[51580,(a,b,c)=>{let{createClientModuleProxy:d}=a.r(66984);a.n(d("[project]/Desktop/O_GRANDE_PROJETO/GAMA_DESIGN_SYSTEM/gama-ds-platform/node_modules/next/dist/client/components/builtin/global-error.js <module evaluation>"))},73058,(a,b,c)=>{let{createClientModuleProxy:d}=a.r(66984);a.n(d("[project]/Desktop/O_GRANDE_PROJETO/GAMA_DESIGN_SYSTEM/gama-ds-platform/node_modules/next/dist/client/components/builtin/global-error.js"))},33344,a=>{"use strict";a.i(51580);var b=a.i(73058);a.n(b)}];
+
+//# sourceMappingURL=75f85_next_dist_client_components_builtin_global-error_9d11252d.js.map

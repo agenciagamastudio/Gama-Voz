@@ -1,0 +1,119 @@
+/* [project]/Desktop/O_GRANDE_PROJETO/GAMA_DESIGN_SYSTEM/gama-ds-platform/src/app/motion.css [app-client] (css) */
+@keyframes enterFadeIn {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes enterScale {
+  from {
+    opacity: 0;
+    transform: scale(.95);
+  }
+
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes enterSlide {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes exitFadeOut {
+  from {
+    opacity: 1;
+  }
+
+  to {
+    opacity: 0;
+  }
+}
+
+@keyframes exitScale {
+  from {
+    opacity: 1;
+    transform: scale(1);
+  }
+
+  to {
+    opacity: 0;
+    transform: scale(.95);
+  }
+}
+
+@keyframes exitSlide {
+  from {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  to {
+    opacity: 0;
+    transform: translateY(-8px);
+  }
+}
+
+.motion-enter-fade {
+  animation: enterFadeIn var(--motion-enter-duration) var(--motion-spring-smooth);
+}
+
+.motion-enter-scale {
+  animation: enterScale var(--motion-enter-duration) var(--motion-spring-smooth);
+}
+
+.motion-enter-slide {
+  animation: enterSlide var(--motion-enter-duration) var(--motion-spring-smooth);
+}
+
+.motion-exit-fade {
+  animation: exitFadeOut var(--motion-exit-duration) var(--motion-spring-gentle);
+}
+
+.motion-exit-scale {
+  animation: exitScale var(--motion-exit-duration) var(--motion-spring-gentle);
+}
+
+.motion-exit-slide {
+  animation: exitSlide var(--motion-exit-duration) var(--motion-spring-gentle);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .motion-enter-fade, .motion-enter-scale, .motion-enter-slide, .motion-exit-fade, .motion-exit-scale, .motion-exit-slide {
+    animation-duration: var(--motion-reduced) !important;
+    animation-timing-function: linear !important;
+  }
+}
+
+.motion-transition-default {
+  transition: all var(--motion-spring-smooth);
+}
+
+.motion-transition-fast {
+  transition: all var(--motion-spring-snappy);
+}
+
+.motion-transition-slow {
+  transition: all var(--motion-spring-gentle);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .motion-transition-default, .motion-transition-fast, .motion-transition-slow {
+    transition-duration: var(--motion-reduced) !important;
+  }
+}
+
+/*# sourceMappingURL=792a4_GRANDE_PROJETO_GAMA_DESIGN_SYSTEM_gama-ds-platform_src_app_motion_css_bad6b30c._.single.css.map*/
