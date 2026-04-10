@@ -36,6 +36,7 @@ const navItems: NavItem[] = [
       { label: 'Atoms', href: '/components/atoms' },
       { label: 'Molecules', href: '/components/molecules' },
       { label: 'Organisms', href: '/components/organisms' },
+      { label: 'Waveform', href: '/components/waveform' },
     ],
   },
   {
