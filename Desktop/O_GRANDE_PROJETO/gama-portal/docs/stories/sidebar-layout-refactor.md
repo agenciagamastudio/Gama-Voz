@@ -1,6 +1,6 @@
 # STORY-SIDEBAR-LAYOUT: Refactor RootLayout to Flex Container
 
-**Status:** Draft
+**Status:** Ready
 **Story ID:** STORY-SIDEBAR-LAYOUT
 **Epic:** EPIC-SIDEBAR-REFACTOR (Critical)
 **Complexity:** M (2-3h)
@@ -102,5 +102,5 @@ body
 
 ---
 
-**Status:** Draft → Ready for Validation
+**Status:** Ready → Ready for Validation
 **Created:** 2026-04-15

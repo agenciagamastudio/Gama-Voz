@@ -1,6 +1,6 @@
 # STORY-DOCS-LAYOUT-TEST: Validate Documentation Pages with Refactored Sidebar
 
-**Status:** Draft
+**Status:** Ready
 **Story ID:** STORY-DOCS-LAYOUT-TEST
 **Epic:** EPIC-SIDEBAR-REFACTOR (Critical)
 **Complexity:** S (1-2h)
@@ -60,5 +60,5 @@ Validate that all documentation pages (/docs/*, /docs/conceitos/*) render correc
 
 ---
 
-**Status:** Draft → Ready for Validation
+**Status:** Ready → Ready for Validation
 **Created:** 2026-04-15

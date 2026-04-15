@@ -1,6 +1,6 @@
 # STORY-HOMEPAGE-LAYOUT-TEST: Validate Homepage with Refactored Sidebar
 
-**Status:** Draft
+**Status:** Ready
 **Story ID:** STORY-HOMEPAGE-LAYOUT-TEST
 **Epic:** EPIC-SIDEBAR-REFACTOR (Critical)
 **Complexity:** S (1-2h)
@@ -58,5 +58,5 @@ Validate that the homepage renders correctly with the refactored flex layout. En
 
 ---
 
-**Status:** Draft → Ready for Validation
+**Status:** Ready → Ready for Validation
 **Created:** 2026-04-15
