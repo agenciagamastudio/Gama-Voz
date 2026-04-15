@@ -1,6 +1,6 @@
 # STORY-001-SCROLLBAR: Customize Scrollbar with Design System Colors
 
-**Status:** Draft
+**Status:** Ready
 **Story ID:** STORY-001-SCROLLBAR
 **Epic:** EPIC-001 (Sidebar Integration)
 **Complexity:** XS (1-2h)
