@@ -2,7 +2,7 @@
 
 **Epic:** EPIC-LIGHTROOM-001 (Phase 1: Foundation)  
 **Story ID:** STORY-1.2  
-**Status:** Draft  
+**Status:** Ready  
 **Created:** 2026-04-28
 
 ---
