@@ -16,25 +16,30 @@ return {
   menu = {
     {
       title = "Create Action",
-      action = "createActionDialog"
+      action = function() require('Main').createActionDialog() end
     },
     {
       title = "Manage Actions",
-      action = "manageActionsDialog"
+      action = function() require('Main').manageActionsDialog() end
     },
     {
       title = "Execute Batch",
-      action = "executeBatchDialog"
+      action = function() require('Main').executeBatchDialog() end
     },
   },
 
   -- Module dependencies (will be loaded on plugin startup)
   modules = {
-    "ActionRegistry.lua",
-    "LightroomAPI.lua",
     "Utils.lua",
+    "LightroomAPI.lua",
+    "ActionRegistry.lua",
     -- Phase 2 modules:
-    -- "ActionBuilder.lua",
-    -- "BatchExecutor.lua",
+    "DialogHelpers.lua",
+    "ActionBuilder.lua",
+    "ActionManager.lua",
+    -- Phase 3 modules:
+    "ProgressUI.lua",
+    "BatchExecutor.lua",
+    "Main.lua",
   }
 }
