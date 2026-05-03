@@ -1,0 +1,51 @@
+[build-system]
+requires = ["setuptools>=45", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "gama-audio-transcriber"
+version = "0.1.0"
+description = "Web UI + CLI para transcrição em massa de áudios via Groq Whisper"
+readme = "README.md"
+requires-python = ">=3.9"
+authors = [
+    { name = "GAMA Team", email = "dev@gama.local" }
+]
+license = { text = "MIT" }
+
+dependencies = [
+    "groq>=0.7.0",
+    "fastapi>=0.104.0",
+    "uvicorn[standard]>=0.24.0",
+    "python-dotenv>=1.0.0",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=7.4.0",
+    "pytest-asyncio>=0.21.0",
+    "black>=23.0.0",
+    "ruff>=0.1.0",
+]
+
+[project.scripts]
+gama-transcriber = "src.cli:main"
+
+[tool.setuptools]
+packages = ["src"]
+
+[tool.setuptools.package-data]
+src = ["static/*"]
+
+[tool.black]
+line-length = 88
+target-version = ["py39", "py310", "py311"]
+
+[tool.ruff]
+line-length = 88
+target-version = "py39"
+select = ["E", "F", "W"]
+ignore = ["E501"]
+
+[project.urls]
+Homepage = "https://github.com/gama-team/gama-audio-transcriber"
