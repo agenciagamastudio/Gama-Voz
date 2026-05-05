@@ -1,0 +1,426 @@
+/* ============================================
+   GAMA Design System — Effect Utilities
+   Liquid Glass + Volumetric Lighting
+   ============================================ */
+
+/* ============ CSS VARIABLES ============ */
+:root {
+  /* Liquid Glass Base */
+  --effect-glass-backdrop: 25px;
+  --effect-glass-opacity: 0.95;
+  --effect-glass-border: 1.5px solid rgba(255, 255, 255, 0.35);
+  --effect-glass-inner: inset 0 0 25px rgba(255, 255, 255, 0.15);
+
+  /* Liquid Glass Intense */
+  --effect-glass-intense-backdrop: 35px;
+  --effect-glass-intense-opacity: 0.98;
+  --effect-glass-intense-border: 2px solid rgba(255, 255, 255, 0.4);
+  --effect-glass-intense-inner: inset 0 0 40px rgba(255, 255, 255, 0.2);
+
+  /* Liquid Glass Subtle */
+  --effect-glass-subtle-backdrop: 15px;
+  --effect-glass-subtle-opacity: 0.85;
+  --effect-glass-subtle-border: 1.2px solid rgba(255, 255, 255, 0.22);
+  --effect-glass-subtle-inner: inset 0 0 15px rgba(255, 255, 255, 0.08);
+
+  /* State Effects */
+  --effect-hover-opacity: 0.9;
+  --effect-hover-brightness: 1.1;
+  --effect-active-opacity: 0.85;
+  --effect-active-brightness: 0.95;
+  --effect-disabled-opacity: 0.5;
+
+  /* Focus Ring */
+  --effect-focus-ring-width: 2px;
+  --effect-focus-ring-offset: 2px;
+}
+
+/* ============ ANIMATIONS ============ */
+
+@keyframes liquid-refraction {
+  0% {
+    filter: brightness(1) contrast(1);
+  }
+  50% {
+    filter: brightness(1.02) contrast(1.01);
+  }
+  100% {
+    filter: brightness(1) contrast(1);
+  }
+}
+
+@keyframes volumetric-pulse {
+  0%, 100% {
+    opacity: 0.5;
+  }
+  50% {
+    opacity: 1;
+  }
+}
+
+@keyframes volumetric-rotate {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+/* ============ LIQUID GLASS CLASSES ============ */
+
+/* Base Liquid Glass — STRONGER */
+.glass {
+  backdrop-filter: blur(30px);
+  background-color: rgba(39, 39, 39, 0.65);
+  border: 1.5px solid rgba(255, 255, 255, 0.25);
+  box-shadow: inset 0 0 30px rgba(255, 255, 255, 0.12), 0 8px 32px rgba(0, 0, 0, 0.35);
+  transition: all 300ms cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.glass:hover {
+  backdrop-filter: blur(35px);
+  background-color: rgba(39, 39, 39, 0.72);
+  box-shadow: inset 0 0 30px rgba(255, 255, 255, 0.15), 0 8px 32px rgba(136, 206, 17, 0.2);
+}
+
+.glass:active {
+  animation: liquid-refraction 200ms ease-out;
+  opacity: var(--effect-active-opacity);
+}
+
+.glass:focus-visible {
+  outline: var(--effect-focus-ring-width) solid var(--effect-focus-color, currentColor);
+  outline-offset: var(--effect-focus-ring-offset);
+}
+
+/* Intense Liquid Glass — ULTRA STRONG */
+.glass-intense {
+  backdrop-filter: blur(40px);
+  background-color: rgba(39, 39, 39, 0.75);
+  border: 2px solid rgba(255, 255, 255, 0.35);
+  box-shadow: inset 0 0 40px rgba(255, 255, 255, 0.18), 0 12px 40px rgba(0, 0, 0, 0.4), 0 0 20px rgba(136, 206, 17, 0.15);
+  transition: all 300ms cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.glass-intense:hover {
+  backdrop-filter: blur(45px);
+  background-color: rgba(39, 39, 39, 0.82);
+  box-shadow: inset 0 0 40px rgba(255, 255, 255, 0.22), 0 12px 40px rgba(0, 0, 0, 0.45), 0 0 30px rgba(136, 206, 17, 0.3);
+}
+
+.glass-intense:active {
+  animation: liquid-refraction 200ms ease-out;
+  opacity: var(--effect-active-opacity);
+}
+
+/* Subtle Liquid Glass */
+.glass-subtle {
+  backdrop-filter: blur(20px);
+  background-color: rgba(39, 39, 39, 0.55);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  box-shadow: inset 0 0 20px rgba(255, 255, 255, 0.08), 0 4px 16px rgba(0, 0, 0, 0.2);
+  transition: all 300ms cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.glass-subtle:hover {
+  backdrop-filter: blur(25px);
+  background-color: rgba(39, 39, 39, 0.62);
+  box-shadow: inset 0 0 20px rgba(255, 255, 255, 0.12), 0 4px 16px rgba(0, 0, 0, 0.25), 0 0 12px rgba(136, 206, 17, 0.1);
+}
+
+/* Illuminated Liquid Glass — Responde ao blob 3D */
+.glass-illuminated {
+  backdrop-filter: blur(35px);
+  background-color: rgba(39, 39, 39, 0.7);
+  border: 1.5px solid rgba(136, 206, 17, 0.4);
+  box-shadow: inset 0 0 35px rgba(136, 206, 17, 0.15),
+              0 0 30px rgba(136, 206, 17, 0.25),
+              0 12px 40px rgba(0, 0, 0, 0.3);
+  transition: all 400ms cubic-bezier(0.34, 1.56, 0.64, 1);
+  position: relative;
+}
+
+.glass-illuminated::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(
+    circle at 30% 40%,
+    rgba(136, 206, 17, 0.08) 0%,
+    transparent 70%
+  );
+  border-radius: inherit;
+  pointer-events: none;
+  animation: illumination-pulse 3s ease-in-out infinite;
+}
+
+.glass-illuminated:hover {
+  backdrop-filter: blur(40px);
+  background-color: rgba(39, 39, 39, 0.78);
+  border: 1.5px solid rgba(136, 206, 17, 0.6);
+  box-shadow: inset 0 0 40px rgba(136, 206, 17, 0.2),
+              0 0 40px rgba(136, 206, 17, 0.35),
+              0 16px 50px rgba(0, 0, 0, 0.35);
+  transform: translateY(-2px);
+}
+
+@keyframes illumination-pulse {
+  0%, 100% {
+    background: radial-gradient(
+      circle at 30% 40%,
+      rgba(136, 206, 17, 0.08) 0%,
+      transparent 70%
+    );
+  }
+  50% {
+    background: radial-gradient(
+      circle at 30% 40%,
+      rgba(136, 206, 17, 0.15) 0%,
+      transparent 70%
+    );
+  }
+}
+
+/* ============ VOLUMETRIC LIGHTING CLASSES ============ */
+
+/* Radial Glow — STRONGER */
+.volumetric-glow {
+  position: relative;
+  overflow: hidden;
+}
+
+.volumetric-glow::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 200%;
+  height: 200%;
+  background: radial-gradient(
+    circle at center,
+    var(--volumetric-color, rgba(136, 206, 17, 0.5)) 0%,
+    var(--volumetric-color, rgba(136, 206, 17, 0.25)) 30%,
+    transparent 70%
+  );
+  filter: blur(var(--volumetric-blur, 50px));
+  pointer-events: none;
+  animation: volumetric-pulse var(--volumetric-duration, 4s) ease-in-out infinite;
+  z-index: 0;
+}
+
+.volumetric-glow > * {
+  position: relative;
+  z-index: 1;
+}
+
+/* Conic Gradient Rays — STRONGER */
+.volumetric-rays {
+  position: relative;
+  overflow: hidden;
+}
+
+.volumetric-rays::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: conic-gradient(
+    from 0deg,
+    transparent 0%,
+    var(--volumetric-color, rgba(136, 206, 17, 0.2)) 10%,
+    transparent 20%,
+    transparent 100%
+  );
+  filter: blur(var(--volumetric-blur, 25px));
+  animation: volumetric-rotate 8s linear infinite;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.volumetric-rays > * {
+  position: relative;
+  z-index: 1;
+}
+
+/* ============ STATE UTILITIES ============ */
+
+/* Disabled State */
+.glass:disabled,
+.glass[disabled] {
+  opacity: var(--effect-disabled-opacity);
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
+/* Focus Ring */
+.focus-ring:focus-visible {
+  outline: var(--effect-focus-ring-width) solid var(--effect-focus-color, currentColor);
+  outline-offset: var(--effect-focus-ring-offset);
+}
+
+/* Accessibility: Respects prefers-reduced-motion */
+@media (prefers-reduced-motion: reduce) {
+  .glass,
+  .glass-intense,
+  .glass-subtle,
+  .volumetric-glow,
+  .volumetric-rays {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* ============ HIGH CONTRAST MODE ============ */
+@media (prefers-contrast: more) {
+  .glass {
+    --effect-glass-border: 2px solid rgba(255, 255, 255, 0.5);
+  }
+
+  .glass-intense {
+    --effect-glass-intense-border: 2px solid rgba(255, 255, 255, 0.6);
+  }
+
+  .volumetric-glow::before {
+    filter: blur(50px) contrast(1.2);
+  }
+}
+
+/* ============ DARK MODE ADJUSTMENTS ============ */
+@media (prefers-color-scheme: light) {
+  .glass {
+    background-color: rgba(0, 0, 0, calc(var(--effect-glass-opacity) - 0.15));
+    border: 1px solid rgba(0, 0, 0, 0.25);
+    box-shadow: inset 0 0 20px rgba(0, 0, 0, 0.05);
+  }
+
+  .glass-intense {
+    background-color: rgba(0, 0, 0, calc(var(--effect-glass-intense-opacity) - 0.15));
+    border: 1.5px solid rgba(0, 0, 0, 0.3);
+    box-shadow: inset 0 0 30px rgba(0, 0, 0, 0.08);
+  }
+
+  .glass-subtle {
+    background-color: rgba(0, 0, 0, calc(var(--effect-glass-subtle-opacity) - 0.15));
+    border: 1px solid rgba(0, 0, 0, 0.15);
+    box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.03);
+  }
+}
+
+/* ============================================================
+   GAMA BRANDBOOK — EFEITOS ADICIONAIS (brandbook-exact spec)
+   Adicionado Fase 2. NÃO modifica classes existentes acima.
+   ============================================================ */
+
+@keyframes dustFloat {
+  0%   { opacity: 0;   transform: translateY(0)      translateX(0); }
+  10%  { opacity: 0.8; }
+  80%  { opacity: 0.4; }
+  100% { opacity: 0;   transform: translateY(-200px) translateX(var(--drift, 12px)); }
+}
+
+/* GLASS-CARD — spec exata do brandbook (rgba 0.04, blur 30px) */
+.glass-card {
+  position: relative;
+  background: rgba(255, 255, 255, 0.04);
+  backdrop-filter: blur(30px);
+  -webkit-backdrop-filter: blur(30px);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow:
+    0 0   3px rgba(0, 0, 0, 0.40),
+    0 4px 30px rgba(0, 0, 0, 0.40),
+    0 1px  1px rgba(255, 255, 255, 0.09) inset;
+}
+
+/* Refração lateral (lens flare esquerda) */
+.glass-card::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; bottom: 0;
+  width: 1px;
+  background: linear-gradient(
+    180deg,
+    rgba(255, 255, 255, 0.15),
+    rgba(255, 255, 255, 0.05) 40%,
+    transparent
+  );
+  pointer-events: none;
+}
+
+/* LIQUID-EDGE — caustic shimmer na borda superior */
+.liquid-edge::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 10%;
+  right: 10%;
+  height: 1px;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255, 255, 255, 0.35) 25%,
+    rgba(255, 255, 255, 0.75) 50%,
+    rgba(255, 255, 255, 0.35) 75%,
+    transparent
+  );
+  pointer-events: none;
+}
+
+/* VOL-LIGHT — volumetric lighting via radial-gradient (circle at 30% 20%) */
+.vol-light {
+  position: relative;
+}
+
+.vol-light::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(
+    circle at 30% 20%,
+    rgba(136, 206, 17, 0.25) 0%,
+    rgba(136, 206, 17, 0.14) 20%,
+    rgba(136, 206, 17, 0.07) 40%,
+    transparent 65%
+  );
+  pointer-events: none;
+  z-index: 0;
+  border-radius: inherit;
+}
+
+/* DUST-PARTICLE — gerado via useDustParticles hook */
+.dust-particle {
+  position: absolute;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.85);
+  pointer-events: none;
+  animation: dustFloat linear forwards;
+  z-index: 3;
+}
+
+/* GLOW-GREEN — definido aqui como fallback.
+   Versão canônica via @layer utilities está em globals.css após @tailwind utilities. */
+.glow-green {
+  box-shadow:
+    0 0 20px rgba(136, 206, 17, 0.30),
+    0 0 40px rgba(136, 206, 17, 0.16),
+    0 0 80px rgba(136, 206, 17, 0.08);
+  transition: box-shadow 0.25s ease, transform 0.15s ease;
+}
+
+.glow-green:hover {
+  box-shadow:
+    0 0 20px rgba(136, 206, 17, 0.55),
+    0 0 40px rgba(136, 206, 17, 0.32),
+    0 0 80px rgba(136, 206, 17, 0.18);
+  transform: translateY(-1px);
+}
+
+.glow-green:active {
+  box-shadow:
+    0 0 12px rgba(136, 206, 17, 0.75),
+    0 0 28px rgba(136, 206, 17, 0.45),
+    0 0 60px rgba(136, 206, 17, 0.22);
+}
